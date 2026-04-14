@@ -26,7 +26,7 @@ public class AccountsLogic
             CurrentAccount = acc;
             return acc;
         }
-        return null;
+        return null!;
     }
 }
 
