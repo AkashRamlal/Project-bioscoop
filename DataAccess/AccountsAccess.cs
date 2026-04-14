@@ -18,7 +18,7 @@ public class AccountsAccess
     public AccountModel GetByEmail(string email)
     {
         string sql = $"SELECT * FROM {Table} WHERE email = @Email";
-        return _connection.QueryFirstOrDefault<AccountModel>(sql, new { Email = email });
+        return _connection.QueryFirstOrDefault<AccountModel>(sql, new { Email = email })!;
     }
 
     public void Update(AccountModel account)
