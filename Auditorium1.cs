@@ -10,6 +10,10 @@ public class Auditorium
     private int _cursorHorizontal;
     private bool _chooseSeat;
 
+    public Dictionary<string, Dictionary<string, int>> ReservedSeats = new();
+    // <Auditorium1, <SeatNumber, Price>>
+
+
 
     public Auditorium()
     {
@@ -17,6 +21,7 @@ public class Auditorium
         _cursorVertical = 0;
         _cursorHorizontal = 2;
         _chooseSeat = true;
+        ReservedSeats["Auditorium 1"] = new Dictionary<string, int>();
     }
 
 
@@ -98,30 +103,57 @@ public class Auditorium
     private void HandleInput()
     {
         var key = Console.ReadKey(true).Key;
+        int ChosenSeat = 0;
         if (key == ConsoleKey.Enter)// gebruiker heeft seat gekozen
         {
-            Console.WriteLine("Do you want to book more seats? y/n");
-            string Book = Console.ReadLine()?.ToUpper() ??"";
+            if(ReservedSeats["Auditorium 1"].Count >= 10)
             {
-                if (Book.StartsWith("N")) // gebruiker heeft genoeg plek(ken) besteld
-                {
-                    _chooseSeat = false;
-                    Console.Clear();
-                    if(_seats[_cursorVertical, _cursorHorizontal] == 1)
-                    {
-                        Console.WriteLine($"You chose a Basic seat");
-                    }
-                    if(_seats[_cursorVertical, _cursorHorizontal] == 2)
-                    {
-                        Console.WriteLine($"You chose a Comfort seat");
 
-                    }
-                    if(_seats[_cursorVertical, _cursorHorizontal] == 3)
-                    {
-                        Console.WriteLine($"You chose a Premium seat");
-                    }
+                _chooseSeat = false;
+                Console.Clear();
+                Console.WriteLine("You can't book more then 10 seats call the cinema");
+                Console.Write("You booked these seats: ");
+                foreach(var seat in ReservedSeats["Auditorium 1"])
+                {
+                    Console.Write($" {seat.Key} ");
                 }
-            }  
+                //Console.WriteLine("\nPress any key...");
+                Console.ReadKey();
+                _chooseSeat = false;
+                return;
+            }
+
+
+            int rijNummer = _cursorHorizontal + 1;
+            char kolomLetter = (char)('A' + _cursorVertical);
+            string seatKey = $"{kolomLetter}{rijNummer}";
+
+            ChosenSeat = _seats[_cursorVertical, _cursorHorizontal];
+
+            if(ChosenSeat == 1)ReservedSeats["Auditorium 1"][seatKey] = 11;
+            else if (ChosenSeat == 2) ReservedSeats["Auditorium 1"][seatKey] = 12;
+            else if (ChosenSeat == 3) ReservedSeats["Auditorium 1"][seatKey] = 14;
+
+            _seats[_cursorVertical, _cursorHorizontal] = 4;
+        
+            Console.WriteLine("Do you want to book more seats? y/n");
+            string Book = Console.ReadLine()?.ToUpper() ?? "";
+            if (Book.StartsWith("N")) // gebruiker heeft genoeg plek(ken) besteld
+            {
+                _chooseSeat = false;
+                Console.Clear();
+                Console.Write($"You bought the seat: ");
+                foreach(var Seat in ReservedSeats["Auditorium 1"])
+                {
+                    Console.WriteLine($"{Seat.Key} ${Seat.Value}");
+                }
+
+                Console.WriteLine("\nPress any key to exit.");
+                Console.ReadKey();      
+
+            }
+
+            
         }
         int newY = _cursorVertical;
         int newX = _cursorHorizontal;
