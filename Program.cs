@@ -1,22 +1,27 @@
-﻿class Program
+﻿public class Program
 {
-    static void Main()
+    public static void Main()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
         bool running = true;
 
         while (running)
         {
             string choice = WelcomeScreen.Menu();
-
             Console.Clear();
 
             if (choice == "Login")
             {
-                UserLogin.Start();
+                var user = UserLogin.Start();
+
+                if (user != null)
+                {
+                    Menu.Start(user.FullName);
+                }
             }
             else if (choice == "Continue as Guest")
             {
-                Menu.Start("Guest");
+                Menu.Start("guest");
             }
 
             Console.WriteLine("\nPress ESC to quit or any other key to return...");
