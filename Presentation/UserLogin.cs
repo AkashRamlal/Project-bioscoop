@@ -7,13 +7,23 @@ static class UserLogin
     {
         Console.WriteLine("Welcome to the login page");
         Console.WriteLine("Please enter your email address");
-        string email = Console.ReadLine();
+        string? email = Console.ReadLine();
         Console.WriteLine("Please enter your password");
-        string password = Console.ReadLine();
+        string? password = Console.ReadLine();
+
+         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+        {
+            Console.WriteLine("Email and password cannot be empty.");
+            return;
+        }
         AccountModel acc = accountsLogic.CheckLogin(email, password);
+
+       
+
+
         if (acc != null)
         {
-            Console.WriteLine("Welcome back " + acc.FullName);
+            Console.WriteLine("Welcome back " + acc.Naam + " " + acc.Achternaam);
             Console.WriteLine("Your email number is " + acc.EmailAddress);
 
             //Write some code to go back to the menu
