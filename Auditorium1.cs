@@ -15,13 +15,14 @@ public class Auditorium
 
 
 
-    public Auditorium()
+    public Auditorium()// string auditoriumName
     {
-        _seats = GenerateLayout();
+        _seats = GenerateLayout();//_seats = GenerateLayout(auditoriumName)
         _cursorVertical = 0;
         _cursorHorizontal = 2;
         _chooseSeat = true;
         ReservedSeats["Auditorium 1"] = new Dictionary<string, int>();
+        
     }
 
 
@@ -115,7 +116,7 @@ public class Auditorium
                 Console.Write("You booked these seats: ");
                 foreach(var seat in ReservedSeats["Auditorium 1"])
                 {
-                    Console.Write($" {seat.Key} ");
+                    Console.WriteLine($" {seat.Key} ");
                 }
                 //Console.WriteLine("\nPress any key...");
                 Console.ReadKey();
@@ -129,11 +130,11 @@ public class Auditorium
             string seatKey = $"{kolomLetter}{rijNummer}";
 
             ChosenSeat = _seats[_cursorVertical, _cursorHorizontal];
-
+            // toevoegen aan dict met key value en key prijs
             if(ChosenSeat == 1)ReservedSeats["Auditorium 1"][seatKey] = 11;
             else if (ChosenSeat == 2) ReservedSeats["Auditorium 1"][seatKey] = 12;
             else if (ChosenSeat == 3) ReservedSeats["Auditorium 1"][seatKey] = 14;
-
+            //  gekozen seat veranderen naar gereserveert
             _seats[_cursorVertical, _cursorHorizontal] = 4;
         
             Console.WriteLine("Do you want to book more seats? y/n");
@@ -142,13 +143,13 @@ public class Auditorium
             {
                 _chooseSeat = false;
                 Console.Clear();
-                Console.Write($"You bought the seat: ");
+                Console.WriteLine($"You bought the seat(s): ");
                 foreach(var Seat in ReservedSeats["Auditorium 1"])
                 {
-                    Console.WriteLine($"{Seat.Key} ${Seat.Value}");
+                    Console.WriteLine($" {Seat.Key} ${Seat.Value}");
                 }
 
-                Console.WriteLine("\nPress any key to exit.");
+                //Console.WriteLine("\nPress any key to exit.");
                 Console.ReadKey();      
 
             }
@@ -171,8 +172,9 @@ public class Auditorium
 
     }
 
-    private int[,] GenerateLayout()
+    private int[,] GenerateLayout()// string auditoriumName
     {
+    //  if (auditoriumName == "Auditorium 1)
         int[,] layout = new int[14, 12]; // verticaal, horizontaal
         // alles blauw maken
         for (int r = 0; r < 14; r++)
@@ -211,13 +213,10 @@ public class Auditorium
         layout[3, 4] = 1;
         layout[3, 7] = 1;
         layout[3, 8] = 1;
-
         layout[4, 3] = 1;
         layout[4, 8] = 1;
-
         layout[9, 3] = 1;
         layout[9, 8] = 1;
-
         layout[10, 3] = 1;
         layout[10, 4] = 1;
         layout[10, 7] = 1;
