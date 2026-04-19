@@ -21,7 +21,7 @@ public class Auditorium
         AuditoriumNumer = auditoriumNumber;
         _seats = GenerateLayout(auditoriumNumber);
         _cursorVertical = 9;
-        _cursorHorizontal = 19;
+        _cursorHorizontal = 15;
         _chooseSeat = true;
         ReservedSeats["Auditorium 1"] = new Dictionary<string, int>();
         
@@ -113,24 +113,25 @@ public class Auditorium
     {
         var key = Console.ReadKey(true).Key;
         int ChosenSeat = 0;
-        if (key == ConsoleKey.Enter)// gebruiker heeft seat gekozen
+        if(ReservedSeats["Auditorium 1"].Count >= 10)
         {
-            if(ReservedSeats["Auditorium 1"].Count >= 10)
-            {
 
-                _chooseSeat = false;
-                Console.Clear();
-                Console.WriteLine("You can't book more then 10 seats call the cinema");
-                Console.Write("You booked these seats: ");
-                foreach(var seat in ReservedSeats["Auditorium 1"])
-                {
-                    Console.WriteLine($" {seat.Key} ");
-                }
-                //Console.WriteLine("\nPress any key...");
-                Console.ReadKey();
-                _chooseSeat = false;
-                return;
+            _chooseSeat = false;
+            Console.Clear();
+            Console.WriteLine("You can't book more then 10 seats call the cinema");
+            Console.WriteLine("You booked these seats: ");
+            foreach(var seat in ReservedSeats["Auditorium 1"])
+            {
+                Console.WriteLine($" {seat.Key} ");
             }
+            //Console.WriteLine("\nPress any key...");
+            Console.ReadKey();
+            _chooseSeat = false;
+            return;
+        }
+        else if (key == ConsoleKey.Enter)// gebruiker heeft seat gekozen
+        {
+
 
 
             int rijNummer = _cursorHorizontal + 1;
@@ -349,9 +350,13 @@ public class Auditorium
         }
         else
         {
-            throw new Exception("Onbekend auditorium nummer!");
-        }
 
+
+
+            throw new Exception("Onbekend auditorium nummer!");
+            
+        }
+              
         return layout; 
 
 
