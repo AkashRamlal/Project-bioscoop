@@ -1,0 +1,11 @@
+-- database: ./project.db
+
+CREATE TABLE Film (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    naam TEXT NOT NULL,
+    genre Text,
+    tijdsduur TEXT,
+    leeftijdsgrens INTEGER,
+    Acteurs TEXT,
+    regiseur TEXT
+);
