@@ -16,7 +16,7 @@
 
                 if (user != null)
                 {
-                    Menu.Start(user.FullName);
+                    Menu.Start($"{user.Naam} {user.Achternaam}");
                 }
             }
             else if (choice == "Continue as Guest")

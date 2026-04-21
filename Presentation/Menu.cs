@@ -2,7 +2,7 @@ public static class Menu
 {
     public static void Start(string role)
 {
-    Auditorium hall1 = new Auditorium();
+    Auditorium hall1 = new Auditorium("Auditorium 1");
 
     Dictionary<string, Dictionary<string, decimal>> hallData = new Dictionary<string, Dictionary<string, decimal>> {
         { "Hall 1", new Dictionary<string, decimal> { { "A3", 10.00m }, { "B5", 12.50m } } }
