@@ -20,27 +20,27 @@ public class Auditorium
     {
         AuditoriumNumer = auditoriumNumber;
         _seats = GenerateLayout(auditoriumNumber);
-        _cursorVertical = 9;
-        _cursorHorizontal = 15;
+        _cursorVertical = 4;
+        _cursorHorizontal = 8;
         _chooseSeat = true;
         ReservedSeats["Auditorium 1"] = new Dictionary<string, int>();
         
     }
 
 
-    public void StartSelection()
+    public void StartSelection(string Title, string Time)
     {
         while (_chooseSeat)
         {
 
-            Display();
+            Display(Title, Time);
             HandleInput();  
 
 
         }
     }
 
-    public void Display()
+    public void Display(string Title, string Time)
     {
 
         Console.Clear();
@@ -105,7 +105,8 @@ public class Auditorium
             Console.WriteLine();
             Console.WriteLine("                  SCREEN          ");
             //Console.WriteLine($"   {AantalStoelenHorizontaal * 3}");
-            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");         
+            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");    
+            Console.WriteLine($"Movie: {Title} Time: {Time}");     
 
     }
 
