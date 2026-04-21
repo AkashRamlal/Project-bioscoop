@@ -45,9 +45,6 @@ public class PaymentUI
         // Step 3: Payment + ticket
         var ticketService = new TicketService();
         ticketService.HandleCheckout(filmName, time, hallData);
-
-        Console.WriteLine("\nPress any key to exit...");
-        Console.ReadKey();
     }
 }
 
