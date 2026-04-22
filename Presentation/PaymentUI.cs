@@ -7,7 +7,7 @@
 
 public class PaymentUI
 {
-    public static void Start(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData)
+    public static void StartAsMember(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData, int accountId)
     {
         // Step 1: Let user review seats, apply discounts or cancel seats
         hallData = SeatReviewUI.Show(hallData);
@@ -42,10 +42,11 @@ public class PaymentUI
         Console.WriteLine("\nPress any key to proceed to payment...");
         Console.ReadKey();
 
-        // Step 3: Payment + ticket
-        var ticketService = new TicketService();
-        ticketService.HandleCheckout(filmName, time, hallData);
+        // Step 3: Ask for account ID
 
+        // Step 4: Payment + ticket
+        var ticketService = new TicketService();
+        ticketService.HandleCheckout(filmName, time, hallData, accountId);
         Console.WriteLine("\nPress any key to exit...");
         Console.ReadKey();
     }
