@@ -11,7 +11,7 @@ public class Auditorium
     private bool _chooseSeat;
     public string AuditoriumNumer;
 
-    public Dictionary<string, Dictionary<string, int>> ReservedSeats = new();
+    public Dictionary<string, Dictionary<string, decimal>> ReservedSeats = new();
     // <Auditorium1, <SeatNumber, Price>>
 
 
@@ -23,7 +23,7 @@ public class Auditorium
         _cursorVertical = 4;
         _cursorHorizontal = 8;
         _chooseSeat = true;
-        ReservedSeats["Auditorium 1"] = new Dictionary<string, int>();
+        ReservedSeats[auditoriumNumber] = new Dictionary<string, int>();
         
     }
 
@@ -110,18 +110,18 @@ public class Auditorium
 
     }
 
-    private void HandleInput()
+    private  Dictionary HandleInput()
     {
         var key = Console.ReadKey(true).Key;
         int ChosenSeat = 0;
-        if(ReservedSeats["Auditorium 1"].Count >= 10)
+        if(ReservedSeats[auditoriumNumber].Count >= 10)
         {
 
             _chooseSeat = false;
             Console.Clear();
             Console.WriteLine("You can't book more then 10 seats call the cinema");
             Console.WriteLine("You booked these seats: ");
-            foreach(var seat in ReservedSeats["Auditorium 1"])
+            foreach(var seat in ReservedSeats[auditoriumNumber])
             {
                 Console.WriteLine($" {seat.Key} ");
             }
@@ -141,9 +141,9 @@ public class Auditorium
 
             ChosenSeat = _seats[_cursorVertical, _cursorHorizontal];
             // toevoegen aan dict met key value en key prijs
-            if(ChosenSeat == 1)ReservedSeats["Auditorium 1"][seatKey] = 11;
-            else if (ChosenSeat == 2) ReservedSeats["Auditorium 1"][seatKey] = 12;
-            else if (ChosenSeat == 3) ReservedSeats["Auditorium 1"][seatKey] = 14;
+            if(ChosenSeat == 1)ReservedSeats[auditoriumNumber][seatKey] = 11.00M;
+            else if (ChosenSeat == 2) ReservedSeats[auditoriumNumber][seatKey] = 12.00M;
+            else if (ChosenSeat == 3) ReservedSeats[auditoriumNumber][seatKey] = 14.00M;
             //  gekozen seat veranderen naar gereserveert
             _seats[_cursorVertical, _cursorHorizontal] = 4;
         
@@ -154,12 +154,11 @@ public class Auditorium
                 _chooseSeat = false;
                 Console.Clear();
                 Console.WriteLine($"You bought the seat(s): ");
-                foreach(var Seat in ReservedSeats["Auditorium 1"])
+                foreach(var Seat in ReservedSeats[auditoriumNumber])
                 {
                     Console.WriteLine($" {Seat.Key} ${Seat.Value}");
                 }
-
-                //Console.WriteLine("\nPress any key to exit.");
+                return ReservedSeats;
                 Console.ReadKey();      
 
             }
