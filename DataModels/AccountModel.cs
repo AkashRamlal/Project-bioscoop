@@ -1,4 +1,4 @@
-﻿public class AccountModel
+﻿public class AccountModel : IAccount
 {
 
     public Int64 Id { get; set; }
