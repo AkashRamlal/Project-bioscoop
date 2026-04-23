@@ -1,6 +1,6 @@
 public static class Menu
 {
-    public static void Start(string role)
+    public static void Start(AccountModel acc)
 {
     Auditorium hall1 = new Auditorium("Auditorium 1");
 
@@ -12,14 +12,14 @@ public static class Menu
 
     while (inMenu)
     {
-        string choice = ShowMenu(role);
+        string choice = ShowMenu(acc);
 
         Console.Clear();
 
         switch (choice)
         {
             case "Movie theatre info":
-                Console.WriteLine("pizza");
+                TheatreInfo.Print();
                 break;
 
             case "View movies":
@@ -29,6 +29,10 @@ public static class Menu
 
             case "Your tickets":
                 Console.WriteLine("pizza");
+                break;
+
+            case "Edit account information":
+                EditAccount.Start(acc);
                 break;
 
             case "Manage films":
@@ -52,16 +56,100 @@ public static class Menu
         Console.ReadKey();
     }
 }
-    public static string ShowMenu(string role)
+    public static string ShowMenu(AccountModel acc)
     {
-        List<string> menuOptions = GetOptions(role);
+        List<string> menuOptions = GetOptions("member");
 
         int selectedIndex = 0;
         ConsoleKey key;
 
         do
         {
-            DrawMenu(menuOptions, selectedIndex, role);
+            DrawMenu(menuOptions, selectedIndex, $"{acc.Naam} {acc.Achternaam}");
+
+            key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.UpArrow)
+            {
+                selectedIndex--;
+                if (selectedIndex < 0)
+                    selectedIndex = menuOptions.Count - 1;
+            }
+            else if (key == ConsoleKey.DownArrow)
+            {
+                selectedIndex++;
+                if (selectedIndex >= menuOptions.Count)
+                    selectedIndex = 0;
+            }
+
+        } while (key != ConsoleKey.Enter);
+
+        return menuOptions[selectedIndex];
+    }
+
+    public static void Start()
+    {
+        Auditorium hall1 = new Auditorium("Auditorium 1");
+
+        Dictionary<string, Dictionary<string, decimal>> hallData = new Dictionary<string, Dictionary<string, decimal>> {
+            { "Hall 1", new Dictionary<string, decimal> { { "A3", 10.00m }, { "B5", 12.50m } } }
+        };
+
+        bool inMenu = true;
+
+        while (inMenu)
+        {
+            string choice = ShowMenu();
+
+            Console.Clear();
+
+            switch (choice)
+            {
+                case "Movie theatre info":
+                    TheatreInfo.Print();
+                    break;
+
+                case "View movies":
+                    hall1.StartSelection();
+                    PaymentUI.Start("filmName", "00:00", hallData);
+                    break;
+
+                case "Your tickets":
+                    Console.WriteLine("pizza");
+                    break;
+
+                case "Manage films":
+                    Console.WriteLine("pizza");
+                    break;
+
+                case "Manage tickets":
+                    Console.WriteLine("pizza");
+                    break;
+
+                case "Manage employees":
+                    Console.WriteLine("pizza");
+                    break;
+
+                case "Quit":
+                    inMenu = false;
+                    continue;
+            }
+
+            Console.WriteLine("\nPress any key to return to menu...");
+            Console.ReadKey();
+        }
+    }
+
+    public static string ShowMenu()
+    {
+        List<string> menuOptions = GetOptions("guest");
+
+        int selectedIndex = 0;
+        ConsoleKey key;
+
+        do
+        {
+            DrawMenu(menuOptions, selectedIndex, "guest");
 
             key = Console.ReadKey(true).Key;
 
@@ -87,10 +175,14 @@ public static class Menu
     {
         List<string> options = [];
 
-        // Member
+        // Guest
         options.Add("Movie theatre info");
         options.Add("View movies");
         options.Add("Your tickets");
+
+        // Member
+        if (role == "member" || role == "employee" || role == "admin")
+        options.Add("Edit account information");
         
 
         // Employee
@@ -111,7 +203,7 @@ public static class Menu
         return options;
     }
 
-    private static void DrawMenu(List<string> options, int selectedIndex, string role)
+    private static void DrawMenu(List<string> options, int selectedIndex, string name)
     {
         Console.Clear();
 
@@ -119,7 +211,7 @@ public static class Menu
         Console.WriteLine("         Movie theatre Menu");
         Console.WriteLine("=====================================\n");
 
-        Console.WriteLine($"You are logged in as: {role}");
+        Console.WriteLine($"You are logged in as: {name}");
 
         Console.WriteLine("Use arrow keys to navigate and press Enter to select option:\n");
 
