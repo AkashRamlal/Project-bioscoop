@@ -1,0 +1,121 @@
+public static class EditAccount
+{
+    public static List<String> Options = [
+        "Edit name",
+        "Change phone number",
+        "Change Email",
+        "Change password",
+        "Return to menu"
+    ];
+
+    public static void Start(AccountModel acc)
+    {
+        bool inMenu = true;
+
+        while (inMenu)
+        {
+            string choice = ShowMenu($"{acc.Naam} {acc.Achternaam}");
+
+            Console.Clear();
+
+            switch (choice)
+            {
+                case "Edit name":
+                    string firstName;
+                    string lastName;
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter your first name:");
+                        firstName = Console.ReadLine();
+                    } while (String.IsNullOrEmpty(firstName));
+
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter your last name:");
+                        lastName = Console.ReadLine();
+                    } while (String.IsNullOrEmpty(lastName));
+                    break;
+
+                case "Change phone number":
+                    break;
+
+                case "Change Email":
+                    break;
+                
+                case "Change password":
+                    break;
+                
+                case "Return to menu":
+                    inMenu = false;
+                    break;
+                
+                default:
+                    inMenu = false;
+                    break;
+            }
+            if (inMenu)
+            {
+                Console.WriteLine("\nPress any key to return to menu...");
+                Console.ReadKey();
+            }
+        }
+    }
+
+    public static string ShowMenu(string name)
+    {
+        int selectedIndex = 0;
+        ConsoleKey key;
+
+        do
+        {
+            DrawMenu(Options, selectedIndex, name);
+
+            key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.UpArrow)
+            {
+                selectedIndex--;
+                if (selectedIndex < 0)
+                    selectedIndex = Options.Count - 1;
+            }
+            else if (key == ConsoleKey.DownArrow)
+            {
+                selectedIndex++;
+                if (selectedIndex >= Options.Count)
+                    selectedIndex = 0;
+            }
+
+        } while (key != ConsoleKey.Enter);
+
+        return Options[selectedIndex];
+    }
+
+    private static void DrawMenu(List<string> options, int selectedIndex, string name)
+    {
+        Console.Clear();
+
+        Console.WriteLine("=====================================");
+        Console.WriteLine("      Edit account information");
+        Console.WriteLine("=====================================\n");
+
+        Console.WriteLine($"You are logged in as: {name}");
+
+        Console.WriteLine("Use arrow keys to navigate and press Enter to select option:\n");
+
+        for (int i = 0; i < options.Count; i++)
+        {
+            if (i == selectedIndex)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"> {options[i]}");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine($"  {options[i]}");
+            }
+        }
+    }
+}
