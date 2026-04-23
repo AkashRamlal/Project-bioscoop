@@ -16,12 +16,12 @@
 
                 if (user != null)
                 {
-                    Menu.Start($"{user.Naam} {user.Achternaam}");
+                    Menu.Start(user);
                 }
             }
             else if (choice == "Continue as Guest")
             {
-                Menu.Start("guest");
+                Menu.Start();
             }
 
             Console.WriteLine("\nPress ESC to quit or any other key to return...");
