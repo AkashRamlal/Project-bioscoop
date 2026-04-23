@@ -9,7 +9,7 @@ public class Auditorium
     private int _cursorVertical;
     private int _cursorHorizontal;
     private bool _chooseSeat;
-    public string AuditoriumNumer;
+    public string AuditoriumNumber;
 
     public Dictionary<string, Dictionary<string, decimal>> ReservedSeats = new();
     // <Auditorium1, <SeatNumber, Price>>
@@ -18,12 +18,12 @@ public class Auditorium
 
     public Auditorium(string auditoriumNumber)
     {
-        AuditoriumNumer = auditoriumNumber;
+        AuditoriumNumber = auditoriumNumber;
         _seats = GenerateLayout(auditoriumNumber);
         _cursorVertical = 4;
         _cursorHorizontal = 8;
         _chooseSeat = true;
-        ReservedSeats[auditoriumNumber] = new Dictionary<string, int>();
+        ReservedSeats[auditoriumNumber] = new Dictionary<string, decimal>();
         
     }
 
@@ -33,9 +33,13 @@ public class Auditorium
         while (_chooseSeat)
         {
 
-            Display(Title, Time);
-            HandleInput();  
+            Display(Title, Time);  
+            var resultaat = HandleInput();
 
+            if (resultaat != null)
+            {
+                break; 
+            }
 
         }
     }
@@ -110,43 +114,41 @@ public class Auditorium
 
     }
 
-    private  Dictionary HandleInput()
+    public Dictionary<string, Dictionary<string, decimal>>  HandleInput()
     {
         var key = Console.ReadKey(true).Key;
         int ChosenSeat = 0;
-        if(ReservedSeats[auditoriumNumber].Count >= 10)
+
+        if(ReservedSeats[AuditoriumNumber].Count >= 10)
         {
 
             _chooseSeat = false;
             Console.Clear();
             Console.WriteLine("You can't book more then 10 seats call the cinema");
             Console.WriteLine("You booked these seats: ");
-            foreach(var seat in ReservedSeats[auditoriumNumber])
+            foreach(var seat in ReservedSeats[AuditoriumNumber])
             {
                 Console.WriteLine($" {seat.Key} ");
             }
             //Console.WriteLine("\nPress any key...");
             Console.ReadKey();
-            _chooseSeat = false;
-            return;
+            return ReservedSeats;
         }
-        else if (key == ConsoleKey.Enter)// gebruiker heeft seat gekozen
+
+        
+        if (key == ConsoleKey.Enter)// gebruiker heeft seat gekozen
         {
-
-
-
             int rijNummer = _cursorHorizontal + 1;
             char kolomLetter = (char)('A' + _cursorVertical);
             string seatKey = $"{kolomLetter}{rijNummer}";
 
             ChosenSeat = _seats[_cursorVertical, _cursorHorizontal];
             // toevoegen aan dict met key value en key prijs
-            if(ChosenSeat == 1)ReservedSeats[auditoriumNumber][seatKey] = 11.00M;
-            else if (ChosenSeat == 2) ReservedSeats[auditoriumNumber][seatKey] = 12.00M;
-            else if (ChosenSeat == 3) ReservedSeats[auditoriumNumber][seatKey] = 14.00M;
+            if(ChosenSeat == 1)ReservedSeats[AuditoriumNumber][seatKey] = 11.00M;
+            else if (ChosenSeat == 2) ReservedSeats[AuditoriumNumber][seatKey] = 12.00M;
+            else if (ChosenSeat == 3) ReservedSeats[AuditoriumNumber][seatKey] = 14.00M;
             //  gekozen seat veranderen naar gereserveert
             _seats[_cursorVertical, _cursorHorizontal] = 4;
-        
             Console.WriteLine("Do you want to book more seats? y/n");
             string Book = Console.ReadLine()?.ToUpper() ?? "";
             if (Book.StartsWith("N")) // gebruiker heeft genoeg plek(ken) besteld
@@ -154,17 +156,23 @@ public class Auditorium
                 _chooseSeat = false;
                 Console.Clear();
                 Console.WriteLine($"You bought the seat(s): ");
-                foreach(var Seat in ReservedSeats[auditoriumNumber])
+                foreach(var Seat in ReservedSeats[AuditoriumNumber])
                 {
                     Console.WriteLine($" {Seat.Key} ${Seat.Value}");
                 }
-                return ReservedSeats;
-                Console.ReadKey();      
+                
 
+                Console.ReadKey();
+                
+
+                return ReservedSeats;
             }
 
-            
         }
+                
+
+            
+
         int newY = _cursorVertical;
         int newX = _cursorHorizontal;
         if (key == ConsoleKey.UpArrow && _cursorVertical > 0) newY--;
@@ -178,6 +186,7 @@ public class Auditorium
             _cursorVertical = newY;
             _cursorHorizontal = newX;
         }
+        return null;
 
     }
 
