@@ -70,7 +70,7 @@ public class AccountsLogic
             return;
         }
 
-        account.Role = Roles.Medewerker;
+        account.Role = Roles.Employee;
 
         // send to logic to write to database
         _access.Write(account);

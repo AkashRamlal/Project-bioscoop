@@ -1,6 +1,6 @@
 public enum Roles
 {
     Admin,
-    Medewerker,
+    Employee,
     Member
 }

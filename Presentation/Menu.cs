@@ -12,14 +12,7 @@ public static class Menu
 
     while (inMenu)
     {
-<<<<<<< HEAD
         string choice = ShowMenu(role);
-=======
-        Console.WriteLine("[1] to login");
-        Console.WriteLine("[2] to register");
-        Console.WriteLine("[3] to create employee");
-        Console.WriteLine("[4] to do something else in the future");
->>>>>>> 2b19b29 (added the create member and emplyee)
 
         Console.Clear();
 
@@ -44,6 +37,10 @@ public static class Menu
 
             case "Manage tickets":
                 Console.WriteLine("pizza");
+                break;
+
+            case "create employee":
+                RegisterUser.Start();
                 break;
 
             case "Manage employees":
@@ -106,18 +103,11 @@ public static class Menu
             options.Add("Manage films");
             options.Add("Manage tickets");
         }
-<<<<<<< HEAD
 
         // Admin
         if (role == "admin")
-=======
-        else if (input == "3")
         {
-            CreateEmployee.Start();
-        }
-        else
->>>>>>> 2b19b29 (added the create member and emplyee)
-        {
+            options.Add("create employee");
             options.Add("Manage employees");
         }
 
