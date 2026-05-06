@@ -5,4 +5,8 @@ public class FilmModel
     public string? Genre { get; set; }
     public string? Tijdsduur { get; set; } // in minutes
     public int? Leeftijdsgrens { get; set; }
+
+    public string? Acteurs { get; set; }
+
+    public string? Regiseur { get; set; }
 }   

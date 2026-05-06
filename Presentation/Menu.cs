@@ -31,6 +31,10 @@ public static class Menu
                 Console.WriteLine("pizza");
                 break;
 
+            case "create film":
+                CreateFilm.Start();
+                break;
+
             case "Manage films":
                 Console.WriteLine("pizza");
                 break;
@@ -100,6 +104,7 @@ public static class Menu
         // Employee
         if (role == "employee" || role == "admin")
         {
+            options.Add("create film");
             options.Add("Manage films");
             options.Add("Manage tickets");
         }
