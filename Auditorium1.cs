@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Collections.Generic;
 
 public class Auditorium
 {
@@ -30,6 +31,7 @@ public class Auditorium
 
     public void StartSelection(string Title, string Time)
     {
+
         while (_chooseSeat)
         {
 
@@ -108,14 +110,17 @@ public class Auditorium
         }
             Console.WriteLine();
             Console.WriteLine("                  SCREEN          ");
-            //Console.WriteLine($"   {AantalStoelenHorizontaal * 3}");
             Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");    
             Console.WriteLine($"Movie: {Title} Time: {Time}");     
+            Console.WriteLine("Press B to chose a seat");
 
     }
 
+
+
     public Dictionary<string, Dictionary<string, decimal>>  HandleInput()
     {
+            // <Auditorium1, <SeatNumber, Price>>
         var key = Console.ReadKey(true).Key;
         int ChosenSeat = 0;
 
@@ -130,27 +135,26 @@ public class Auditorium
             {
                 Console.WriteLine($" {seat.Key} ");
             }
-            //Console.WriteLine("\nPress any key...");
+            //Console.WriteLine("\nPress any key..."); 
             Console.ReadKey();
             return ReservedSeats;
         }
 
         
-        if (key == ConsoleKey.Enter)// gebruiker heeft seat gekozen
+        if (key == ConsoleKey.B)// gebruiker heeft seat gekozen
         {
             int rijNummer = _cursorHorizontal + 1;
             char kolomLetter = (char)('A' + _cursorVertical);
             string seatKey = $"{kolomLetter}{rijNummer}";
 
+
             ChosenSeat = _seats[_cursorVertical, _cursorHorizontal];
-            // toevoegen aan dict met key value en key prijs
-            if(ChosenSeat == 1)ReservedSeats[AuditoriumNumber][seatKey] = 11.00M;
-            else if (ChosenSeat == 2) ReservedSeats[AuditoriumNumber][seatKey] = 12.00M;
-            else if (ChosenSeat == 3) ReservedSeats[AuditoriumNumber][seatKey] = 14.00M;
+
+            AddingToDict(ChosenSeat, seatKey);
             //  gekozen seat veranderen naar gereserveert
             _seats[_cursorVertical, _cursorHorizontal] = 4;
-            Console.WriteLine("Do you want to book more seats? y/n");
-            string Book = Console.ReadLine()?.ToUpper() ?? "";
+            string Book  = BookMore();
+
             if (Book.StartsWith("N")) // gebruiker heeft genoeg plek(ken) besteld
             {
                 _chooseSeat = false;
@@ -167,10 +171,13 @@ public class Auditorium
 
                 return ReservedSeats;
             }
+            else
+            {
+                return null;
+            }
 
         }
                 
-
             
 
         int newY = _cursorVertical;
@@ -188,6 +195,19 @@ public class Auditorium
         }
         return null;
 
+    }
+    public string BookMore()
+    {
+        Console.WriteLine("Do you want to book more seats? y/n");
+        string yn = Console.ReadLine()?.ToUpper() ?? "";
+        return yn;
+    }
+   
+    public void AddingToDict(int ChosenSeat, string seatKey )
+    {
+        if(ChosenSeat == 1)ReservedSeats[AuditoriumNumber][seatKey] = 11.00M;
+        else if (ChosenSeat == 2) ReservedSeats[AuditoriumNumber][seatKey] = 12.00M;
+        else if (ChosenSeat == 3) ReservedSeats[AuditoriumNumber][seatKey] = 14.00M;
     }
 
     private int[,] GenerateLayout(string auditoriumNumber)// 
