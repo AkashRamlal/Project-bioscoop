@@ -9,7 +9,7 @@ public interface IAccount
     public DateTime Geboortedatum { get; set; }
 
     public string? Telefoonnummer { get; set; }
-    public string? EmailAddress { get; set; }
+    public string? Email { get; set; }
 
     public string Password { get; set; }
 }
