@@ -28,6 +28,12 @@ public class FilmAccess
         return _connection.QueryFirstOrDefault<FilmModel>(sql, new { Id = id })!;
     }
 
+    public List<FilmModel> GetAll()
+    {
+        string sql = $"SELECT * FROM {Table}";
+        return _connection.Query<FilmModel>(sql).ToList();
+    }
+
     public void Update(FilmModel film)
     {
         string sql = $"UPDATE {Table} SET naam = @Naam, genre = @Genre, tijdsduur = @Tijdsduur, leeftijdsgrens = @Leeftijdsgrens, acteurs = @Acteurs, regiseur = @Regiseur WHERE id = @Id";
