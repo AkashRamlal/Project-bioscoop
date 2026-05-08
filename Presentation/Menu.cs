@@ -33,6 +33,7 @@ public static class Menu
 
             case "Edit account information":
                 EditAccount.Start(acc);
+                break;
 
             case "create film":
                 CreateFilm.Start();
