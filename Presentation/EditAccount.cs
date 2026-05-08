@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 public static class EditAccount
 {
     public static List<String> Options = [
@@ -36,6 +38,8 @@ public static class EditAccount
                         Console.WriteLine("Please enter your last name:");
                         lastName = Console.ReadLine();
                     } while (String.IsNullOrEmpty(lastName));
+
+                    EditAccountLogic.EditName(acc, firstName, lastName);
                     break;
 
                 case "Change phone number":
