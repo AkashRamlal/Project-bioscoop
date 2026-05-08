@@ -5,9 +5,13 @@
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         bool running = true;
 
+        FilmAccess filmAccess = new FilmAccess();
+
+        List<FilmModel> films = filmAccess.GetAll();
+
         while (running)
         {
-            string choice = WelcomeScreen.Menu();
+            string choice = WelcomeScreen.Menu(films);
             Console.Clear();
 
             if (choice == "Login")
