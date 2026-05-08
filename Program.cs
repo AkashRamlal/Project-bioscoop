@@ -23,6 +23,11 @@
             {
                 Menu.Start();
             }
+            else if (choice == "register")
+            {
+                RegisterUser.Start();
+            }
+            
 
             Console.WriteLine("\nPress ESC to quit or any other key to return...");
             var key = Console.ReadKey(true).Key;

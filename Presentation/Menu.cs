@@ -33,6 +33,9 @@ public static class Menu
 
             case "Edit account information":
                 EditAccount.Start(acc);
+
+            case "create film":
+                CreateFilm.Start();
                 break;
 
             case "Manage films":
@@ -41,6 +44,10 @@ public static class Menu
 
             case "Manage tickets":
                 Console.WriteLine("pizza");
+                break;
+
+            case "create employee":
+                RegisterUser.Start();
                 break;
 
             case "Manage employees":
@@ -188,6 +195,7 @@ public static class Menu
         // Employee
         if (role == "employee" || role == "admin")
         {
+            options.Add("Create film");
             options.Add("Manage films");
             options.Add("Manage tickets");
         }
@@ -195,6 +203,7 @@ public static class Menu
         // Admin
         if (role == "admin")
         {
+            options.Add("create employee");
             options.Add("Manage employees");
         }
 

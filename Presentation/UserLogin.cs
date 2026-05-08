@@ -13,7 +13,6 @@ static class UserLogin
         string password = Console.ReadLine()!;
         AccountModel acc = accountsLogic.CheckLogin(email, password);
 
-       
 
 
         if (acc != null)

@@ -16,6 +16,66 @@ public class AccountsLogic
 
     }
 
+    public void Registermember(AccountModel account)
+    {
+
+        if(string.IsNullOrWhiteSpace(account.Naam))
+        {
+            Console.WriteLine("a first name is required");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(account.Achternaam))
+        {
+            Console.WriteLine("a last name is required");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(account.Email))
+        {
+            Console.WriteLine("an email is required");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(account.Password) || account.Password.Length < 6)
+        {
+            Console.WriteLine("a password should be at least 6 characters long");
+            return;
+        }
+
+        account.Role = Roles.Member;
+
+        // send to logic to write to database
+        _access.Write(account);
+    }
+
+    public void RegisterEmployee(AccountModel account)
+    {
+
+        if (string.IsNullOrWhiteSpace(account.Naam))
+        {
+            Console.WriteLine("a first name is required");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(account.Achternaam))
+        {
+            Console.WriteLine("a last name is required");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(account.Email))
+        {
+            Console.WriteLine("an email is required");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(account.Password) || account.Password.Length < 6)
+        {
+            Console.WriteLine("a password should be at least 6 characters long");
+            return;
+        }
+
+        account.Role = Roles.Employee;
+
+        // send to logic to write to database
+        _access.Write(account);
+    }
+
     public AccountModel CheckLogin(string email, string password)
     {
 
