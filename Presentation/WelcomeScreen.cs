@@ -11,9 +11,11 @@ public static class WelcomeScreen
         int selectedIndex = 0;
         ConsoleKey key;
 
+        List<string> previewFilms = WelcomeLogic.PreviewFilms(films);
+
         do
         {
-            DrawMenu(menuOptions, selectedIndex, films);
+            DrawMenu(menuOptions, selectedIndex, previewFilms);
 
             key = Console.ReadKey(true).Key;
 
@@ -35,7 +37,7 @@ public static class WelcomeScreen
         return menuOptions[selectedIndex];
     }
 
-    private static void DrawMenu(List<string> options, int selectedIndex, List<FilmModel> films)
+    private static void DrawMenu(List<string> options, int selectedIndex, List<string> films)
     {
         Console.Clear();
 
@@ -43,12 +45,13 @@ public static class WelcomeScreen
         Console.WriteLine("     Welcome to Theatre Rotterdam");
         Console.WriteLine("=====================================\n");
 
+        Console.WriteLine("Some films currently playing:");
         foreach (var film in films)
         {
-            Console.WriteLine(film);
+            Console.WriteLine($" - {film}");
         }
 
-        Console.WriteLine("Use arrow keys to navigate and press Enter to select option:\n");
+        Console.WriteLine("\nUse arrow keys to navigate and press Enter to select option:\n");
 
         // Menu
         for (int i = 0; i < options.Count; i++)
