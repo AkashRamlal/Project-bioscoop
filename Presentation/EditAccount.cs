@@ -43,12 +43,55 @@ public static class EditAccount
                     break;
 
                 case "Change phone number":
+                    string phoneNumber;
+
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter your new phone number:");
+                        phoneNumber = Console.ReadLine();
+                    }
+                    while (string.IsNullOrWhiteSpace(phoneNumber));
+
+                    EditAccountLogic.EditPhoneNumber(acc, phoneNumber);
+
+                    Console.WriteLine("Phone number updated successfully.");
                     break;
 
                 case "Change Email":
+                    string email;
+                    EmailAddressAttribute emailValidator = new();
+
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter your new email:");
+                        email = Console.ReadLine();
+                    }
+                    while (
+                        string.IsNullOrWhiteSpace(email) ||
+                        !emailValidator.IsValid(email)
+                    );
+
+                    EditAccountLogic.EditEmail(acc, email);
+
+                    Console.WriteLine("Email updated successfully.");
                     break;
                 
                 case "Change password":
+                    string password;
+
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter your new password:");
+                        password = Console.ReadLine();
+                    }
+                    while (string.IsNullOrWhiteSpace(password));
+
+                    EditAccountLogic.EditPassword(acc, password);
+
+                    Console.WriteLine("Password updated successfully.");
                     break;
                 
                 case "Return to menu":
@@ -59,6 +102,7 @@ public static class EditAccount
                     inMenu = false;
                     break;
             }
+            
             if (inMenu)
             {
                 Console.WriteLine("\nPress any key to return to menu...");
