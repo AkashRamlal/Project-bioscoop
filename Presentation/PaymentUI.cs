@@ -7,7 +7,12 @@
 
 public class PaymentUI
 {
-    public static void StartAsMember(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData, int accountId)
+    bool isMember;
+    public PaymentUI(bool isMember)
+    {
+        this.isMember = isMember;
+    }
+    public void StartAsMember(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData, int accountId)
     {
         // Step 1: Let user review seats, apply discounts or cancel seats
         hallData = SeatReviewUI.Show(hallData);
@@ -41,6 +46,12 @@ public class PaymentUI
         Console.WriteLine($"\n  Total to pay: €{grandTotal:F2}");
         Console.WriteLine("\nPress any key to proceed to payment...");
         Console.ReadKey();
+
+        if (!isMember)
+        {
+            Console.Clear();
+            PaymentAsGestUI.StartAsGest();
+        }
 
         // Step 3: Ask for account ID
 

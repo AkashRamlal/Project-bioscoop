@@ -10,6 +10,7 @@ public class Program
         };
         Console.WriteLine("Welcome to this amazing program");
         Menu.Start();
-        PaymentUI.StartAsMember("filmName", "00:00", hallData, 1);
+        var paymentUI = new PaymentUI(false);
+        paymentUI.StartAsMember("filmName", "00:00", hallData, 1);
     }
 }

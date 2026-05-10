@@ -11,7 +11,6 @@ public class TicketsAccess
 
     public void Write(Ticket ticket)
     {
-        Console.WriteLine(_connection.DataSource);
         string sql = $"INSERT INTO {Table} (film_name, hall, time, seats, total_price, account_id) " +
                     "VALUES (@FilmName, @Hall, @Time, @Seats, @TotalPrice, @AccountId)";
         _connection.Execute(sql, new

@@ -13,7 +13,7 @@ public class TicketService
             Console.WriteLine("\nBooking cancelled. No ticket issued.");
             return;
         }
-        
+        Console.Clear();
         Console.WriteLine("\n========== YOUR TICKET(S) ==========");
 
         // One ticket per hall
