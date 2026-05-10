@@ -28,31 +28,31 @@ public static class Menu
                 break;
 
             case "Your tickets":
-                Console.WriteLine("pizza");
+                Console.WriteLine("Placeholder");
                 break;
 
             case "Edit account information":
                 EditAccount.Start(acc);
                 break;
 
-            case "create film":
+            case "Create film":
                 CreateFilm.Start();
                 break;
 
             case "Manage films":
-                Console.WriteLine("pizza");
+                Console.WriteLine("Placeholder");
                 break;
 
             case "Manage tickets":
-                Console.WriteLine("pizza");
+                Console.WriteLine("Placeholder");
                 break;
 
-            case "create employee":
+            case "Create employee":
                 RegisterUser.Start();
                 break;
 
             case "Manage employees":
-                Console.WriteLine("pizza");
+                Console.WriteLine("Placeholder");
                 break;
 
             case "Quit":
@@ -66,7 +66,7 @@ public static class Menu
 }
     public static string ShowMenu(AccountModel acc)
     {
-        List<string> menuOptions = GetOptions("member");
+        List<string> menuOptions = GetOptions(acc.Role);
 
         int selectedIndex = 0;
         ConsoleKey key;
@@ -95,6 +95,7 @@ public static class Menu
         return menuOptions[selectedIndex];
     }
 
+    // Start for Guest
     public static void Start()
     {
         Auditorium hall1 = new Auditorium("Auditorium 1");
@@ -123,19 +124,19 @@ public static class Menu
                     break;
 
                 case "Your tickets":
-                    Console.WriteLine("pizza");
+                    Console.WriteLine("Placeholder");
                     break;
 
                 case "Manage films":
-                    Console.WriteLine("pizza");
+                    Console.WriteLine("Placeholder");
                     break;
 
                 case "Manage tickets":
-                    Console.WriteLine("pizza");
+                    Console.WriteLine("Placeholder");
                     break;
 
                 case "Manage employees":
-                    Console.WriteLine("pizza");
+                    Console.WriteLine("Placeholder");
                     break;
 
                 case "Quit":
@@ -150,7 +151,7 @@ public static class Menu
 
     public static string ShowMenu()
     {
-        List<string> menuOptions = GetOptions("guest");
+        List<string> menuOptions = GetOptions(null);
 
         int selectedIndex = 0;
         ConsoleKey key;
@@ -179,7 +180,7 @@ public static class Menu
         return menuOptions[selectedIndex];
     }
 
-    private static List<string> GetOptions(string role)
+    private static List<string> GetOptions(Roles? role)
     {
         List<string> options = [];
 
@@ -189,12 +190,12 @@ public static class Menu
         options.Add("Your tickets");
 
         // Member
-        if (role == "member" || role == "employee" || role == "admin")
+        if (role == Roles.Member || role == Roles.Employee || role == Roles.Admin)
         options.Add("Edit account information");
         
 
         // Employee
-        if (role == "employee" || role == "admin")
+        if (role == Roles.Employee || role == Roles.Admin)
         {
             options.Add("Create film");
             options.Add("Manage films");
@@ -202,9 +203,9 @@ public static class Menu
         }
 
         // Admin
-        if (role == "admin")
+        if (role == Roles.Admin)
         {
-            options.Add("create employee");
+            options.Add("Create employee");
             options.Add("Manage employees");
         }
 
