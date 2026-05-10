@@ -3,36 +3,6 @@ public class Program
 {
     public static void Main()
     {
-        /*
-        Console.OutputEncoding = System.Text.Encoding.UTF8;
-        bool running = true;
-
-        while (running)
-        {
-            string choice = WelcomeScreen.Menu();
-            Console.Clear();
-
-            if (choice == "Login")
-            {
-                var user = UserLogin.Start();
-
-                if (user != null)
-                {
-                    Menu.Start($"{user.Naam} {user.Achternaam}");
-                }
-            }
-            else if (choice == "Continue as Guest")
-            {
-                Menu.Start("guest");
-            }
-
-            Console.WriteLine("\nPress ESC to quit or any other key to return...");
-            var key = Console.ReadKey(true).Key;
-
-            if (key == ConsoleKey.Escape)
-                running = false;
-        }
-        */
 
         new Movie("Lion Queen", new List<string> {"12:00 Auditorium 1", "15:00 Auditorium 2 ", "20:00 Auditorium 3"});
         new Movie("Lilo & Boots", new List<string> {"11:00 Auditorium 2", "14:00 Auditorium 3", "17:00 Auditorium 2"});
