@@ -31,8 +31,19 @@ public class AccountsAccess
 
     public void Update(AccountModel account)
     {
-        string sql = $"UPDATE {Table} SET email = @EmailAddress, password = @Password, fullname = @FullName WHERE id = @Id";
-        _connection.Execute(sql, account);
+        string sql = $"UPDATE {Table} SET email = @Email, password = @Password, naam = @Naam, achternaam = @Achternaam, geboortedatum = @Geboortedatum, telefoonnummer = @Telefoonnummer, role = @Role WHERE id = @Id";
+
+        _connection.Execute(sql, new
+        {
+            account.Email,
+            account.Password,
+            account.Naam,
+            account.Achternaam,
+            account.Geboortedatum,
+            account.Telefoonnummer,
+            Role = account.Role.ToString(),
+            account.Id
+        });
     }
 
     public void Delete(AccountModel account)
@@ -40,7 +51,4 @@ public class AccountsAccess
         string sql = $"DELETE FROM {Table} WHERE id = @Id";
         _connection.Execute(sql, new { Id = account.Id });
     }
-
-
-
 }
