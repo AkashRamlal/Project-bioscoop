@@ -7,6 +7,8 @@ public static class Menu
     FilmAccess filmAccess = new FilmAccess();
     List<FilmModel> films = filmAccess.GetAll();
 
+    TicketsAccess ticketAccess = new TicketsAccess();
+
     bool inMenu = true;
 
     while (inMenu)
@@ -31,7 +33,7 @@ public static class Menu
                 string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
                 List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
                 string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                Movie.RunAuditorium(gekozenTitel, gekozenTijd);
+                Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
                 
                 // hall1.StartSelection();
                 // var paymentUI = new PaymentUI(true);
@@ -39,7 +41,15 @@ public static class Menu
                 break;
 
             case "Your tickets":
-                Console.WriteLine("Placeholder");
+                Console.WriteLine("Your tickets:\n");
+                foreach (var ticket in ticketAccess.GetByAccount(acc.Email))
+                {
+                    Console.WriteLine($"Film: {ticket.FilmName}");
+                    Console.WriteLine($"Hall: {ticket.Hall}");
+                    Console.WriteLine($"Time: {ticket.Time}");
+                    Console.WriteLine($"Seats: {ticket.Seats}");
+                    Console.WriteLine();
+                }
                 break;
 
             case "Edit account information":
@@ -137,7 +147,7 @@ public static class Menu
                 string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
                 List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
                 string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                Movie.RunAuditorium(gekozenTitel, gekozenTijd);
+                Movie.RunAuditorium(gekozenTitel, gekozenTijd, null);
 
                     // hall1.StartSelection();
                     // var paymentUI = new PaymentUI(false);
@@ -208,12 +218,13 @@ public static class Menu
         // Guest
         options.Add("Movie theatre info");
         options.Add("View movies");
-        options.Add("Your tickets");
 
         // Member
         if (role == Roles.Member || role == Roles.Employee || role == Roles.Admin)
-        options.Add("Edit account information");
-        
+        {
+            options.Add("Your tickets");
+            options.Add("Edit account information");
+        }
 
         // Employee
         if (role == Roles.Employee || role == Roles.Admin)

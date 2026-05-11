@@ -20,7 +20,7 @@ public class Movie
         Movies.Add(title);
     }
 
-    public static  void RunAuditorium(string ChoosedMovie , string ChoosedTime)
+    public static  void RunAuditorium(string ChoosedMovie , string ChoosedTime, AccountModel? acc)
     {
         
         string AuditoriumNumber;
@@ -41,8 +41,16 @@ public class Movie
         
         if(dict!= null)
         {
-            PaymentUI paymentUI = new PaymentUI(true);
-            paymentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, "dookie@gmal.com");
+            if (acc != null)
+            {
+                PaymentUI paymentUI = new PaymentUI(true);
+                paymentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, acc.Email);
+            }
+            else
+            {
+                PaymentUI paymentUI = new PaymentUI(false);
+                paymentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, null);
+            }
         }
         
     }
