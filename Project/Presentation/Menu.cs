@@ -24,7 +24,8 @@ public static class Menu
 
             case "View movies":
                 hall1.StartSelection();
-                PaymentUI.Start("filmName", "00:00", hallData);
+                var paymentUI = new PaymentUI(false);
+                paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
                 break;
 
             case "Your tickets":
@@ -119,8 +120,9 @@ public static class Menu
                     break;
 
                 case "View movies":
+                    var paymentUI = new PaymentUI(false);
+                    paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
                     hall1.StartSelection();
-                    PaymentUI.Start("filmName", "00:00", hallData);
                     break;
 
                 case "Your tickets":

@@ -1,18 +1,27 @@
 public class PaymentAsGestUI
 {
+    public static string FirstName = "";
+    public static string LastName = "";
+    public static string Email = "";
+    public static string Phone = "";
+    public static int Age = 0;
     public static void StartAsGest()
     {
         Console.WriteLine("══════════════════════════════════════════");
         Console.WriteLine("Guest Checkout — Please fill in your details");
         Console.WriteLine("══════════════════════════════════════════");
         Console.WriteLine("First name:");
-        string FirstName = Console.ReadLine()!;
+        string firstName = Console.ReadLine()!;
+        FirstName = firstName;
         Console.WriteLine("Last name:");
-        string LastName = Console.ReadLine()!;
+        string lastName = Console.ReadLine()!;
+        LastName = lastName;
         Console.WriteLine("Email:");
-        string Email = Console.ReadLine()!;
+        string email = Console.ReadLine()!;
+        Email = email;
         Console.WriteLine("Phone number:");
-        string Phone = Console.ReadLine()!;
+        string phone = Console.ReadLine()!;
+        Phone = phone;
         int age;
         while (true)
         {
