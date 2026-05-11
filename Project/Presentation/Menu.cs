@@ -211,7 +211,7 @@ public static class Menu
         return menuOptions[selectedIndex];
     }
 
-    private static List<string> GetOptions(Roles? role)
+    public static List<string> GetOptions(Roles? role)
     {
         List<string> options = [];
 
