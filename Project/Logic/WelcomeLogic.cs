@@ -4,20 +4,23 @@ public static class WelcomeLogic
     {
         Random rand = new();
         List<string> returnList = [];
+        List<FilmModel> filmsCopy = new List<FilmModel>(films);
 
-        if (films.Count < 5)
+        if (filmsCopy.Count < 5)
         {
-            foreach (var film in films)
+            foreach (var film in filmsCopy)
             {
                 returnList.Add(film.Naam);
             }
             return returnList;
         }
 
-        for (int i = 5; i <= 0; i--)
+        for (int i = 0; i < 5; i++)
         {
-            string addFilm = films[i].Naam!;
+            int index = rand.Next(filmsCopy.Count);
+            string addFilm = filmsCopy[index].Naam!;
             returnList.Add(addFilm);
+            filmsCopy.RemoveAt(index);
         }
 
         return returnList;
