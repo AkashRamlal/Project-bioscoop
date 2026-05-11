@@ -37,10 +37,13 @@ public class Movie
         Auditorium BookAuditorium = new(AuditoriumNumber);
         BookAuditorium.StartSelection(ChoosedMovie, ChoosedTime);
         var dict = BookAuditorium.HandleInput();
+        
         if(dict!= null)
         {
-            PaymentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, 1);
+            PaymentUI parmentUI = new PaymentUI(true);
+            parmentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, 1);
         }
+        
     }
 
     public static string ArrowOptions(List<string> info)
