@@ -42,7 +42,7 @@ public class Movie
         if(dict!= null)
         {
             PaymentUI paymentUI = new PaymentUI(true);
-            paymentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, 1);
+            paymentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, "dookie@gmal.com");
         }
         
     }

@@ -1,12 +1,11 @@
+using System.Runtime.CompilerServices;
+
 public static class Menu
 {
     public static void Start(AccountModel acc)
 {
-    Auditorium hall1 = new Auditorium("Auditorium 1");
-
-    Dictionary<string, Dictionary<string, decimal>> hallData = new Dictionary<string, Dictionary<string, decimal>> {
-        { "Hall 1", new Dictionary<string, decimal> { { "A3", 10.00m }, { "B5", 12.50m } } }
-    };
+    FilmAccess filmAccess = new FilmAccess();
+    List<FilmModel> films = filmAccess.GetAll();
 
     bool inMenu = true;
 
@@ -23,9 +22,20 @@ public static class Menu
                 break;
 
             case "View movies":
-                hall1.StartSelection();
-                var paymentUI = new PaymentUI(true);
-                paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
+                Movie.Movies.Clear();
+                Movie.MoviesDict.Clear();
+                foreach(var movie in films)
+                {
+                    new Movie(movie.Naam, new List<string> {"12:00 Auditorium 1", "15:00 Auditorium 2", "20:00 Auditorium 3"});
+                }
+                string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
+                List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
+                string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                Movie.RunAuditorium(gekozenTitel, gekozenTijd);
+                
+                // hall1.StartSelection();
+                // var paymentUI = new PaymentUI(true);
+                // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
                 break;
 
             case "Your tickets":
@@ -99,11 +109,9 @@ public static class Menu
     // Start for Guest
     public static void Start()
     {
-        Auditorium hall1 = new Auditorium("Auditorium 1");
 
-        Dictionary<string, Dictionary<string, decimal>> hallData = new Dictionary<string, Dictionary<string, decimal>> {
-            { "Hall 1", new Dictionary<string, decimal> { { "A3", 10.00m }, { "B5", 12.50m } } }
-        };
+        FilmAccess filmAccess = new FilmAccess();
+        List<FilmModel> films = filmAccess.GetAll();
 
         bool inMenu = true;
 
@@ -120,9 +128,20 @@ public static class Menu
                     break;
 
                 case "View movies":
-                    hall1.StartSelection();
-                    var paymentUI = new PaymentUI(false);
-                    paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
+                Movie.Movies.Clear();
+                Movie.MoviesDict.Clear();
+                foreach(var movie in films)
+                {
+                    new Movie(movie.Naam, new List<string> {"12:00 Auditorium 1", "15:00 Auditorium 2", "20:00 Auditorium 3"});
+                }
+                string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
+                List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
+                string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                Movie.RunAuditorium(gekozenTitel, gekozenTijd);
+
+                    // hall1.StartSelection();
+                    // var paymentUI = new PaymentUI(false);
+                    // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
                     break;
 
                 case "Your tickets":

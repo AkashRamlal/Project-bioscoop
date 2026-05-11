@@ -111,7 +111,8 @@ public class Auditorium
         }
             Console.WriteLine();
             Console.WriteLine("                  SCREEN          ");
-            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");    
+            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved"); 
+            Time = Time.Split(" ")[0];   
             Console.WriteLine($"Movie: {Title} Time: {Time}");     
             Console.WriteLine("Press B to chose a seat");
 
@@ -163,7 +164,7 @@ public class Auditorium
                 Console.WriteLine($"You bought the seat(s): ");
                 foreach(var Seat in ReservedSeats[AuditoriumNumber])
                 {
-                    Console.WriteLine($" {Seat.Key} ${Seat.Value}");
+                    Console.WriteLine($" {Seat.Key}");
                 }
                 
 
