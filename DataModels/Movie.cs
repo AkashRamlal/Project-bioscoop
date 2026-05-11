@@ -35,13 +35,14 @@ public class Movie
 
 
         Auditorium BookAuditorium = new(AuditoriumNumber);
-        BookAuditorium.StartSelection(ChoosedMovie, ChoosedTime);
-        var dict = BookAuditorium.HandleInput();
+
+
+        var dict = BookAuditorium.StartSelection(ChoosedMovie, ChoosedTime);
         
         if(dict!= null)
         {
-            PaymentUI parmentUI = new PaymentUI(true);
-            parmentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, 1);
+            PaymentUI paymentUI = new PaymentUI(true);
+            paymentUI.StartAsMember(ChoosedMovie, ChoosedTime, dict, 1);
         }
         
     }

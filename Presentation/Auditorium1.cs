@@ -29,7 +29,7 @@ public class Auditorium
     }
 
 
-    public void StartSelection(string Title, string Time)
+    public Dictionary<string, Dictionary<string, decimal>> StartSelection(string Title, string Time)
     {
 
         while (_chooseSeat)
@@ -40,10 +40,11 @@ public class Auditorium
 
             if (resultaat != null)
             {
-                break; 
+                return resultaat;
             }
 
         }
+        return null;
     }
 
     public void Display(string Title, string Time)
