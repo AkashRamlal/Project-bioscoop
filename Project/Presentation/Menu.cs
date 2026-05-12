@@ -7,6 +7,7 @@ public static class Menu
     FilmAccess filmAccess = new FilmAccess();
     List<FilmModel> films = filmAccess.GetAll();
 
+
     TicketsAccess ticketAccess = new TicketsAccess();
 
     bool inMenu = true;
@@ -69,7 +70,7 @@ public static class Menu
                 break;
 
             case "Create employee":
-                RegisterUser.Start();
+                CreateEmployee.Start();
                 break;
 
             case "Manage employees":
