@@ -35,4 +35,23 @@ public class TicketService
 
         Console.WriteLine("Enjoy the movie!");
     }
+
+    public List<string> ReservedTickets(string hall, string time)
+    {
+        TicketsAccess acces = new TicketsAccess();
+        List<Ticket> AllTickets = acces.GetTickets();
+
+        List<string> reservedSeats = new();
+        foreach(Ticket ticket in AllTickets)
+        {
+            if(ticket.Hall == hall && ticket.Time == time)
+            {
+                reservedSeats.AddRange(ticket.Seats.Split(", ").Select(seat=>seat[..^9]));
+
+                // "A1 (€11,00), A2 (€11,00)"
+                // pak alles behalve de laatste 9 tekens
+            }
+        }
+        return reservedSeats;
+    }
 }

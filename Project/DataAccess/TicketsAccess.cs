@@ -31,4 +31,11 @@ public class TicketsAccess
                      $"FROM {Table} WHERE email = @Email";
         return _connection.Query<Ticket>(sql, new { Email = email }).ToList();
     }
+
+    public List<Ticket> GetTickets()
+    {
+        string sql = $"SELECT film_name AS FilmName, hall AS Hall, time AS Time, seats AS Seats FROM {Table}";
+                        
+        return _connection.Query<Ticket>(sql).ToList();
+    }
 }

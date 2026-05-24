@@ -26,7 +26,11 @@ public class Movie
 
 
         Auditorium BookAuditorium = new(AuditoriumNumber);
+        TicketService ticketService = new();
 
+        List<string> reservedSeats = ticketService.ReservedTickets(AuditoriumNumber, ChoosedTime.StartTime.ToString());
+        
+        BookAuditorium.SetReservedSeats(reservedSeats);
 
         var dict = BookAuditorium.StartSelection(ChoosedMovie.Title, ChoosedTime.StartTime.ToString());
         
