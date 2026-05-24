@@ -1,18 +1,21 @@
 public static class WelcomeScreen
 {
-    public static string Menu()
+    public static string Menu(List<FilmModel> films)
     {
         List<string> menuOptions = [
             "Login",
-            "Continue as Guest"
+            "Continue as Guest",
+            "register"
         ];
 
         int selectedIndex = 0;
         ConsoleKey key;
 
+        List<string> previewFilms = WelcomeLogic.PreviewFilms(films);
+
         do
         {
-            DrawMenu(menuOptions, selectedIndex);
+            DrawMenu(menuOptions, selectedIndex, previewFilms);
 
             key = Console.ReadKey(true).Key;
 
@@ -34,21 +37,21 @@ public static class WelcomeScreen
         return menuOptions[selectedIndex];
     }
 
-    private static void DrawMenu(List<string> options, int selectedIndex)
+    private static void DrawMenu(List<string> options, int selectedIndex, List<string> films)
     {
         Console.Clear();
 
         Console.WriteLine("=====================================");
-        Console.WriteLine("      Welcome to Pathé from Temu");
+        Console.WriteLine("     Welcome to Theatre Rotterdam");
         Console.WriteLine("=====================================\n");
 
-        Console.WriteLine("Films currently playing:\n");
-        Console.WriteLine("- Super Mario Galaxy Movie");
-        Console.WriteLine("- Oppenheimer");
-        Console.WriteLine("- Spoderman");
-        Console.WriteLine("- Zootropia 2\n");
+        Console.WriteLine("Some films currently playing:");
+        foreach (var film in films)
+        {
+            Console.WriteLine($" - {film}");
+        }
 
-        Console.WriteLine("Use arrow keys to navigate and press Enter to select option:\n");
+        Console.WriteLine("\nUse arrow keys to navigate and press Enter to select option:\n");
 
         // Menu
         for (int i = 0; i < options.Count; i++)

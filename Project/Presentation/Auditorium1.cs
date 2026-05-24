@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Collections.Generic;
 
 public class Auditorium
 {
@@ -9,38 +10,44 @@ public class Auditorium
     private int _cursorVertical;
     private int _cursorHorizontal;
     private bool _chooseSeat;
-    public string AuditoriumNumer;
+    public string AuditoriumNumber;
 
-    public Dictionary<string, Dictionary<string, int>> ReservedSeats = new();
+    public Dictionary<string, Dictionary<string, decimal>> ReservedSeats = new();
     // <Auditorium1, <SeatNumber, Price>>
 
 
 
     public Auditorium(string auditoriumNumber)
     {
-        AuditoriumNumer = auditoriumNumber;
+        AuditoriumNumber = auditoriumNumber;
         _seats = GenerateLayout(auditoriumNumber);
-        _cursorVertical = 9;
-        _cursorHorizontal = 15;
+        _cursorVertical = 4;
+        _cursorHorizontal = 8;
         _chooseSeat = true;
-        ReservedSeats["Auditorium 1"] = new Dictionary<string, int>();
+        ReservedSeats[auditoriumNumber] = new Dictionary<string, decimal>();
         
     }
 
 
-    public void StartSelection()
+    public Dictionary<string, Dictionary<string, decimal>> StartSelection(string Title, string Time)
     {
+
         while (_chooseSeat)
         {
 
-            Display();
-            HandleInput();  
+            Display(Title, Time);  
+            var resultaat = HandleInput();
 
+            if (resultaat != null)
+            {
+                return resultaat;
+            }
 
         }
+        return null;
     }
 
-    public void Display()
+    public void Display(string Title, string Time)
     {
 
         Console.Clear();
@@ -104,67 +111,77 @@ public class Auditorium
         }
             Console.WriteLine();
             Console.WriteLine("                  SCREEN          ");
-            //Console.WriteLine($"   {AantalStoelenHorizontaal * 3}");
-            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");         
+            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved"); 
+            Time = Time.Split(" ")[0];   
+            Console.WriteLine($"Movie: {Title} Time: {Time}");     
+            Console.WriteLine("Press B to chose a seat");
 
     }
 
-    private void HandleInput()
+
+
+    public Dictionary<string, Dictionary<string, decimal>>  HandleInput()
     {
+            // <Auditorium1, <SeatNumber, Price>>
         var key = Console.ReadKey(true).Key;
         int ChosenSeat = 0;
-        if(ReservedSeats["Auditorium 1"].Count >= 10)
+
+        if(ReservedSeats[AuditoriumNumber].Count >= 10)
         {
 
             _chooseSeat = false;
             Console.Clear();
             Console.WriteLine("You can't book more then 10 seats call the cinema");
             Console.WriteLine("You booked these seats: ");
-            foreach(var seat in ReservedSeats["Auditorium 1"])
+            foreach(var seat in ReservedSeats[AuditoriumNumber])
             {
                 Console.WriteLine($" {seat.Key} ");
             }
-            //Console.WriteLine("\nPress any key...");
+            //Console.WriteLine("\nPress any key..."); 
             Console.ReadKey();
-            _chooseSeat = false;
-            return;
+            return ReservedSeats;
         }
-        else if (key == ConsoleKey.Enter)// gebruiker heeft seat gekozen
+
+        
+        if (key == ConsoleKey.B)// gebruiker heeft seat gekozen
         {
-
-
-
             int rijNummer = _cursorHorizontal + 1;
             char kolomLetter = (char)('A' + _cursorVertical);
             string seatKey = $"{kolomLetter}{rijNummer}";
 
+
             ChosenSeat = _seats[_cursorVertical, _cursorHorizontal];
-            // toevoegen aan dict met key value en key prijs
-            if(ChosenSeat == 1)ReservedSeats["Auditorium 1"][seatKey] = 11;
-            else if (ChosenSeat == 2) ReservedSeats["Auditorium 1"][seatKey] = 12;
-            else if (ChosenSeat == 3) ReservedSeats["Auditorium 1"][seatKey] = 14;
+
+            AddingToDict(ChosenSeat, seatKey);
             //  gekozen seat veranderen naar gereserveert
             _seats[_cursorVertical, _cursorHorizontal] = 4;
-        
-            Console.WriteLine("Do you want to book more seats? y/n");
-            string Book = Console.ReadLine()?.ToUpper() ?? "";
+            string Book  = BookMore();
+
             if (Book.StartsWith("N")) // gebruiker heeft genoeg plek(ken) besteld
             {
                 _chooseSeat = false;
                 Console.Clear();
                 Console.WriteLine($"You bought the seat(s): ");
-                foreach(var Seat in ReservedSeats["Auditorium 1"])
+                foreach(var Seat in ReservedSeats[AuditoriumNumber])
                 {
-                    Console.WriteLine($" {Seat.Key} ${Seat.Value}");
+                    Console.WriteLine($" {Seat.Key}");
                 }
+                
 
-                //Console.WriteLine("\nPress any key to exit.");
-                Console.ReadKey();      
+                Console.ReadKey();
+                
 
+                return ReservedSeats;
+            }
+            else
+            {
+                return null;
             }
 
-            
         }
+                
+            
+
         int newY = _cursorVertical;
         int newX = _cursorHorizontal;
         if (key == ConsoleKey.UpArrow && _cursorVertical > 0) newY--;
@@ -178,7 +195,21 @@ public class Auditorium
             _cursorVertical = newY;
             _cursorHorizontal = newX;
         }
+        return null;
 
+    }
+    public string BookMore()
+    {
+        Console.WriteLine("Do you want to book more seats? y/n");
+        string yn = Console.ReadLine()?.ToUpper() ?? "";
+        return yn;
+    }
+   
+    public void AddingToDict(int ChosenSeat, string seatKey )
+    {
+        if(ChosenSeat == 1)ReservedSeats[AuditoriumNumber][seatKey] = 11.00M;
+        else if (ChosenSeat == 2) ReservedSeats[AuditoriumNumber][seatKey] = 12.00M;
+        else if (ChosenSeat == 3) ReservedSeats[AuditoriumNumber][seatKey] = 14.00M;
     }
 
     private int[,] GenerateLayout(string auditoriumNumber)// 

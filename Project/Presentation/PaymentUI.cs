@@ -7,7 +7,12 @@
 
 public class PaymentUI
 {
-    public static void Start(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData)
+    bool isMember;
+    public PaymentUI(bool isMember)
+    {
+        this.isMember = isMember;
+    }
+    public void StartAsMember(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData, string? email)
     {
         // Step 1: Let user review seats, apply discounts or cancel seats
         hallData = SeatReviewUI.Show(hallData);
@@ -42,9 +47,18 @@ public class PaymentUI
         Console.WriteLine("\nPress any key to proceed to payment...");
         Console.ReadKey();
 
-        // Step 3: Payment + ticket
+        if (!isMember)
+        {
+            Console.Clear();
+            PaymentAsGestUI.StartAsGest();
+            email = PaymentAsGestUI.Email;
+        }
+
+        // Step 3: Ask for account ID
+
+        // Step 4: Payment + ticket
         var ticketService = new TicketService();
-        ticketService.HandleCheckout(filmName, time, hallData);
+        ticketService.HandleCheckout(filmName, time, hallData, email);
     }
 }
 
