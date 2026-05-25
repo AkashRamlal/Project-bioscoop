@@ -45,11 +45,25 @@ public static class Menu
                             }
                         });
                     }
-        
-                    Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
-                    List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
-                    MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                    Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
+                    
+                    while(true)
+                    {
+                        Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
+                        Console.WriteLine("dit voor");
+
+                        FilmModel chosedMovie = films.First(f => f.Naam == gekozenTitel.Title); 
+                        bool goFurther = ViewMovies.PrintMovie(chosedMovie);
+                        Console.WriteLine("Dit na");
+
+                        if(!goFurther) // user drukt op R en kiest opnieuw de movie
+                        {
+                            continue;
+                        }
+                        List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
+                        MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                        Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
+                        break;
+                    }
 
                     // hall1.StartSelection();
                     // var paymentUI = new PaymentUI(false);
