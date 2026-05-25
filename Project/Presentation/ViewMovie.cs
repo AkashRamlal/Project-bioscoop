@@ -11,7 +11,7 @@ public static class ViewMovies
         Console.WriteLine($"Director: {movie.Regiseur}");
 
         Console.WriteLine();
-        Console.WriteLine("Press Enter to choose your seats.");
+        Console.WriteLine("Press Enter to go further.");
         Console.WriteLine("Press R to return to movies");
 
         while (true)

@@ -49,11 +49,9 @@ public static class Menu
                     while(true)
                     {
                         Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
-                        Console.WriteLine("dit voor");
 
                         FilmModel chosedMovie = films.First(f => f.Naam == gekozenTitel.Title); 
                         bool goFurther = ViewMovies.PrintMovie(chosedMovie);
-                        Console.WriteLine("Dit na");
 
                         if(!goFurther) // user drukt op R en kiest opnieuw de movie
                         {
@@ -188,14 +186,22 @@ public static class Menu
                             }
                         });
                     }
-                    Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
-                    List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
-                    MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                    Movie.RunAuditorium(gekozenTitel, gekozenTijd, null);
+                    while(true)
+                    {
+                        Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
 
-                    // hall1.StartSelection();
-                    // var paymentUI = new PaymentUI(false);
-                    // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
+                        FilmModel chosedMovie = films.First(f => f.Naam == gekozenTitel.Title); 
+                        bool goFurther = ViewMovies.PrintMovie(chosedMovie);
+
+                        if(!goFurther) // user drukt op R en kiest opnieuw de movie
+                        {
+                            continue;
+                        }
+                        List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
+                        MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                        Movie.RunAuditorium(gekozenTitel, gekozenTijd, null);
+                        break;
+                    };
                     break;
 
                 case "Your tickets":
