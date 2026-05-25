@@ -29,6 +29,12 @@ public class AccountsAccess
         return _connection.QueryFirstOrDefault<AccountModel>(sql, new { Email = email })!;
     }
 
+    public List<AccountModel> GetAllEmployees()
+    {
+        string sql = $"SELECT * FROM {Table} WHERE role = 'Employee'";
+        return _connection.Query<AccountModel>(sql).ToList();
+    }
+
     public void Update(AccountModel account)
     {
         string sql = $"UPDATE {Table} SET email = @Email, password = @Password, naam = @Naam, achternaam = @Achternaam, geboortedatum = @Geboortedatum, telefoonnummer = @Telefoonnummer, role = @Role WHERE id = @Id";

@@ -5,7 +5,8 @@ public static class WelcomeScreen
         List<string> menuOptions = [
             "Login",
             "Continue as Guest",
-            "register"
+            "register",
+            "Manage Employees"
         ];
 
         int selectedIndex = 0;

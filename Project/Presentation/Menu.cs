@@ -74,7 +74,7 @@ public static class Menu
                 break;
 
             case "Manage employees":
-                Console.WriteLine("Placeholder");
+                ManageEmployee.Display();
                 break;
 
             case "Quit":
