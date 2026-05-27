@@ -26,20 +26,47 @@ public static class Menu
 
             case "View movies":
                 Movie.Movies.Clear();
-                Movie.MoviesDict.Clear();
-                foreach(var movie in films)
-                {
-                    new Movie(movie.Naam, new List<string> {"12:00 Auditorium 1", "15:00 Auditorium 2", "20:00 Auditorium 3"});
-                }
-                string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
-                List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
-                string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
-                
-                // hall1.StartSelection();
-                // var paymentUI = new PaymentUI(true);
-                // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
-                break;
+                    foreach(var movie in films)
+                    {
+                        new Movie(movie.Naam, new List<MovieShowing>
+                        {
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                Auditorium = "Auditorium 1",
+                                IsDinnerEvent = false
+                            },
+
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                Auditorium = "Auditorium 1",
+                                IsDinnerEvent = true
+                            }
+                        });
+                    }
+                    
+                    while(true)
+                    {
+                        Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
+
+                        FilmModel chosedMovie = films.First(f => f.Naam == gekozenTitel.Title); 
+                        bool goFurther = ViewMovies.PrintMovie(chosedMovie);
+
+                        if(!goFurther) // user drukt op R en kiest opnieuw de movie
+                        {
+                            continue;
+                        }
+                        List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
+                        MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                        Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
+                        break;
+                    }
+
+                    // hall1.StartSelection();
+                    // var paymentUI = new PaymentUI(false);
+                    // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
+                    break;
 
             case "Your tickets":
                 Console.WriteLine("Your tickets:\n");
@@ -139,20 +166,42 @@ public static class Menu
                     break;
 
                 case "View movies":
-                Movie.Movies.Clear();
-                Movie.MoviesDict.Clear();
-                foreach(var movie in films)
-                {
-                    new Movie(movie.Naam, new List<string> {"12:00 Auditorium 1", "15:00 Auditorium 2", "20:00 Auditorium 3"});
-                }
-                string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
-                List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
-                string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                Movie.RunAuditorium(gekozenTitel, gekozenTijd, null);
+                    Movie.Movies.Clear();
+                    foreach(var movie in films)
+                    {
+                        new Movie(movie.Naam, new List<MovieShowing>
+                        {
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                Auditorium = "Auditorium 1",
+                                IsDinnerEvent = false
+                            },
 
-                    // hall1.StartSelection();
-                    // var paymentUI = new PaymentUI(false);
-                    // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                Auditorium = "Auditorium 1",
+                                IsDinnerEvent = true
+                            }
+                        });
+                    }
+                    while(true)
+                    {
+                        Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
+
+                        FilmModel chosedMovie = films.First(f => f.Naam == gekozenTitel.Title); 
+                        bool goFurther = ViewMovies.PrintMovie(chosedMovie);
+
+                        if(!goFurther) // user drukt op R en kiest opnieuw de movie
+                        {
+                            continue;
+                        }
+                        List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
+                        MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                        Movie.RunAuditorium(gekozenTitel, gekozenTijd, null);
+                        break;
+                    };
                     break;
 
                 case "Your tickets":

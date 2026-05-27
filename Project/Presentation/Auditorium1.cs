@@ -47,6 +47,26 @@ public class Auditorium
         return null;
     }
 
+    public void SetReservedSeats(List<string> reservedSeats)
+    {
+        foreach(string seat in reservedSeats)
+        {
+            var(r, c) = AToNum(seat);
+            if(_seats[r, c] != 0)
+            {
+                _seats[r, c] = 4;
+            }
+        }
+    }
+    public (int, int) AToNum(string seat)
+    {
+        char rowLetter = seat[0];
+        int seatNumber = int.Parse(seat.Substring(1));
+
+        return (rowLetter - 'A', seatNumber - 1);
+    }
+
+
     public void Display(string Title, string Time)
     {
 

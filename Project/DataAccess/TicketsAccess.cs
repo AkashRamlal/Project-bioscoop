@@ -44,6 +44,11 @@ public class TicketsAccess
         string sql = $"SELECT id AS Id, film_name AS FilmName, hall AS Hall, time AS Time, " +
                     $"seats AS Seats, total_price AS TotalPrice, email AS Email " +
                     $"FROM {Table}";
+    }
+    public List<Ticket> GetTickets()
+    {
+        string sql = $"SELECT film_name AS FilmName, hall AS Hall, time AS Time, seats AS Seats FROM {Table}";
+                        
         return _connection.Query<Ticket>(sql).ToList();
     }
 }
