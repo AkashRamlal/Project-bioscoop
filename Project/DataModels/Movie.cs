@@ -24,23 +24,38 @@ public class Movie
         
         string AuditoriumNumber = ChoosedTime.Auditorium;
 
+        if (ChoosedTime.IsDinnerEvent)
+        {
+            bool shouldAskInfo = acc == null || (acc.Allergie == null && acc.Dieet == null && acc.Opmerkingen == null);
+
+            if (shouldAskInfo)
+            {
+                string? allergies = Diet.AskForAllergies();
+                string? diet = Diet.AskForDietaryPreferences();
+                string? comments = Diet.AskForAdditionalComments();
+                if (acc != null)
+                {
+                    EditAccountLogic.EditDiet(acc, allergies, diet, comments);
+                }
+            }
+        }
 
         Auditorium BookAuditorium = new(AuditoriumNumber);
 
 
-        var dict = BookAuditorium.StartSelection(ChoosedMovie.Title, ChoosedTime.StartTime.ToString());
+        var dict = BookAuditorium.StartSelection(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"));
         
         if(dict!= null)
         {
             if (acc != null)
             {
                 PaymentUI paymentUI = new PaymentUI(true);
-                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString(), dict, acc.Email);
+                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), dict, acc.Email);
             }
             else
             {
                 PaymentUI paymentUI = new PaymentUI(false);
-                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString(), dict, null);
+                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), dict, null);
             }
         }
         
@@ -126,21 +141,25 @@ public class Movie
         }        
     }
 
-    public static void  PrintOptions(List<MovieShowing> info, int selectedIndex)
+    public static void PrintOptions(List<MovieShowing> info, int selectedIndex)
     {
         for (int i = 0; i < info.Count; i++)
         {
+            // If it's a dinner event, add "Dinner Event" after the time
+            string displayText = info[i].IsDinnerEvent
+                ? $"{info[i].StartTime} - Dinner Event"
+                : $"{info[i].StartTime}";
+
             if (i == selectedIndex)
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine($"> {info[i].StartTime}");
+                Console.WriteLine($"> {displayText}");
                 Console.ResetColor();
             }
             else
             {
-                Console.WriteLine($"  {info[i].StartTime}.");
+                Console.WriteLine($"  {displayText}");
             }
-        }        
+        }
     }
-
 }

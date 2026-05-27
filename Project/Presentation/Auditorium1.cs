@@ -111,9 +111,8 @@ public class Auditorium
         }
             Console.WriteLine();
             Console.WriteLine("                  SCREEN          ");
-            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved"); 
-            Time = Time.Split(" ")[0];   
-            Console.WriteLine($"Movie: {Title} Time: {Time}");     
+            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");  
+            Console.WriteLine($"Movie: {Title}\nTime: {Time}");     
             Console.WriteLine("Press B to chose a seat");
 
     }
