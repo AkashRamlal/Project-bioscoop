@@ -7,6 +7,7 @@ public static class EditAccount
         "Change phone number",
         "Change Email",
         "Change password",
+        "Change dietary preferences",
         "Return to menu"
     ];
 
@@ -92,6 +93,13 @@ public static class EditAccount
                     EditAccountLogic.EditPassword(acc, password);
 
                     Console.WriteLine("Password updated successfully.");
+                    break;
+                
+                case "Change dietary preferences":
+                    string? allergies = Diet.AskForAllergies();
+                    string? diet = Diet.AskForDietaryPreferences();
+                    string? comments = Diet.AskForAdditionalComments();
+                    EditAccountLogic.EditDiet(acc, allergies, diet, comments);
                     break;
                 
                 case "Return to menu":

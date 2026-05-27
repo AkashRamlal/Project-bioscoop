@@ -31,7 +31,7 @@ public class AccountsAccess
 
     public void Update(AccountModel account)
     {
-        string sql = $"UPDATE {Table} SET email = @Email, password = @Password, naam = @Naam, achternaam = @Achternaam, geboortedatum = @Geboortedatum, telefoonnummer = @Telefoonnummer, role = @Role WHERE id = @Id";
+        string sql = $"UPDATE {Table} SET email = @Email, password = @Password, naam = @Naam, achternaam = @Achternaam, geboortedatum = @Geboortedatum, telefoonnummer = @Telefoonnummer, allergie = @Allergie, dieet = @Dieet, opmerkingen = @Opmerkingen, role = @Role WHERE id = @Id";
 
         _connection.Execute(sql, new
         {
@@ -41,6 +41,9 @@ public class AccountsAccess
             account.Achternaam,
             account.Geboortedatum,
             account.Telefoonnummer,
+            account.Allergie,
+            account.Dieet,
+            account.Opmerkingen,
             Role = account.Role.ToString(),
             account.Id
         });
