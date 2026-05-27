@@ -162,6 +162,7 @@ public class TicketService
         ticketsAccess.Delete(selected.Id);
         Console.WriteLine("\nTicket cancelled successfully.");
         Console.ReadKey();
+    }
     public List<string> ReservedTickets(string hall, string time)
     {
         TicketsAccess acces = new TicketsAccess();
