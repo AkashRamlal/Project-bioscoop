@@ -6,7 +6,7 @@ public static class WelcomeScreen
             "Login",
             "Continue as Guest",
             "register",
-            "Manage Employees"
+            "Manage films"
         ];
 
         int selectedIndex = 0;

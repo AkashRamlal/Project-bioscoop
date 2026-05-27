@@ -62,7 +62,7 @@ public static class Menu
                 break;
 
             case "Manage films":
-                Console.WriteLine("Placeholder");
+                ManageFilms.Show();
                 break;
 
             case "Manage tickets":

@@ -32,6 +32,10 @@
                 RegisterUser.Start();
             }
             
+            else if (choice == "Manage films")
+            {
+                ManageFilms.Show();
+            }
 
             Console.WriteLine("\nPress ESC to quit or any other key to return...");
             var key = Console.ReadKey(true).Key;
