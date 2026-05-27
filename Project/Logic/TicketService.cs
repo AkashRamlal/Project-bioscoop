@@ -35,4 +35,132 @@ public class TicketService
 
         Console.WriteLine("Enjoy the movie!");
     }
+
+    public void ShowTickets(string email)
+    {
+        TicketsAccess ticketsAccess = new TicketsAccess();
+        List<Ticket> tickets = ticketsAccess.GetByAccount(email);
+
+        Console.Clear();
+        Console.WriteLine("\n========== YOUR TICKET(S) ==========");
+
+        if (tickets.Count == 0)
+        {
+            Console.WriteLine("No tickets found for your account.");
+            Console.ReadKey();
+            return;
+        }
+
+        for (int i = 0; i < tickets.Count; i++)
+        {
+            Console.WriteLine($"[{i + 1}]");
+            Console.WriteLine(tickets[i].PrintTicket());
+            Console.WriteLine();
+        }
+
+        Console.Write("Do you want to cancel a ticket? (y/n): ");
+        string answer = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+        if (answer != "y")
+        {
+            Console.WriteLine("Press any key to go back...");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.Write("Select ticket number to cancel: ");
+        if (!int.TryParse(Console.ReadLine(), out int choice) || choice < 1 || choice > tickets.Count)
+        {
+            Console.WriteLine("Invalid choice.");
+            Console.ReadKey();
+            return;
+        }
+
+        Ticket selected = tickets[choice - 1];
+
+        string timeOnly = selected.Time.Split(' ')[0];
+
+        if (!TimeSpan.TryParse(timeOnly, out TimeSpan filmTime))
+        {
+            Console.WriteLine("Could not parse film time.");
+            Console.ReadKey();
+            return;
+        }
+
+        TimeSpan now = DateTime.Now.TimeOfDay;
+        if (filmTime <= now || (filmTime - now).TotalHours < 2)
+        {
+            Console.WriteLine("Cancellation not allowed. Film starts in less than 2 hours or has already passed.");
+            Console.ReadKey();
+            return;
+        }
+
+        ticketsAccess.Delete(selected.Id);
+        Console.WriteLine("\nTicket cancelled successfully.");
+        Console.ReadKey();
+    }
+
+    public void ShowAllTickets()
+    {
+        TicketsAccess ticketsAccess = new TicketsAccess();
+        List<Ticket> tickets = ticketsAccess.GetAll();
+
+        Console.Clear();
+        Console.WriteLine("\n========== ALL TICKETS ==========");
+
+        if (tickets.Count == 0)
+        {
+            Console.WriteLine("No tickets found.");
+            Console.ReadKey();
+            return;
+        }
+
+        for (int i = 0; i < tickets.Count; i++)
+        {
+            Console.WriteLine($"[{i + 1}]");
+            Console.WriteLine(tickets[i].PrintTicket());
+            Console.WriteLine();
+        }
+
+        Console.Write("Do you want to cancel a ticket? (y/n): ");
+        string answer = Console.ReadLine()?.Trim().ToLower() ?? "";
+
+        if (answer != "y")
+        {
+            Console.WriteLine("Press any key to go back...");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.Write("Select ticket number to cancel: ");
+        if (!int.TryParse(Console.ReadLine(), out int choice) || choice < 1 || choice > tickets.Count)
+        {
+            Console.WriteLine("Invalid choice.");
+            Console.ReadKey();
+            return;
+        }
+
+        Ticket selected = tickets[choice - 1];
+
+        string timeOnly = selected.Time.Split(' ')[0];
+
+        if (!TimeSpan.TryParse(timeOnly, out TimeSpan filmTime))
+        {
+            Console.WriteLine("Could not parse film time.");
+            Console.ReadKey();
+            return;
+        }
+
+        TimeSpan now = DateTime.Now.TimeOfDay;
+        if (filmTime <= now || (filmTime - now).TotalHours < 2)
+        {
+            Console.WriteLine("Cancellation not allowed. Film starts in less than 2 hours or has already passed.");
+            Console.ReadKey();
+            return;
+        }
+
+        ticketsAccess.Delete(selected.Id);
+        Console.WriteLine("\nTicket cancelled successfully.");
+        Console.ReadKey();
+    }
 }
