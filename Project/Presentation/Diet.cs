@@ -25,11 +25,11 @@ public static class Diet
         return allergies.Count > 0 ? string.Join(";", allergies) : null;
     }
 
-    public static string? AskForDietaryNeeds()
+    public static string? AskForDietaryPreferences()
     {
-        Console.WriteLine("Enter dietary needs (press ENTER to submit entry, leave field empty when finished):");
+        Console.WriteLine("Enter dietary preferences (press ENTER to submit entry, leave field empty when finished):");
 
-        List<string> dietaryNeeds = new List<string>();
+        List<string> dietaryPreferences = new List<string>();
 
         while (true)
         {
@@ -43,11 +43,11 @@ public static class Diet
 
             if (!string.IsNullOrWhiteSpace(input))
             {
-                dietaryNeeds.Add(input.Trim());
+                dietaryPreferences.Add(input.Trim());
             }
         }
 
-        return dietaryNeeds.Count > 0 ? string.Join(";", dietaryNeeds) : null;
+        return dietaryPreferences.Count > 0 ? string.Join(";", dietaryPreferences) : null;
     }
 
     public static string? AskForAdditionalComments()

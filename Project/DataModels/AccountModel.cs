@@ -15,6 +15,9 @@
     public string? Email { get; set; }
 
     public string Password { get; set; }
+    public string? Allergie { get; set; } = null;
+    public string? Dieet { get; set; } = null;
+    public string? Opmerkingen { get; set; } = null;
 
     
 
