@@ -62,10 +62,6 @@ public static class Menu
                         Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
                         break;
                     }
-
-                    // hall1.StartSelection();
-                    // var paymentUI = new PaymentUI(false);
-                    // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
                     break;
 
             case "Your tickets":
