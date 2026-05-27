@@ -43,7 +43,7 @@ public class Movie
         Auditorium BookAuditorium = new(AuditoriumNumber);
         TicketService ticketService = new();
 
-        List<string> reservedSeats = ticketService.ReservedTickets(AuditoriumNumber, ChoosedTime.StartTime.ToString());
+        List<string> reservedSeats = ticketService.ReservedTickets(AuditoriumNumber, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"));
         
         BookAuditorium.SetReservedSeats(reservedSeats);
 
