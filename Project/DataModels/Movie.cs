@@ -44,6 +44,17 @@ public class Movie
 
 
         var dict = BookAuditorium.StartSelection(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"));
+
+        if (ChoosedTime.IsDinnerEvent)
+        {
+            foreach (var innerDict in dict.Values)
+            {
+                foreach (var key in innerDict.Keys.ToList())
+                {
+                    innerDict[key] += 50;
+                }
+            }
+        }
         
         if(dict!= null)
         {
@@ -147,7 +158,7 @@ public class Movie
         {
             // If it's a dinner event, add "Dinner Event" after the time
             string displayText = info[i].IsDinnerEvent
-                ? $"{info[i].StartTime} - Dinner Event"
+                ? $"{info[i].StartTime} - Dinner Event (+€50)"
                 : $"{info[i].StartTime}";
 
             if (i == selectedIndex)
