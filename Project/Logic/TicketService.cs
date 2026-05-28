@@ -78,7 +78,7 @@ public class TicketService
 
         Ticket selected = tickets[choice - 1];
 
-        string timeOnly = selected.Time.Split(' ')[0];
+        string timeOnly = selected.Time.Split('-')[1].Trim();
 
         if (!TimeSpan.TryParse(timeOnly, out TimeSpan filmTime))
         {
@@ -142,7 +142,7 @@ public class TicketService
 
         Ticket selected = tickets[choice - 1];
 
-        string timeOnly = selected.Time.Split(' ')[0];
+        string timeOnly = selected.Time.Split('-')[1].Trim();
 
         if (!TimeSpan.TryParse(timeOnly, out TimeSpan filmTime))
         {
