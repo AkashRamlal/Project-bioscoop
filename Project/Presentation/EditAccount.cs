@@ -96,6 +96,12 @@ public static class EditAccount
                     break;
                 
                 case "Change dietary preferences":
+                    Console.WriteLine("Your current information:");
+                    Console.WriteLine($"Allergies: {acc.Allergie}");
+                    Console.WriteLine($"Dietary preferences: {acc.Dieet}");
+                    Console.WriteLine($"Additional comments: {acc.Opmerkingen}");
+                    Console.WriteLine();
+
                     string? allergies = Diet.AskForAllergies();
                     string? diet = Diet.AskForDietaryPreferences();
                     string? comments = Diet.AskForAdditionalComments();
