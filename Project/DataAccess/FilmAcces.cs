@@ -3,7 +3,8 @@ using Microsoft.Data.Sqlite;
 
 public class FilmAccess
 {
-    private SqliteConnection _connection = new SqliteConnection($"Data Source=DataSources/project.db");
+    private SqliteConnection _connection = new SqliteConnection(
+        $"Data Source={Path.Combine(AppContext.BaseDirectory, "DataSources", "project.db")}");
 
     private string Table = "Film";
 
