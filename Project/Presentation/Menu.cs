@@ -9,6 +9,7 @@ public static class Menu
 
 
     TicketsAccess ticketAccess = new TicketsAccess();
+    TicketService ticketService = new TicketService();
 
     bool inMenu = true;
 
@@ -65,15 +66,7 @@ public static class Menu
                     break;
 
             case "Your tickets":
-                Console.WriteLine("Your tickets:\n");
-                foreach (var ticket in ticketAccess.GetByAccount(acc.Email))
-                {
-                    Console.WriteLine($"Film: {ticket.FilmName}");
-                    Console.WriteLine($"Hall: {ticket.Hall}");
-                    Console.WriteLine($"Time: {ticket.Time}");
-                    Console.WriteLine($"Seats: {ticket.Seats}");
-                    Console.WriteLine();
-                }
+                ticketService.ShowTickets(acc.Email);
                 break;
 
             case "Edit account information":
@@ -85,11 +78,11 @@ public static class Menu
                 break;
 
             case "Manage films":
-                Console.WriteLine("Placeholder");
+                ManageFilms.Show();
                 break;
 
             case "Manage tickets":
-                Console.WriteLine("Placeholder");
+                ticketService.ShowAllTickets();
                 break;
 
             case "Create employee":
@@ -97,7 +90,7 @@ public static class Menu
                 break;
 
             case "Manage employees":
-                Console.WriteLine("Placeholder");
+                ManageEmployee.Display();
                 break;
 
             case "Quit":
