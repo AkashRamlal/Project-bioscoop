@@ -97,9 +97,12 @@ public static class EditAccount
                 
                 case "Change dietary preferences":
                     Console.WriteLine("Your current information:");
-                    Console.WriteLine($"Allergies: {acc.Allergie}");
-                    Console.WriteLine($"Dietary preferences: {acc.Dieet}");
-                    Console.WriteLine($"Additional comments: {acc.Opmerkingen}");
+                    string? allergie = acc.Allergie is null ? "No allergies" : acc.Allergie;
+                    Console.WriteLine($"Allergies: {allergie}");
+                    string? diets = acc.Dieet is null ? "No preferences" : acc.Dieet;
+                    Console.WriteLine($"Dietary preferences: {diets}");
+                    string? comment = acc.Opmerkingen is null ? "No additional comments" : acc.Opmerkingen;
+                    Console.WriteLine($"Additional comments: {comment}");
                     Console.WriteLine();
 
                     string? allergies = Diet.AskForAllergies();
