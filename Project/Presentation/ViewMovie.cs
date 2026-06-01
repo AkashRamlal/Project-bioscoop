@@ -3,16 +3,16 @@ public static class ViewMovies
     public static bool PrintMovie(FilmModel movie)
     {
         Console.Clear();
-        Console.WriteLine($"Movie Title: {movie.Naam}");
+        Console.WriteLine($"Movie title: {movie.Naam}");
         Console.WriteLine($"Genre: {movie.Genre}");
         Console.WriteLine($"Duration: {movie.Tijdsduur}");
-        Console.WriteLine($"Age limit: {movie.Leeftijdsgrens}");
+        Console.WriteLine($"Minimum age: {movie.Leeftijdsgrens}");
         Console.WriteLine($"Actors: {movie.Acteurs}");
         Console.WriteLine($"Director: {movie.Regiseur}");
 
         Console.WriteLine();
         Console.WriteLine("Press Enter to go further.");
-        Console.WriteLine("Press R to return to movies");
+        Console.WriteLine("Press R to return to movies.");
 
         while (true)
         {

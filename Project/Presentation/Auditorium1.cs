@@ -257,7 +257,8 @@ public class Auditorium
                 for(int horizontal = 3; horizontal < 9; horizontal++)
                     layout[ver, horizontal] = 2;
             // hoekjes van gele deel blauw maken
-            layout[3, 3] = 1; layout[3, 4] = 1; layout[3, 7] = 1; layout[3, 8] = 1; layout[4, 3] = 1; layout[4, 8] = 1; layout[9, 3] = 1; layout[9, 8] = 1; layout[10, 3] = 1; layout[10, 4] = 1; layout[10, 7] = 1; layout[10, 8] = 1; 
+            layout[3, 3] = 1; layout[3, 4] = 1; layout[3, 7] = 1; layout[3, 8] = 1; layout[4, 3] = 1; layout[4, 8] = 1; layout[9, 3] = 1; 
+            layout[9, 8] = 1; layout[10, 3] = 1; layout[10, 4] = 1; layout[10, 7] = 1; layout[10, 8] = 1; 
     
             // rode deel
             for (int r = 5; r < 9; r++)
