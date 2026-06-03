@@ -69,9 +69,9 @@ public class PaymentAsGestUI
         while (true)
         {
             Console.Write("  Age: ");
-            if (int.TryParse(Console.ReadLine(), out int age) && age >= 18 && age <= 120)
+            if (int.TryParse(Console.ReadLine(), out int age) && age >= 5 && age <= 120)
                 return age;
-            Console.WriteLine("Age must be a number between 18 and 120.\n");
+            Console.WriteLine("Age must be a number between 5 and 120.\n");
         }
     }
 }

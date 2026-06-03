@@ -47,6 +47,26 @@ public class Auditorium
         return null;
     }
 
+    public void SetReservedSeats(List<string> reservedSeats)
+    {
+        foreach(string seat in reservedSeats)
+        {
+            var(r, c) = AToNum(seat);
+            if(_seats[r, c] != 0)
+            {
+                _seats[r, c] = 4;
+            }
+        }
+    }
+    public (int, int) AToNum(string seat)
+    {
+        char rowLetter = seat[0];
+        int seatNumber = int.Parse(seat.Substring(1));
+
+        return (rowLetter - 'A', seatNumber - 1);
+    }
+
+
     public void Display(string Title, string Time)
     {
 
@@ -111,9 +131,8 @@ public class Auditorium
         }
             Console.WriteLine();
             Console.WriteLine("                  SCREEN          ");
-            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved"); 
-            Time = Time.Split(" ")[0];   
-            Console.WriteLine($"Movie: {Title} Time: {Time}");     
+            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");  
+            Console.WriteLine($"Movie: {Title}\nTime: {Time}");     
             Console.WriteLine("Press B to chose a seat");
 
     }
