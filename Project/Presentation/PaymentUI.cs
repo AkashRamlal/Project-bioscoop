@@ -12,7 +12,7 @@ public class PaymentUI
     {
         this.isMember = isMember;
     }
-    public void StartAsMember(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData, string? email)
+    public void StartAsMember(string filmName, DateTime time, Dictionary<string, Dictionary<string, decimal>> hallData, string? email)
     {
         // Step 1: Let user review seats, apply discounts or cancel seats
         hallData = SeatReviewUI.Show(hallData);
@@ -29,7 +29,7 @@ public class PaymentUI
 
         Console.WriteLine($"\nSummary:");
         Console.WriteLine($"  Film  : {filmName}");
-        Console.WriteLine($"  Time  : {time}");
+        Console.WriteLine($"  Time  : {time:yyyy-MM-dd HH:mm}"); // Add 2 hours to show end time
 
         decimal grandTotal = 0;
 

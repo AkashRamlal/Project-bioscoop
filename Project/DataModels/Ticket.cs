@@ -5,14 +5,14 @@ public class Ticket
     public int Id { get; set; } = 0;
     public string FilmName { get; set; } = "";
     public string Hall { get; set; } = "";
-    public string Time { get; set; } = "";
+    public DateTime Time { get; set; } = DateTime.MinValue;
     public string Seats { get; set; } = "";
     public decimal TotalPrice { get; set; }
     public string Email { get; set; } = "";
 
     public Ticket() { } // For Dapper
 
-    public Ticket(string filmName, string hall, string time, string seats, decimal totalPrice, string email)
+    public Ticket(string filmName, string hall, DateTime time, string seats, decimal totalPrice, string email)
     {
         FilmName = filmName;
         Hall = hall;
@@ -29,7 +29,7 @@ public class Ticket
         string resLine   = $"Reservation #: {Id}".PadRight(width - 4);
         string filmLine  = $"Film: {FilmName}".PadRight(width - 4);
         string hallLine  = $"Hall: {Hall}".PadRight(width - 4);
-        string timeLine  = $"Time: {Time}".PadRight(width - 4);
+        string timeLine  = $"Time: {Time:yyyy-MM-dd HH:mm}".PadRight(width - 4);
         string seatsLine = $"Seats: {Seats}".PadRight(width - 4);
         string priceLine = $"Total: €{TotalPrice:F2}".PadRight(width - 4);
 

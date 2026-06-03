@@ -39,6 +39,13 @@ public class TicketsAccess
         _connection.Execute(sql, new { Id = id });
     }
 
+    public void CancelTicket(int id)
+    {
+        // set status to "cancelled" instead of deleting, if you want to keep records
+        string sql = $"UPDATE {Table} SET status = 'cancelled' WHERE id = @Id";
+        _connection.Execute(sql, new { Id = id });
+    }
+
     public List<Ticket> GetAll()
     {
         string sql = $"SELECT id AS Id, film_name AS FilmName, hall AS Hall, time AS Time, " +

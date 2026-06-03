@@ -1,7 +1,7 @@
 public class TicketService
 {
 
-    public void HandleCheckout(string filmName, string time, Dictionary<string, Dictionary<string, decimal>> hallData, string email)
+    public void HandleCheckout(string filmName, DateTime time, Dictionary<string, Dictionary<string, decimal>> hallData, string email)
     {
         TicketsAccess ticketsAccess = new TicketsAccess();
         var paymentService = new PaymentService();
@@ -77,24 +77,16 @@ public class TicketService
 
         Ticket selected = tickets[choice - 1];
 
-        string timeOnly = selected.Time.Split('-')[1].Trim();
+        DateTime filmDateTime = selected.Time;
 
-        if (!TimeSpan.TryParse(timeOnly, out TimeSpan filmTime))
-        {
-            Console.WriteLine("Could not parse film time.");
-            Console.ReadKey();
-            return;
-        }
-
-        TimeSpan now = DateTime.Now.TimeOfDay;
-        if (filmTime <= now || (filmTime - now).TotalHours < 2)
+        if (filmDateTime <= DateTime.Now || (filmDateTime - DateTime.Now).TotalHours < 2)
         {
             Console.WriteLine("Cancellation not allowed. Film starts in less than 2 hours or has already passed.");
             Console.ReadKey();
             return;
         }
 
-        ticketsAccess.Delete(selected.Id);
+        ticketsAccess.CancelTicket(selected.Id);
         Console.WriteLine("\nTicket cancelled successfully.");
         Console.ReadKey();
     }
@@ -141,28 +133,20 @@ public class TicketService
 
         Ticket selected = tickets[choice - 1];
 
-        string timeOnly = selected.Time.Split('-')[1].Trim();
+        DateTime filmDateTime = selected.Time;
 
-        if (!TimeSpan.TryParse(timeOnly, out TimeSpan filmTime))
-        {
-            Console.WriteLine("Could not parse film time.");
-            Console.ReadKey();
-            return;
-        }
-
-        TimeSpan now = DateTime.Now.TimeOfDay;
-        if (filmTime <= now || (filmTime - now).TotalHours < 2)
+        if (filmDateTime <= DateTime.Now || (filmDateTime - DateTime.Now).TotalHours < 2)
         {
             Console.WriteLine("Cancellation not allowed. Film starts in less than 2 hours or has already passed.");
             Console.ReadKey();
             return;
         }
 
-        ticketsAccess.Delete(selected.Id);
+        ticketsAccess.CancelTicket(selected.Id);
         Console.WriteLine("\nTicket cancelled successfully.");
         Console.ReadKey();
     }
-    public List<string> ReservedTickets(string hall, string time)
+    public List<string> ReservedTickets(string hall, DateTime time)
     {
         TicketsAccess acces = new TicketsAccess();
         List<Ticket> AllTickets = acces.GetTickets();
