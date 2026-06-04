@@ -3,7 +3,8 @@ using Dapper;
 
 public class TicketsAccess
 {
-    private SqliteConnection _connection = new SqliteConnection("Data Source=DataSources/project.db");
+    private SqliteConnection _connection = new SqliteConnection(
+        $"Data Source={Path.Combine(AppContext.BaseDirectory, "DataSources", "project.db")}");
     private string Table = "Tickets";
 
     public TicketsAccess() { }
@@ -30,5 +31,25 @@ public class TicketsAccess
                      $"seats AS Seats, total_price AS TotalPrice, email AS Email " +
                      $"FROM {Table} WHERE email = @Email";
         return _connection.Query<Ticket>(sql, new { Email = email }).ToList();
+    }
+
+        public void Delete(int id)
+    {
+        string sql = $"DELETE FROM {Table} WHERE id = @Id";
+        _connection.Execute(sql, new { Id = id });
+    }
+
+    public List<Ticket> GetAll()
+    {
+        string sql = $"SELECT id AS Id, film_name AS FilmName, hall AS Hall, time AS Time, " +
+                    $"seats AS Seats, total_price AS TotalPrice, email AS Email " +
+                    $"FROM {Table}";
+        return _connection.Query<Ticket>(sql).ToList();
+    }
+    public List<Ticket> GetTickets()
+    {
+        string sql = $"SELECT film_name AS FilmName, hall AS Hall, time AS Time, seats AS Seats FROM {Table}";
+                        
+        return _connection.Query<Ticket>(sql).ToList();
     }
 }

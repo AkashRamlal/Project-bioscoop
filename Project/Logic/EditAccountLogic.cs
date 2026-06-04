@@ -30,4 +30,13 @@ public static class EditAccountLogic
 
         _access.Update(acc);
     }
+
+    public static void EditDiet(AccountModel acc, string? allergies, string? dietaryNeeds, string? comments)
+    {
+        acc.Allergie = allergies;
+        acc.Dieet = dietaryNeeds;
+        acc.Opmerkingen = comments;
+
+        _access.Update(acc);
+    }
 }

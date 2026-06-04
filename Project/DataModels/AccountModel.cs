@@ -1,4 +1,4 @@
-﻿public class AccountModel : IAccount
+﻿﻿public class AccountModel : IAccount
 {
 
     public Int64 Id { get; set; }
@@ -15,6 +15,9 @@
     public string? Email { get; set; }
 
     public string Password { get; set; }
+    public string? Allergie { get; set; } = null;
+    public string? Dieet { get; set; } = null;
+    public string? Opmerkingen { get; set; } = null;
 
     
 
@@ -35,6 +38,3 @@
 
 
 }
-
-
-
