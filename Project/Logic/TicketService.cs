@@ -1,4 +1,3 @@
-// LAYER: Logic
 public class TicketService
 {
 

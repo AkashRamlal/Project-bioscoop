@@ -3,89 +3,199 @@ using System.Runtime.CompilerServices;
 public static class Menu
 {
     public static void Start(AccountModel acc)
-{
-    FilmAccess filmAccess = new FilmAccess();
-    List<FilmModel> films = filmAccess.GetAll();
-
-
-    TicketsAccess ticketAccess = new TicketsAccess();
-
-    bool inMenu = true;
-
-    while (inMenu)
     {
-        string choice = ShowMenu(acc);
+        FilmAccess filmAccess = new FilmAccess();
+        List<FilmModel> films = filmAccess.GetAll();
 
-        Console.Clear();
+        TicketService ticketService = new TicketService();
+        MovieService movieService = new MovieService();
 
-        switch (choice)
+        bool inMenu = true;
+
+        while (inMenu)
         {
-            case "Movie theatre info":
-                TheatreInfo.Print();
-                break;
+            string choice = ShowMenu(acc);
 
-            case "View movies":
-                Movie.Movies.Clear();
-                Movie.MoviesDict.Clear();
-                foreach(var movie in films)
-                {
-                    new Movie(movie.Naam, new List<string> {"12:00 Auditorium 1", "15:00 Auditorium 2", "20:00 Auditorium 3"});
-                }
-                string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
-                List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
-                string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
-                
-                // hall1.StartSelection();
-                // var paymentUI = new PaymentUI(true);
-                // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
-                break;
+            Console.Clear();
 
-            case "Your tickets":
-                Console.WriteLine("Your tickets:\n");
-                foreach (var ticket in ticketAccess.GetByAccount(acc.Email))
-                {
-                    Console.WriteLine($"Film: {ticket.FilmName}");
-                    Console.WriteLine($"Hall: {ticket.Hall}");
-                    Console.WriteLine($"Time: {ticket.Time}");
-                    Console.WriteLine($"Seats: {ticket.Seats}");
-                    Console.WriteLine();
-                }
-                break;
+            switch (choice)
+            {
+                case "Movie theatre info":
+                    TheatreInfo.Print();
+                    break;
 
-            case "Edit account information":
-                EditAccount.Start(acc);
-                break;
+                case "View movies":
+                    List<Movie> movies = new();
 
-            case "Create film":
-                CreateFilm.Start();
-                break;
+                    foreach (var film in films)
+                    {
+                        movies.Add(new Movie(
+                            film.Naam,
+                            new List<MovieShowing>
+                            {
+                                new MovieShowing
+                                {
+                                    StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                    Auditorium = "Auditorium 1",
+                                    IsDinnerEvent = false
+                                },
+                                new MovieShowing
+                                {
+                                    StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                    Auditorium = "Auditorium 1",
+                                    IsDinnerEvent = true
+                                }
+                            }
+                        ));
+                    }
 
-            case "Manage films":
-                Console.WriteLine("Placeholder");
-                break;
+                    while (true)
+                    {
+                        Movie selectedMovie = MovieSelector.SelectMovie(movies);
 
-            case "Manage tickets":
-                Console.WriteLine("Placeholder");
-                break;
+                        FilmModel selectedFilm =
+                            films.First(f => f.Naam == selectedMovie.Title);
 
-            case "Create employee":
-                CreateEmployee.Start();
-                break;
+                        bool continueFlow =
+                            ViewMovies.PrintMovie(selectedFilm);
 
-            case "Manage employees":
-                Console.WriteLine("Placeholder");
-                break;
+                        if (!continueFlow)
+                            continue;
 
-            case "Quit":
-                inMenu = false;
-                continue;
+                        MovieShowing selectedShowing =
+                            MovieSelector.SelectShowing(selectedMovie.Showings);
+
+                        movieService.RunAuditorium(
+                            selectedMovie,
+                            selectedShowing,
+                            acc);
+
+                        break;
+                    }
+
+                    break;
+
+                case "Your tickets":
+                    ticketService.ShowTickets(acc.Email);
+                    break;
+
+                case "Edit account information":
+                    EditAccount.Start(acc);
+                    break;
+
+                case "Create film":
+                    CreateFilm.Start();
+                    break;
+
+                case "Manage films":
+                    Console.WriteLine("Placeholder");
+                    break;
+
+                case "Manage tickets":
+                    Console.WriteLine("Placeholder");
+                    break;
+
+                case "Create employee":
+                    CreateEmployee.Start();
+                    break;
+
+                case "Manage employees":
+                    Console.WriteLine("Placeholder");
+                    break;
+
+                case "Quit":
+                    inMenu = false;
+                    continue;
+            }
+
+            Console.WriteLine("\nPress any key to return to menu...");
+            Console.ReadKey();
         }
-
-        Console.WriteLine("\nPress any key to return to menu...");
-        Console.ReadKey();
     }
-}
+
+    // Start for Guest
+    public static void Start()
+    {
+        FilmAccess filmAccess = new FilmAccess();
+        List<FilmModel> films = filmAccess.GetAll();
+
+        MovieService movieService = new MovieService();
+
+        bool inMenu = true;
+
+        while (inMenu)
+        {
+            string choice = ShowMenu();
+
+            Console.Clear();
+
+            switch (choice)
+            {
+                case "Movie theatre info":
+                    TheatreInfo.Print();
+                    break;
+
+                case "View movies":
+                    List<Movie> movies = new();
+
+                    foreach (var film in films)
+                    {
+                        movies.Add(new Movie(
+                            film.Naam,
+                            new List<MovieShowing>
+                            {
+                                new MovieShowing
+                                {
+                                    StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                    Auditorium = "Auditorium 1",
+                                    IsDinnerEvent = false
+                                },
+                                new MovieShowing
+                                {
+                                    StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                    Auditorium = "Auditorium 1",
+                                    IsDinnerEvent = true
+                                }
+                            }
+                        ));
+                    }
+
+                    while (true)
+                    {
+                        Movie selectedMovie = MovieSelector.SelectMovie(movies);
+
+                        FilmModel selectedFilm =
+                            films.First(f => f.Naam == selectedMovie.Title);
+
+                        bool continueFlow =
+                            ViewMovies.PrintMovie(selectedFilm);
+
+                        if (!continueFlow)
+                            continue;
+
+                        MovieShowing selectedShowing =
+                            MovieSelector.SelectShowing(selectedMovie.Showings);
+
+                        movieService.RunAuditorium(
+                            selectedMovie,
+                            selectedShowing,
+                            null);
+
+                        break;
+                    }
+
+                    break;
+
+                case "Quit":
+                    inMenu = false;
+                    continue;
+            }
+
+            Console.WriteLine("\nPress any key to return to menu...");
+            Console.ReadKey();
+        }
+    }
+
     public static string ShowMenu(AccountModel acc)
     {
         List<string> menuOptions = GetOptions(acc.Role);
@@ -115,70 +225,6 @@ public static class Menu
         } while (key != ConsoleKey.Enter);
 
         return menuOptions[selectedIndex];
-    }
-
-    // Start for Guest
-    public static void Start()
-    {
-
-        FilmAccess filmAccess = new FilmAccess();
-        List<FilmModel> films = filmAccess.GetAll();
-
-        bool inMenu = true;
-
-        while (inMenu)
-        {
-            string choice = ShowMenu();
-
-            Console.Clear();
-
-            switch (choice)
-            {
-                case "Movie theatre info":
-                    TheatreInfo.Print();
-                    break;
-
-                case "View movies":
-                Movie.Movies.Clear();
-                Movie.MoviesDict.Clear();
-                foreach(var movie in films)
-                {
-                    new Movie(movie.Naam, new List<string> {"12:00 Auditorium 1", "15:00 Auditorium 2", "20:00 Auditorium 3"});
-                }
-                string gekozenTitel = Movie.ArrowOptions(Movie.Movies);
-                List<string> beschikbareTijden = Movie.MoviesDict[gekozenTitel];
-                string gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
-                Movie.RunAuditorium(gekozenTitel, gekozenTijd, null);
-
-                    // hall1.StartSelection();
-                    // var paymentUI = new PaymentUI(false);
-                    // paymentUI.StartAsMember("filmName", "00:00", hallData, "luna@domain.com");
-                    break;
-
-                case "Your tickets":
-                    Console.WriteLine("Placeholder");
-                    break;
-
-                case "Manage films":
-                    Console.WriteLine("Placeholder");
-                    break;
-
-                case "Manage tickets":
-                    Console.WriteLine("Placeholder");
-                    break;
-
-                case "Manage employees":
-                    Console.WriteLine("Placeholder");
-                    break;
-
-                case "Quit":
-                    inMenu = false;
-                    continue;
-            }
-
-            Console.WriteLine("\nPress any key to return to menu...");
-            Console.ReadKey();
-        }
     }
 
     public static string ShowMenu()
@@ -214,20 +260,17 @@ public static class Menu
 
     public static List<string> GetOptions(Roles? role)
     {
-        List<string> options = [];
+        List<string> options = new();
 
-        // Guest
         options.Add("Movie theatre info");
         options.Add("View movies");
 
-        // Member
         if (role == Roles.Member || role == Roles.Employee || role == Roles.Admin)
         {
             options.Add("Your tickets");
             options.Add("Edit account information");
         }
 
-        // Employee
         if (role == Roles.Employee || role == Roles.Admin)
         {
             options.Add("Create film");
@@ -235,7 +278,6 @@ public static class Menu
             options.Add("Manage tickets");
         }
 
-        // Admin
         if (role == Roles.Admin)
         {
             options.Add("Create employee");

@@ -1,7 +1,5 @@
-// LAYER: Logic
 public class PaymentService
 {
-    // Returns true if payment was successful
     public bool ProcessPayment()
     {
         Console.Clear();
