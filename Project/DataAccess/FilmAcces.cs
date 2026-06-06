@@ -46,4 +46,10 @@ public class FilmAccess
         string sql = $"DELETE FROM {Table} WHERE id = @Id";
         _connection.Execute(sql, new { Id = film.Id });
     }
+
+    public List<FilmModel> SearchByTitle(string title)
+    {
+        string sql = $"SELECT * FROM {Table} WHERE naam LIKE @Title";
+        return _connection.Query<FilmModel>(sql, new { Title = $"%{title}%" }).ToList();
+    }
 }

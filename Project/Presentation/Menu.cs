@@ -74,6 +74,8 @@ public static class Menu
                     }
 
                     break;
+                
+                
 
                 case "Your tickets":
                     ticketService.ShowTickets(acc.Email);
@@ -89,6 +91,11 @@ public static class Menu
 
                 case "Manage films":
                     Console.WriteLine("Placeholder");
+                    break;
+
+                case "Search movies":
+                    SearchFilm searchFilm = new SearchFilm();
+                    searchFilm.Search();
                     break;
 
                 case "Manage tickets":
@@ -185,6 +192,7 @@ public static class Menu
                     }
 
                     break;
+                
 
                 case "Quit":
                     inMenu = false;
@@ -264,11 +272,13 @@ public static class Menu
 
         options.Add("Movie theatre info");
         options.Add("View movies");
+        options.Add("Search movies");
 
         if (role == Roles.Member || role == Roles.Employee || role == Roles.Admin)
         {
             options.Add("Your tickets");
             options.Add("Edit account information");
+            options.Add("Search movies");
         }
 
         if (role == Roles.Employee || role == Roles.Admin)
