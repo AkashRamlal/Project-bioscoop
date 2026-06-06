@@ -29,7 +29,7 @@ public class Auditorium
     }
 
 
-    public void StartSelection(string Title, string Time)
+    public Dictionary<string, Dictionary<string, decimal>> StartSelection(string Title, string Time)
     {
 
         while (_chooseSeat)
@@ -40,11 +40,32 @@ public class Auditorium
 
             if (resultaat != null)
             {
-                break; 
+                return resultaat;
             }
 
         }
+        return null;
     }
+
+    public void SetReservedSeats(List<string> reservedSeats)
+    {
+        foreach(string seat in reservedSeats)
+        {
+            var(r, c) = AToNum(seat);
+            if(_seats[r, c] != 0)
+            {
+                _seats[r, c] = 4;
+            }
+        }
+    }
+    public (int, int) AToNum(string seat)
+    {
+        char rowLetter = seat[0];
+        int seatNumber = int.Parse(seat.Substring(1));
+
+        return (rowLetter - 'A', seatNumber - 1);
+    }
+
 
     public void Display(string Title, string Time)
     {
@@ -110,8 +131,8 @@ public class Auditorium
         }
             Console.WriteLine();
             Console.WriteLine("                  SCREEN          ");
-            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");    
-            Console.WriteLine($"Movie: {Title} Time: {Time}");     
+            Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");  
+            Console.WriteLine($"Movie: {Title}\nTime: {Time}");     
             Console.WriteLine("Press B to chose a seat");
 
     }
@@ -162,7 +183,7 @@ public class Auditorium
                 Console.WriteLine($"You bought the seat(s): ");
                 foreach(var Seat in ReservedSeats[AuditoriumNumber])
                 {
-                    Console.WriteLine($" {Seat.Key} ${Seat.Value}");
+                    Console.WriteLine($" {Seat.Key}");
                 }
                 
 

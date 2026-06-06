@@ -1,9 +1,8 @@
-// LAYER: Logic
 public class PaymentService
 {
-    // Returns true if payment was successful
     public bool ProcessPayment()
     {
+        Console.Clear();
         Console.WriteLine("\n========== PAYMENT ==========");
         Console.WriteLine("Choose a payment method:");
         Console.WriteLine("  1. iDEAL");
@@ -26,6 +25,7 @@ public class PaymentService
 
     private bool ProcessIDeal()
     {
+        Console.Clear();
         Console.WriteLine("\n-- iDEAL Payment --");
         Console.WriteLine("Select your bank:");
         Console.WriteLine("  1. ABN AMRO");
@@ -51,6 +51,7 @@ public class PaymentService
 
     private bool ProcessPayPal()
     {
+        Console.Clear();
         Console.WriteLine("\n-- PayPal Payment --");
         Console.Write("Enter your PayPal email: ");
         string email = Console.ReadLine()?.Trim() ?? "";

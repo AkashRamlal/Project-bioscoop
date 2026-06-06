@@ -1,37 +1,32 @@
 // LAYER: Logic (Model)
+
 public class Ticket
 {
-    private static int _reservationCounter = 0;
-
-    // Call this once at app startup if you want to set a starting number
-    public static void SetCounter(int lastNumber)
-    {
-        _reservationCounter = lastNumber;
-    }
-
-    public int ReservationNumber { get; private set; }
+    public int Id { get; set; } = 0;
     public string FilmName { get; set; } = "";
     public string Hall { get; set; } = "";
     public string Time { get; set; } = "";
     public string Seats { get; set; } = "";
     public decimal TotalPrice { get; set; }
+    public string Email { get; set; } = "";
 
-    public Ticket(string filmName, string hall, string time, string seats, decimal totalPrice)
+    public Ticket() { } // For Dapper
+
+    public Ticket(string filmName, string hall, string time, string seats, decimal totalPrice, string email)
     {
-        ReservationNumber = ++_reservationCounter;
         FilmName = filmName;
         Hall = hall;
         Time = time;
         Seats = seats;
         TotalPrice = totalPrice;
+        Email = email;
     }
-
     public string PrintTicket()
     {
         int width = 60;
         string border = new string('*', width);
 
-        string resLine   = $"Reservation #: {ReservationNumber}".PadRight(width - 4);
+        string resLine   = $"Reservation #: {Id}".PadRight(width - 4);
         string filmLine  = $"Film: {FilmName}".PadRight(width - 4);
         string hallLine  = $"Hall: {Hall}".PadRight(width - 4);
         string timeLine  = $"Time: {Time}".PadRight(width - 4);
@@ -49,4 +44,5 @@ public class Ticket
 
         return ticket;
     }
+    
 }

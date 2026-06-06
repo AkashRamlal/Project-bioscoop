@@ -1,0 +1,9 @@
+-- database: ./project.db
+
+CREATE TABLE IF NOT EXISTS MovieShowings (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    film_id         INTEGER NOT NULL,
+    start_time      TEXT NOT NULL,
+    auditorium      TEXT NOT NULL,
+    is_dinner_event INTEGER NOT NULL
+);

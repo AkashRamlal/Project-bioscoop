@@ -1,12 +1,15 @@
+using System.Runtime.CompilerServices;
+
 public static class Menu
 {
     public static void Start(AccountModel acc)
 {
-    Auditorium hall1 = new Auditorium("Auditorium 1");
+    FilmAccess filmAccess = new FilmAccess();
+    List<FilmModel> films = filmAccess.GetAll();
 
-    Dictionary<string, Dictionary<string, decimal>> hallData = new Dictionary<string, Dictionary<string, decimal>> {
-        { "Hall 1", new Dictionary<string, decimal> { { "A3", 10.00m }, { "B5", 12.50m } } }
-    };
+
+    TicketsAccess ticketAccess = new TicketsAccess();
+    TicketService ticketService = new TicketService();
 
     bool inMenu = true;
 
@@ -23,12 +26,47 @@ public static class Menu
                 break;
 
             case "View movies":
-                hall1.StartSelection();
-                PaymentUI.Start("filmName", "00:00", hallData);
-                break;
+                Movie.Movies.Clear();
+                    foreach(var movie in films)
+                    {
+                        new Movie(movie.Naam, new List<MovieShowing>
+                        {
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                Auditorium = "Auditorium 1",
+                                IsDinnerEvent = false
+                            },
+
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                Auditorium = "Auditorium 1",
+                                IsDinnerEvent = true
+                            }
+                        });
+                    }
+                    
+                    while(true)
+                    {
+                        Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
+
+                        FilmModel chosedMovie = films.First(f => f.Naam == gekozenTitel.Title); 
+                        bool goFurther = ViewMovies.PrintMovie(chosedMovie);
+
+                        if(!goFurther) // user drukt op R en kiest opnieuw de movie
+                        {
+                            continue;
+                        }
+                        List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
+                        MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                        Movie.RunAuditorium(gekozenTitel, gekozenTijd, acc);
+                        break;
+                    }
+                    break;
 
             case "Your tickets":
-                Console.WriteLine("Placeholder");
+                ticketService.ShowTickets(acc.Email);
                 break;
 
             case "Edit account information":
@@ -40,19 +78,19 @@ public static class Menu
                 break;
 
             case "Manage films":
-                Console.WriteLine("Placeholder");
+                ManageFilms.Show();
                 break;
 
             case "Manage tickets":
-                Console.WriteLine("Placeholder");
+                ticketService.ShowAllTickets();
                 break;
 
             case "Create employee":
-                RegisterUser.Start();
+                CreateEmployee.Start();
                 break;
 
             case "Manage employees":
-                Console.WriteLine("Placeholder");
+                ManageEmployee.Display();
                 break;
 
             case "Quit":
@@ -98,11 +136,9 @@ public static class Menu
     // Start for Guest
     public static void Start()
     {
-        Auditorium hall1 = new Auditorium("Auditorium 1");
 
-        Dictionary<string, Dictionary<string, decimal>> hallData = new Dictionary<string, Dictionary<string, decimal>> {
-            { "Hall 1", new Dictionary<string, decimal> { { "A3", 10.00m }, { "B5", 12.50m } } }
-        };
+        FilmAccess filmAccess = new FilmAccess();
+        List<FilmModel> films = filmAccess.GetAll();
 
         bool inMenu = true;
 
@@ -119,8 +155,42 @@ public static class Menu
                     break;
 
                 case "View movies":
-                    hall1.StartSelection();
-                    PaymentUI.Start("filmName", "00:00", hallData);
+                    Movie.Movies.Clear();
+                    foreach(var movie in films)
+                    {
+                        new Movie(movie.Naam, new List<MovieShowing>
+                        {
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                Auditorium = "Auditorium 2",
+                                IsDinnerEvent = false
+                            },
+
+                            new MovieShowing
+                            {
+                                StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                Auditorium = "Auditorium 1",
+                                IsDinnerEvent = true
+                            }
+                        });
+                    }
+                    while(true)
+                    {
+                        Movie gekozenTitel = Movie.ArrowOptions(Movie.Movies);
+
+                        FilmModel chosedMovie = films.First(f => f.Naam == gekozenTitel.Title); 
+                        bool goFurther = ViewMovies.PrintMovie(chosedMovie);
+
+                        if(!goFurther) // user drukt op R en kiest opnieuw de movie
+                        {
+                            continue;
+                        }
+                        List<MovieShowing> beschikbareTijden = gekozenTitel.Showings;
+                        MovieShowing gekozenTijd = Movie.ArrowOptions(beschikbareTijden);
+                        Movie.RunAuditorium(gekozenTitel, gekozenTijd, null);
+                        break;
+                    };
                     break;
 
                 case "Your tickets":
@@ -180,19 +250,20 @@ public static class Menu
         return menuOptions[selectedIndex];
     }
 
-    private static List<string> GetOptions(Roles? role)
+    public static List<string> GetOptions(Roles? role)
     {
         List<string> options = [];
 
         // Guest
         options.Add("Movie theatre info");
         options.Add("View movies");
-        options.Add("Your tickets");
 
         // Member
         if (role == Roles.Member || role == Roles.Employee || role == Roles.Admin)
-        options.Add("Edit account information");
-        
+        {
+            options.Add("Your tickets");
+            options.Add("Edit account information");
+        }
 
         // Employee
         if (role == Roles.Employee || role == Roles.Admin)
