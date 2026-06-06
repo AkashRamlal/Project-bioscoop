@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Auditorium
 {
 
-    private int[,] _seats;
+    public int[,] _seats;
     private int _cursorVertical;
     private int _cursorHorizontal;
     private bool _chooseSeat;
@@ -264,7 +264,7 @@ public class Auditorium
             ReservedSeats[showKey][seatKey] = 14.00M;
     }
 
-    private int[,] GenerateLayout(string auditoriumNumber)// 
+    public int[,] GenerateLayout(string auditoriumNumber)// 
     {
         int[,] layout;
         if (auditoriumNumber == "Auditorium 1")
