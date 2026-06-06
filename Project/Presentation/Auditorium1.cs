@@ -29,24 +29,50 @@ public class Auditorium
     }
 
 
-    public Dictionary<string, Dictionary<string, decimal>> StartSelection(string Title, string Time)
+    public Dictionary<string, decimal> StartSelection(string title, string time)
     {
-
+        string showKey = $"{title}-{time}-{AuditoriumNumber}";
+        if(!ReservedSeats.ContainsKey(showKey))
+        {
+            ReservedSeats[showKey] = new Dictionary<string, decimal>();
+        }
+        SetReservedSeats(ReservedSeats[showKey].Keys.ToList());
         while (_chooseSeat)
         {
 
-            Display(Title, Time);  
-            var resultaat = HandleInput();
+            Display(title, time);  
+            var resultaat = HandleInput(showKey);
 
             if (resultaat != null)
             {
-                return resultaat;
+                return resultaat; //{"A5" = 11, "A2" = 12}
+                
             }
 
         }
         return null;
     }
-
+    public void Cancelticket(List<string> cancelledTickets, string showkey)
+    {
+        decimal price = 0;
+        foreach(string seat in cancelledTickets)
+        {
+            var(r,c) = AToNum(seat);
+            if(ReservedSeats[showkey].ContainsKey(seat))
+            {
+                price = ReservedSeats[showkey][seat];
+                if (price == 11.00M)
+                    _seats[r, c] = 1;
+                else if (price == 12.00M)
+                    _seats[r, c] = 2;
+                else if (price == 14.00M)
+                    _seats[r, c] = 3;
+                ReservedSeats[showkey].Remove(seat);
+                
+            }
+        }
+        
+    }
     public void SetReservedSeats(List<string> reservedSeats)
     {
         foreach(string seat in reservedSeats)
@@ -139,26 +165,26 @@ public class Auditorium
 
 
 
-    public Dictionary<string, Dictionary<string, decimal>>  HandleInput()
+    public Dictionary<string, decimal>  HandleInput(string showKey)
     {
             // <Auditorium1, <SeatNumber, Price>>
         var key = Console.ReadKey(true).Key;
-        int ChosenSeat = 0;
+        int chosenSeat = 0;
 
-        if(ReservedSeats[AuditoriumNumber].Count >= 10)
+        if(ReservedSeats[showKey].Count >= 10)
         {
 
             _chooseSeat = false;
             Console.Clear();
             Console.WriteLine("You can't book more then 10 seats call the cinema");
             Console.WriteLine("You booked these seats: ");
-            foreach(var seat in ReservedSeats[AuditoriumNumber])
+            foreach(var seat in ReservedSeats[showKey])
             {
                 Console.WriteLine($" {seat.Key} ");
             }
             //Console.WriteLine("\nPress any key..."); 
             Console.ReadKey();
-            return ReservedSeats;
+            return ReservedSeats[showKey];
         }
 
         
@@ -169,11 +195,15 @@ public class Auditorium
             string seatKey = $"{kolomLetter}{rijNummer}";
 
 
-            ChosenSeat = _seats[_cursorVertical, _cursorHorizontal];
+            chosenSeat = _seats[_cursorVertical, _cursorHorizontal];
+            if (chosenSeat == 1) ReservedSeats[showKey][seatKey] = 11.00M;
+            else if (chosenSeat == 2) ReservedSeats[showKey][seatKey] = 12.00M;
+            else if (chosenSeat == 3) ReservedSeats[showKey][seatKey] = 14.00M;
 
-            AddingToDict(ChosenSeat, seatKey);
-            //  gekozen seat veranderen naar gereserveert
             _seats[_cursorVertical, _cursorHorizontal] = 4;
+
+            //return ReservedSeats[showKey];
+
             string Book  = BookMore();
 
             if (Book.StartsWith("N")) // gebruiker heeft genoeg plek(ken) besteld
@@ -181,7 +211,7 @@ public class Auditorium
                 _chooseSeat = false;
                 Console.Clear();
                 Console.WriteLine($"You bought the seat(s): ");
-                foreach(var Seat in ReservedSeats[AuditoriumNumber])
+                foreach(var Seat in ReservedSeats[showKey])
                 {
                     Console.WriteLine($" {Seat.Key}");
                 }
@@ -190,7 +220,7 @@ public class Auditorium
                 Console.ReadKey();
                 
 
-                return ReservedSeats;
+                return ReservedSeats[showKey];
             }
             else
             {
@@ -224,11 +254,14 @@ public class Auditorium
         return yn;
     }
    
-    public void AddingToDict(int ChosenSeat, string seatKey )
+    public void AddingToDict(int chosenSeat, string seatKey, string showKey)
     {
-        if(ChosenSeat == 1)ReservedSeats[AuditoriumNumber][seatKey] = 11.00M;
-        else if (ChosenSeat == 2) ReservedSeats[AuditoriumNumber][seatKey] = 12.00M;
-        else if (ChosenSeat == 3) ReservedSeats[AuditoriumNumber][seatKey] = 14.00M;
+        if (chosenSeat == 1)
+            ReservedSeats[showKey][seatKey] = 11.00M;
+        else if (chosenSeat == 2)
+            ReservedSeats[showKey][seatKey] = 12.00M;
+        else if (chosenSeat == 3)
+            ReservedSeats[showKey][seatKey] = 14.00M;
     }
 
     private int[,] GenerateLayout(string auditoriumNumber)// 

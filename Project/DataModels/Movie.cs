@@ -42,38 +42,40 @@ public class Movie
 
         Auditorium BookAuditorium = new(AuditoriumNumber);
         TicketService ticketService = new();
+        string time = ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm");
+        string showKey = $"{ChoosedMovie.Title}-{time}-{AuditoriumNumber}";
 
-        List<string> reservedSeats = ticketService.ReservedTickets(AuditoriumNumber, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"));
+
+        List<string> reservedSeats = ticketService.ReservedTickets(showKey);
         
         BookAuditorium.SetReservedSeats(reservedSeats);
 
         var dict = BookAuditorium.StartSelection(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"));
-
-        if (ChoosedTime.IsDinnerEvent)
+        if(dict != null)
         {
-            foreach (var innerDict in dict.Values)
+            if (ChoosedTime.IsDinnerEvent)
             {
-                foreach (var key in innerDict.Keys.ToList())
+                foreach (var key in dict.Keys.ToList())
                 {
-                    innerDict[key] += 50;
+                    dict[key] += 50;
                 }
             }
-        }
-        
-        if(dict!= null)
-        {
+
+            var paymentDict = new Dictionary<string, Dictionary<string, decimal>>();
+            paymentDict[showKey] = dict;
             if (acc != null)
             {
                 PaymentUI paymentUI = new PaymentUI(true);
-                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), dict, acc.Email);
+                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), paymentDict, acc.Email);
             }
             else
             {
                 PaymentUI paymentUI = new PaymentUI(false);
-                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), dict, null);
+                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), paymentDict, null);
             }
         }
-        
+
+    
     }
 
     public static Movie ArrowOptions(List<Movie> info)
