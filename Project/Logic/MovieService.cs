@@ -77,7 +77,7 @@ public class MovieService
     {
         PaymentUI paymentUI = new PaymentUI(account != null);
 
-        paymentUI.StartAsMember(
+        paymentUI.Start(
             movie.Title,
             showing.StartTime.ToString("dddd dd MMMM - HH:mm"),
             selectedSeats,

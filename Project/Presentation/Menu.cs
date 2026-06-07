@@ -7,7 +7,7 @@ public static class Menu
         FilmAccess filmAccess = new FilmAccess();
         List<FilmModel> films = filmAccess.GetAll();
 
-        TicketService ticketService = new TicketService();
+        TicketUI ticketUI = new TicketUI();
         MovieService movieService = new MovieService();
 
         bool inMenu = true;
@@ -74,11 +74,9 @@ public static class Menu
                     }
 
                     break;
-                
-                
 
                 case "Your tickets":
-                    ticketService.ShowTickets(acc.Email);
+                    ticketUI.ShowTickets(acc.Email);
                     break;
 
                 case "Edit account information":
@@ -99,7 +97,7 @@ public static class Menu
                     break;
 
                 case "Manage tickets":
-                    Console.WriteLine("Placeholder");
+                    ticketUI.ShowAllTickets();
                     break;
 
                 case "Create employee":
