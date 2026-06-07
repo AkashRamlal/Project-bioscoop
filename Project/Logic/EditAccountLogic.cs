@@ -39,4 +39,23 @@ public static class EditAccountLogic
 
         _access.Update(acc);
     }
+
+    public static void ForgotPassword(string email)
+    {
+        AccountModel acc = _access.GetByEmail(email);
+
+        if (acc == null)
+        {
+            Console.WriteLine("No account found with that email.");
+            return;
+        }
+
+        Console.WriteLine("Enter your new password:");
+        string newPassword = Console.ReadLine()!;
+
+        acc.Password = newPassword;
+        _access.Update(acc);
+
+        Console.WriteLine("Password has been changed successfully.");
+    }
 }
