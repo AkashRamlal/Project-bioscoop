@@ -162,7 +162,7 @@ public class TicketService
         Console.WriteLine("\nTicket cancelled successfully.");
         Console.ReadKey();
     }
-    public List<string> ReservedTickets(string hall, string time)
+    public List<string> ReservedTickets(string showKey)
     {
         TicketsAccess acces = new TicketsAccess();
         List<Ticket> AllTickets = acces.GetTickets();
@@ -170,9 +170,9 @@ public class TicketService
         List<string> reservedSeats = new();
         foreach(Ticket ticket in AllTickets)
         {
-            if(ticket.Hall == hall && ticket.Time == time)
+            if(ticket.Hall == showKey)
             {
-                reservedSeats.AddRange(ticket.Seats.Split(", ").Select(seat=>seat[..^9]));
+                reservedSeats.AddRange(ticket.Seats.Split(", ").Select(seat => seat.Split(" ")[0]));
 
                 // "A1 (€11,00), A2 (€11,00)"
                 // pak alles behalve de laatste 9 tekens

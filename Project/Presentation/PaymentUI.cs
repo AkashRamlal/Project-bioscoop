@@ -35,7 +35,8 @@ public class PaymentUI
 
         foreach (var hall in hallData)
         {
-            Console.WriteLine($"  Hall  : {hall.Key}");
+            string hallName = hall.Key;
+            Console.WriteLine($"  Hall  : {hallName.Substring(hallName.Length - 12)}");
             foreach (var seat in hall.Value)
             {
                 Console.WriteLine($"    Seat {seat.Key} — €{seat.Value:F2}");
