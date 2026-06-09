@@ -1,4 +1,4 @@
-﻿public class AccountModel : IAccount
+﻿﻿public class AccountModel : IAccount
 {
 
     public Int64 Id { get; set; }
@@ -38,6 +38,3 @@
 
 
 }
-
-
-
