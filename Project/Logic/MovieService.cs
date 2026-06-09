@@ -1,5 +1,16 @@
 public class MovieService
 {
+
+    private readonly AuditoriumService _auditoriumService;
+    private readonly AuditoriumConsoleView _auditoriumView;
+
+    public MovieService(
+        AuditoriumService auditoriumService,
+        AuditoriumConsoleView auditoriumView)
+    {
+        _auditoriumService = auditoriumService;
+        _auditoriumView = auditoriumView;
+    }
     public void RunAuditorium(
         Movie selectedMovie,
         MovieShowing selectedShowing,
@@ -7,7 +18,6 @@ public class MovieService
     {
         HandleDinnerEventInfo(selectedShowing, account);
 
-        Auditorium auditorium = new Auditorium(selectedShowing.Auditorium);
         TicketService ticketService = new TicketService();
 
         List<string> reservedSeats =
@@ -15,12 +25,26 @@ public class MovieService
                 selectedShowing.Auditorium,
                 selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
 
-        auditorium.SetReservedSeats(reservedSeats);
+        AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
+        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
+        AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
 
-        Dictionary<string, Dictionary<string, decimal>> selectedSeats =
-            auditorium.StartSelection(
+        AuditoriumModel auditorium =
+            auditoriumService.LoadAuditorium(selectedShowing.Auditorium);
+
+        auditoriumService.SetReservedSeats(auditorium, reservedSeats);
+
+        Reservation reservation =
+            auditoriumView.StartSelection(
+                auditorium,
                 selectedMovie.Title,
                 selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
+
+        Dictionary<string, Dictionary<string, decimal>> selectedSeats =
+            new Dictionary<string, Dictionary<string, decimal>>
+            {
+                { selectedShowing.Auditorium, reservation.Seats }
+            };
 
         ApplyDinnerEventPricing(selectedShowing, selectedSeats);
 

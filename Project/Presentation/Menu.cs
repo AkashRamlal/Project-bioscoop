@@ -8,7 +8,11 @@ public static class Menu
         List<FilmModel> films = filmAccess.GetAll();
 
         TicketUI ticketUI = new TicketUI();
-        MovieService movieService = new MovieService();
+        AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
+        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
+        AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
+
+        MovieService movieService = new MovieService(auditoriumService, auditoriumView);
 
         bool inMenu = true;
 
@@ -124,7 +128,10 @@ public static class Menu
         FilmAccess filmAccess = new FilmAccess();
         List<FilmModel> films = filmAccess.GetAll();
 
-        MovieService movieService = new MovieService();
+        AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
+        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
+        AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
+        MovieService movieService = new MovieService(auditoriumService, auditoriumView);
 
         bool inMenu = true;
 
