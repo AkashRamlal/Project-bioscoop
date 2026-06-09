@@ -43,7 +43,7 @@ public class Movie
         Auditorium BookAuditorium = new(AuditoriumNumber);
         TicketService ticketService = new();
 
-        List<string> reservedSeats = ticketService.ReservedTickets(AuditoriumNumber, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"));
+        List<string> reservedSeats = ticketService.ReservedTickets(AuditoriumNumber, ChoosedTime.StartTime);
         
         BookAuditorium.SetReservedSeats(reservedSeats);
 
@@ -65,12 +65,12 @@ public class Movie
             if (acc != null)
             {
                 PaymentUI paymentUI = new PaymentUI(true);
-                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), dict, acc.Email);
+                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime, dict, acc.Email);
             }
             else
             {
                 PaymentUI paymentUI = new PaymentUI(false);
-                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime.ToString("dddd dd MMMM - HH:mm"), dict, null);
+                paymentUI.StartAsMember(ChoosedMovie.Title, ChoosedTime.StartTime, dict, null);
             }
         }
         
