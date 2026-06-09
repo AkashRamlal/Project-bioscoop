@@ -52,10 +52,6 @@ static class RegisterUser
             account.Password = password ?? "";
 
             AccountsLogic logic = new AccountsLogic();
-            logic.Registermember(account);
-
-            
-        
-            
+            logic.RegisterMember(account);
         }
 }

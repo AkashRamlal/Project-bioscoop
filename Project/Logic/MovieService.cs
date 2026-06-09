@@ -10,21 +10,24 @@ public class MovieService
         Auditorium auditorium = new Auditorium(selectedShowing.Auditorium);
         TicketService ticketService = new TicketService();
 
+        string showKey = $"{selectedMovie.Title}-{selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm")}-{selectedShowing.Auditorium}";
+
         List<string> reservedSeats =
-            ticketService.ReservedTickets(
-                selectedShowing.Auditorium,
-                selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
+            ticketService.ReservedTickets(showKey);
+                
 
         auditorium.SetReservedSeats(reservedSeats);
 
-        Dictionary<string, Dictionary<string, decimal>> selectedSeats =
-            auditorium.StartSelection(
-                selectedMovie.Title,
-                selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
+        Dictionary<string, decimal> selectedSeats = auditorium.StartSelection(selectedMovie.Title, selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
+    
 
         ApplyDinnerEventPricing(selectedShowing, selectedSeats);
+        
+        var paymentDict = new Dictionary<string, Dictionary<string, decimal>>();
+        paymentDict[showKey] = selectedSeats;
 
-        ProcessPayment(selectedMovie, selectedShowing, selectedSeats, account);
+        ProcessPayment(selectedMovie, selectedShowing, paymentDict, account);
+
     }
 
     private void HandleDinnerEventInfo(
@@ -55,17 +58,15 @@ public class MovieService
 
     private void ApplyDinnerEventPricing(
         MovieShowing showing,
-        Dictionary<string, Dictionary<string, decimal>> selectedSeats)
+        Dictionary<string, decimal> selectedSeats)
     {
         if (!showing.IsDinnerEvent)
             return;
 
-        foreach (var innerDict in selectedSeats.Values)
+
+        foreach (var key in selectedSeats.Keys.ToList())
         {
-            foreach (var key in innerDict.Keys.ToList())
-            {
-                innerDict[key] += 50m;
-            }
+            selectedSeats[key] += 50m;
         }
     }
 
