@@ -22,37 +22,26 @@ public class MovieService
 
         string showKey = $"{selectedMovie.Title}-{selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm")}-{selectedShowing.Auditorium}";
 
-        List<string> reservedSeats =
-            ticketService.ReservedTickets(showKey);
-                
+        List<string> reservedSeats =ticketService.ReservedTickets(showKey);
+            
+            
 
-        AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
-        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
-        AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
 
-        Dictionary<string, decimal> selectedSeats = auditorium.StartSelection(selectedMovie.Title, selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
-    
-        AuditoriumModel auditorium =
-            auditoriumService.LoadAuditorium(selectedShowing.Auditorium);
+        AuditoriumModel auditorium = _auditoriumService.LoadAuditorium(selectedShowing.Auditorium);
+            
 
-        auditoriumService.SetReservedSeats(auditorium, reservedSeats);
+        _auditoriumService.SetReservedSeats(auditorium, reservedSeats);
 
         Reservation reservation =
-            auditoriumView.StartSelection(
+            _auditoriumView.StartSelection(
                 auditorium,
                 selectedMovie.Title,
                 selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
 
-        Dictionary<string, Dictionary<string, decimal>> selectedSeats =
-            new Dictionary<string, Dictionary<string, decimal>>
-            {
-                { selectedShowing.Auditorium, reservation.Seats }
-            };
-
-        ApplyDinnerEventPricing(selectedShowing, selectedSeats);
+        ApplyDinnerEventPricing(selectedShowing, reservation.Seats);
         
         var paymentDict = new Dictionary<string, Dictionary<string, decimal>>();
-        paymentDict[showKey] = selectedSeats;
+        paymentDict[showKey] = reservation.Seats;
 
         ProcessPayment(selectedMovie, selectedShowing, paymentDict, account);
 

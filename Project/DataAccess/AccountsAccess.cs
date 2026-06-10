@@ -36,11 +36,7 @@ public class AccountsAccess
         return _connection.Query<AccountModel>(sql).ToList();
     }
 
-    public List<AccountModel> GetAllEmployees()
-    {
-        string sql = $"SELECT * FROM {Table} WHERE role = 'Employee'";
-        return _connection.Query<AccountModel>(sql).ToList();
-    }
+
 
     public void Update(AccountModel account)
     {

@@ -4,4 +4,6 @@ public class Reservation
 {
     public string AuditoriumNumber { get; set; }
     public Dictionary<string, decimal> Seats { get; set; } = new();
+
+    public string Showkey {get; set;}
 }

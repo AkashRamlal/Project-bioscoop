@@ -3,81 +3,100 @@ namespace UnitTests;
 [TestClass]
 public class AuditoriumTests
 {
+    private AuditoriumService CreateService()
+    {
+        AuditoriumRepository repository = new AuditoriumRepository();
+        return new AuditoriumService(repository);
+    }
+
     [TestMethod]
     public void CancelTicketRemoveFromDict()
     {
-        //Arange
-        Auditorium auditorium = new Auditorium("Auditorium 1");
-        string showKey = "Movie-Friday 29 May - 12:00-Auditorium 1";
+        // Arrange
+        AuditoriumService service = CreateService();
+        AuditoriumModel auditorium = service.LoadAuditorium("Auditorium 1");
 
-        auditorium.ReservedSeats[showKey] = new Dictionary<string, decimal>();
-        auditorium.ReservedSeats[showKey]["A1"] = 11.00M;
+        Reservation reservation = new Reservation
+        {
+            AuditoriumNumber = "Auditorium 1",
+            Showkey = "MaoZeDong-Friday 29 May - 12:00-Auditorium 1"
+        };
 
-        List<string> cancelledSeat = ["A1"];
+        reservation.Seats["E7"] = 12.00m;
+        auditorium.Seats[4, 6] = SeatType.Reserved;
+
+        List<string> cancelledSeats = ["E7"] ;
 
         // Act
-        auditorium.Cancelticket(cancelledSeat, showKey);
+        service.Cancelticket(auditorium, reservation, cancelledSeats);
 
         // Assert
-        Assert.IsFalse(auditorium.ReservedSeats[showKey].ContainsKey("A1"));
-
-
+        Assert.IsFalse(reservation.Seats.ContainsKey("E7"));
+        Assert.AreEqual(SeatType.Comfort, auditorium.Seats[4, 6]);
     }
 
     [TestMethod]
     public void TestSetReservedSeats()
     {
-        // Arange
-        Auditorium auditorium = new Auditorium("Auditorium 1");
+        // Arrange
+        AuditoriumService service = CreateService();
+        AuditoriumModel auditorium = service.LoadAuditorium("Auditorium 1");
 
         List<string> seats = ["E7"];
 
         // Act
-        auditorium.SetReservedSeats(seats);
-        //Assert
-        Assert.AreEqual(4, auditorium._seats[4, 6]);
+        service.SetReservedSeats(auditorium, seats);
+
+        // Assert
+        Assert.AreEqual(SeatType.Reserved, auditorium.Seats[4, 6]);
     }
 
     [TestMethod]
-
-    public void TestAToNUM()
+    public void TestSeatToIndexes()
     {
-        // arrange
-        Auditorium auditorium = new Auditorium("Auditorium 1");
+        // Arrange
+        AuditoriumService service = CreateService();
         string seat = "E4";
 
         // Act
-        var final = auditorium.AToNum(seat);
+        var final = service.SeatToIndexes(seat);
 
         // Assert
         Assert.AreEqual((4, 3), final);
     }
 
     [TestMethod]
-    public void TestLayout()// niet via de method maar via innstrutor
+    public void TestLayout()
     {
         // Arrange
-        Auditorium auditorium = new("Auditorium 1");
+        AuditoriumService service = CreateService();
+
+        // Act
+        AuditoriumModel auditorium = service.LoadAuditorium("Auditorium 1");
 
         // Assert
-        Assert.AreEqual(14, auditorium._seats.GetLength(0));
-        Assert.AreEqual(12, auditorium._seats.GetLength(1));
+        Assert.AreEqual(14, auditorium.Seats.GetLength(0));
+        Assert.AreEqual(12, auditorium.Seats.GetLength(1));
     }
 
     [TestMethod]
-    public void TestAddingToDict()
+    public void TestBookSeatAddsToReservation()
     {
         // Arrange
-        Auditorium auditorium = new("Auditorium 1");
-        string showKey = "Movie-Friday 29 May - 12:00-Auditorium 1";
+        AuditoriumService service = CreateService();
+        AuditoriumModel auditorium = service.LoadAuditorium("Auditorium 1");
 
-        auditorium.ReservedSeats[showKey] = new Dictionary<string, decimal>();
+        Reservation reservation = new Reservation 
+        {
+            AuditoriumNumber = "Auditorium 1",
+            Showkey = "Movie-Friday 29 May - 12:00-Auditorium 1"
+        };
 
         // Act
-        auditorium.AddingToDict(1, "A1", showKey);
+        service.BookSeat(auditorium, reservation, 4, 6);
 
         // Assert
-        Assert.AreEqual(11.00M, auditorium.ReservedSeats[showKey]["A1"]);
-
+        Assert.AreEqual(12.00m, reservation.Seats["E7"]);
+        Assert.AreEqual(SeatType.Reserved, auditorium.Seats[4, 6]);
     }
 }
