@@ -9,7 +9,7 @@ public class TicketService
 
     public List<Ticket> CreateTickets(
         string filmName,
-        string time,
+        DateTime time,
         Dictionary<string, Dictionary<string, decimal>> hallData,
         string email)
     {
@@ -51,38 +51,22 @@ public class TicketService
 
     public bool CanCancelTicket(Ticket ticket)
     {
-        string[] parts = ticket.Time.Split('-');
+        DateTime filmDateTime = ticket.Date;
+        DateTime now = DateTime.Now;
 
-        if (parts.Length < 2)
-            return false;
-
-        string timeOnly = parts[1].Trim();
-
-        if (!TimeSpan.TryParse(timeOnly, out TimeSpan filmTime))
-            return false;
-
-        TimeSpan now = DateTime.Now.TimeOfDay;
-
-        return filmTime > now && (filmTime - now).TotalHours >= 2;
+        return filmDateTime > now && (filmDateTime - now).TotalHours >= 2;
     }
 
-    public List<string> ReservedTickets(string showKey)
+    public List<string> ReservedTickets(string filmName, DateTime date, string hall)
     {
-
-        TicketsAccess acces = new TicketsAccess();
         List<Ticket> allTickets = _ticketsAccess.GetTickets();
-
-
         List<string> reservedSeats = new();
 
         foreach (Ticket ticket in allTickets)
         {
-            if (ticket.Hall == showKey)
+            if (ticket.FilmName == filmName && ticket.Hall == hall && ticket.Date == date)
             {
                 reservedSeats.AddRange(ticket.Seats.Split(", ").Select(seat => seat.Split(" ")[0]));
-                    
-                        
-                        
             }
         }
 

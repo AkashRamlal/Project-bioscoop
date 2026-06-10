@@ -20,7 +20,7 @@ public class PaymentUI
 
     public void Start(
         string filmName,
-        string time,
+        DateTime time,
         Dictionary<string, Dictionary<string, decimal>> hallData,
         string? email)
     {
@@ -69,7 +69,7 @@ public class PaymentUI
 
     private void ShowCheckoutSummary(
         string filmName,
-        string time,
+        DateTime time,
         Dictionary<string, Dictionary<string, decimal>> hallData)
     {
         Console.Clear();
@@ -80,7 +80,7 @@ public class PaymentUI
 
         Console.WriteLine($"\nSummary:");
         Console.WriteLine($"  Film  : {filmName}");
-        Console.WriteLine($"  Time  : {time}");
+        Console.WriteLine($"  Time  : {time.ToString("yyyy-MM-dd HH:mm")}");
 
         decimal grandTotal = 0;
 
