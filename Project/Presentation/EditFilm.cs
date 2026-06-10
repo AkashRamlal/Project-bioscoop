@@ -2,8 +2,9 @@ public static class EditFilm
 {
     public static void Start()
     {
-        var filmAccess = new FilmAccess();
-        var films = filmAccess.GetAll();
+        FilmLogic filmLogic = new FilmLogic();
+
+        List<FilmModel> films = filmLogic.GetAllFilms();
 
         Console.WriteLine("Select a film to edit:");
         Console.WriteLine();
@@ -13,7 +14,7 @@ public static class EditFilm
 
         Console.WriteLine(new string('-', 110));
 
-        foreach (var film in films)
+        foreach (FilmModel film in films)
         {
             Console.WriteLine("{0,-5} {1,-20} {2,-20} {3,-15} {4,-15} {5,-30}",
                 film.Id,
@@ -33,7 +34,7 @@ public static class EditFilm
             return;
         }
 
-        var selectedFilm = films.FirstOrDefault(f => f.Id == filmId);
+        FilmModel? selectedFilm = filmLogic.GetFilmById(filmId);
 
         if (selectedFilm == null)
         {
@@ -43,50 +44,60 @@ public static class EditFilm
 
         Console.WriteLine();
 
-        UpdateField($"Naam ({selectedFilm.Naam}): ", v => selectedFilm.Naam = v);
-        UpdateField($"Genre ({selectedFilm.Genre}): ", v => selectedFilm.Genre = v);
-        UpdateField($"Tijdsduur ({selectedFilm.Tijdsduur}): ", v => selectedFilm.Tijdsduur = v);
+        UpdateField($"Naam ({selectedFilm.Naam}): ",
+            value => selectedFilm.Naam = value);
 
+        UpdateField($"Genre ({selectedFilm.Genre}): ",
+            value => selectedFilm.Genre = value);
 
-        UpdateIntField(
-            $"Leeftijdsgrens ({selectedFilm.Leeftijdsgrens}): ",
-            v => selectedFilm.Leeftijdsgrens = v
-        );
+        UpdateField($"Tijdsduur ({selectedFilm.Tijdsduur}): ",
+            value => selectedFilm.Tijdsduur = value);
+
+        UpdateIntField($"Leeftijdsgrens ({selectedFilm.Leeftijdsgrens}): ",
+            value => selectedFilm.Leeftijdsgrens = value);
 
         Console.WriteLine($"Acteurs (current: {selectedFilm.Acteurs})");
         Console.Write("Do you want to edit actors? (y/n): ");
 
         if (Console.ReadLine()?.Trim().ToLower() == "y")
         {
-            var newActors = GetActorsAsString();
+            string newActors = GetActorsAsString();
 
             if (!string.IsNullOrWhiteSpace(newActors))
                 selectedFilm.Acteurs = newActors;
         }
 
-        UpdateField($"Regiseur ({selectedFilm.Regiseur}): ", v => selectedFilm.Regiseur = v);
+        UpdateField($"Regiseur ({selectedFilm.Regiseur}): ",
+            value => selectedFilm.Regiseur = value);
 
-        filmAccess.Update(selectedFilm);
+        try
+        {
+            filmLogic.UpdateFilm(selectedFilm);
 
-        Console.WriteLine();
-        Console.WriteLine($"Film '{selectedFilm.Naam}' has been updated.");
+            Console.WriteLine();
+            Console.WriteLine($"Film '{selectedFilm.Naam}' has been updated.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
     }
 
-    // string fields
     private static void UpdateField(string prompt, Action<string> setter)
     {
         Console.Write(prompt);
-        var input = Console.ReadLine();
+
+        string? input = Console.ReadLine();
 
         if (!string.IsNullOrWhiteSpace(input))
-            setter(input);
+            setter(input.Trim());
     }
 
-    // int fields (NEW)
     private static void UpdateIntField(string prompt, Action<int> setter)
     {
         Console.Write(prompt);
-        var input = Console.ReadLine();
+
+        string? input = Console.ReadLine();
 
         if (string.IsNullOrWhiteSpace(input))
             return;
@@ -104,12 +115,12 @@ public static class EditFilm
     private static string GetActorsAsString()
     {
         List<string> actors = new List<string>();
-        string? input;
 
         while (true)
         {
             Console.Write("Actor (type 'done' to stop): ");
-            input = Console.ReadLine()?.Trim();
+
+            string? input = Console.ReadLine()?.Trim();
 
             if (string.IsNullOrEmpty(input))
                 continue;

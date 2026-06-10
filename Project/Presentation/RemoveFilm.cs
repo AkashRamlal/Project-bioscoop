@@ -2,32 +2,63 @@ public static class RemoveFilm
 {
     public static void Start()
     {
-        var films = new FilmAccess().GetAll();
-        Console.WriteLine("Select a film to delete:");
+        FilmLogic filmLogic = new FilmLogic();
 
-        Console.WriteLine("{0,-5} {1,-20} {2,-20} {3,-15} {4,-15} {5,-30}","ID", "Naam", "Genre", "Tijdsduur", "Leeftijdsgrens", "Acteurs");
+        List<FilmModel> films = filmLogic.GetAllFilms();
+
+        Console.WriteLine("Select a film to delete:");
+        Console.WriteLine();
+
+        Console.WriteLine("{0,-5} {1,-20} {2,-20} {3,-15} {4,-15} {5,-30}",
+            "ID", "Naam", "Genre", "Tijdsduur", "Leeftijdsgrens", "Acteurs");
+
         Console.WriteLine(new string('-', 110));
-        for (int i = 0; i < films.Count; i++)
+
+        foreach (FilmModel film in films)
         {
             Console.WriteLine("{0,-5} {1,-20} {2,-20} {3,-15} {4,-15} {5,-30}",
-                films[i].Id,
-                films[i].Naam,
-                films[i].Genre,
-                films[i].Tijdsduur,
-                films[i].Leeftijdsgrens,
-                films[i].Acteurs);
+                film.Id,
+                film.Naam,
+                film.Genre,
+                film.Tijdsduur,
+                film.Leeftijdsgrens,
+                film.Acteurs);
         }
-        if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= films.Count)
+
+        Console.WriteLine();
+        Console.Write("Enter film ID to delete: ");
+
+        if (!int.TryParse(Console.ReadLine(), out int filmId))
         {
-            var selectedFilm = films[choice - 1];
-            new FilmAccess().Delete(selectedFilm);
+            Console.WriteLine("Invalid input.");
+            return;
+        }
+
+        FilmModel? selectedFilm = filmLogic.GetFilmById(filmId);
+
+        if (selectedFilm == null)
+        {
+            Console.WriteLine("Film not found.");
+            return;
+        }
+
+        Console.Write($"Are you sure you want to delete '{selectedFilm.Naam}'? (y/n): ");
+        string? confirm = Console.ReadLine()?.Trim().ToLower();
+
+        if (confirm != "y")
+        {
+            Console.WriteLine("Delete cancelled.");
+            return;
+        }
+
+        try
+        {
+            filmLogic.DeleteFilm(filmId);
             Console.WriteLine($"Film '{selectedFilm.Naam}' has been deleted.");
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Invalid selection. No film deleted.");
+            Console.WriteLine($"Error: {ex.Message}");
         }
-        
     }
-       
 }

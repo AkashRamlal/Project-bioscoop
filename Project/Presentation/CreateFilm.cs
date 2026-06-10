@@ -37,10 +37,9 @@ static class CreateFilm
         string acteurs = GetActorsAsString();
 
         // 👇 explicit types instead of var
-        FilmLogic logic = new FilmLogic();
-        FilmAccess access = new FilmAccess();
+        FilmLogic filmLogic = new FilmLogic();
 
-        FilmModel film = logic.CreateFilm(
+        FilmModel film = filmLogic.CreateFilm(
             naam,
             genre,
             tijdsduur,
@@ -49,7 +48,7 @@ static class CreateFilm
             regiseur
         );
 
-        access.Write(film);
+        filmLogic.AddFilm(film);
 
         Console.WriteLine("\n Film saved!");
     }
