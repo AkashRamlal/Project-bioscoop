@@ -27,15 +27,17 @@ public class AuditoriumService
             }
         }
     }
-
+//AuditoriumService auditoriumService = new AuditoriumService(_repository);
+// auditoriumService.CancelTicket(auditoriummodel, reservation, List<string> cancelled tickets);
     public bool CanBookSeat(AuditoriumModel auditorium, int row, int column)
     {
         return auditorium.Seats[row, column] != SeatType.Empty &&
                auditorium.Seats[row, column] != SeatType.Reserved;
     }
-    public void Cancelticket(AuditoriumModel auditorium, Reservation reservation, List<string> cancelledTickets)
+    public void Cancelticket(string auditoriumNum, Reservation reservation, List<string> cancelledTickets)
     {
         decimal price = 0;
+        AuditoriumModel auditorium = _repository.GetAuditorium(auditoriumNum);
         
         foreach(string seat in cancelledTickets)
         {
