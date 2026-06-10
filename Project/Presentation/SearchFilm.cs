@@ -73,9 +73,6 @@ public class SearchFilm
             case "Back":
                 return;
         }
-
-        Console.WriteLine("\nPress any key to continue...");
-        Console.ReadKey();
     }
 
     private string SelectSearchMethod()
