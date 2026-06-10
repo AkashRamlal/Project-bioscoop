@@ -1,4 +1,4 @@
-﻿﻿public class Program
+﻿public class Program
 {
     public static void Main()
     {
@@ -39,6 +39,6 @@
 
             if (key == ConsoleKey.Escape)
                 running = false;
-        }
+        }   
     }
 }
