@@ -60,11 +60,6 @@ static class ManageFilms
                     break;
             }
         }
-        else
-        {
-            Console.WriteLine("Invalid input. Returning to main menu.");
-        }
-        
     }
 }
     

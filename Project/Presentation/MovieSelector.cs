@@ -47,17 +47,16 @@ public static class MovieSelector
         int selectedIndex = 0;
         ConsoleKey key;
 
-        Console.WriteLine("Available dates and times:\n");
-
         do
         {
             Console.Clear();
+            Console.WriteLine("Available dates and times:\n");
 
             for (int i = 0; i < showings.Count; i++)
             {
                 string text = showings[i].IsDinnerEvent
-                    ? $"{showings[i].StartTime} - Dinner (+€50)"
-                    : $"{showings[i].StartTime}";
+                    ? $"{showings[i].Auditorium}: {showings[i].StartTime} - Dinner (+€50)"
+                    : $"{showings[i].Auditorium}: {showings[i].StartTime}";
 
                 if (i == selectedIndex)
                 {
