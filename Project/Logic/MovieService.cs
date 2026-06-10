@@ -20,35 +20,31 @@ public class MovieService
 
         TicketService ticketService = new TicketService();
 
-        List<string> reservedSeats =
-            ticketService.ReservedTickets(
-                selectedShowing.Auditorium,
-                selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
+        string showKey = $"{selectedMovie.Title}-{selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm")}-{selectedShowing.Auditorium}";
 
-        AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
-        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
-        AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
+        List<string> reservedSeats =ticketService.ReservedTickets(showKey);
+            
+            
 
-        AuditoriumModel auditorium =
-            auditoriumService.LoadAuditorium(selectedShowing.Auditorium);
 
-        auditoriumService.SetReservedSeats(auditorium, reservedSeats);
+        AuditoriumModel auditorium = _auditoriumService.LoadAuditorium(selectedShowing.Auditorium);
+            
+
+        _auditoriumService.SetReservedSeats(auditorium, reservedSeats);
 
         Reservation reservation =
-            auditoriumView.StartSelection(
+            _auditoriumView.StartSelection(
                 auditorium,
                 selectedMovie.Title,
                 selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
 
-        Dictionary<string, Dictionary<string, decimal>> selectedSeats =
-            new Dictionary<string, Dictionary<string, decimal>>
-            {
-                { selectedShowing.Auditorium, reservation.Seats }
-            };
+        ApplyDinnerEventPricing(selectedShowing, reservation.Seats);
+        
+        var paymentDict = new Dictionary<string, Dictionary<string, decimal>>();
+        paymentDict[showKey] = reservation.Seats;
 
-        ApplyDinnerEventPricing(selectedShowing, selectedSeats);
+        ProcessPayment(selectedMovie, selectedShowing, paymentDict, account);
 
-        ProcessPayment(selectedMovie, selectedShowing, selectedSeats, account);
     }
 
     private void HandleDinnerEventInfo(
@@ -79,17 +75,15 @@ public class MovieService
 
     private void ApplyDinnerEventPricing(
         MovieShowing showing,
-        Dictionary<string, Dictionary<string, decimal>> selectedSeats)
+        Dictionary<string, decimal> selectedSeats)
     {
         if (!showing.IsDinnerEvent)
             return;
 
-        foreach (var innerDict in selectedSeats.Values)
+
+        foreach (var key in selectedSeats.Keys.ToList())
         {
-            foreach (var key in innerDict.Keys.ToList())
-            {
-                innerDict[key] += 50m;
-            }
+            selectedSeats[key] += 50m;
         }
     }
 
