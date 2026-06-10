@@ -3,6 +3,7 @@
     public static void Main()
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
+        Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         bool running = true;
 
         FilmAccess filmAccess = new FilmAccess();

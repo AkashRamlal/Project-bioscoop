@@ -86,8 +86,8 @@ public static class Menu
                     CreateFilm.Start();
                     break;
 
-                case "Manage films":
-                    Console.WriteLine("Placeholder");
+                case "Create a new movie showing":
+                    MovieShowingCreator.CreateShowing(films);
                     break;
 
                 case "Search movies":
@@ -112,7 +112,7 @@ public static class Menu
                     continue;
             }
 
-            Console.WriteLine("\nPress any key to return to menu...");
+            Console.WriteLine("\nPress any key to return to main menu...");
             Console.ReadKey();
         }
     }
@@ -183,7 +183,7 @@ public static class Menu
                     continue;
             }
 
-            Console.WriteLine("\nPress any key to return to menu...");
+            Console.WriteLine("\nPress any key to return to main menu...");
             Console.ReadKey();
         }
     }
@@ -268,7 +268,7 @@ public static class Menu
         if (role == Roles.Employee || role == Roles.Admin)
         {
             options.Add("Create film");
-            options.Add("Manage films");
+            options.Add("Create a new movie showing");
             options.Add("Manage tickets");
         }
 
