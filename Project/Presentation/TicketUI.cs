@@ -40,7 +40,7 @@ public class TicketUI
             Console.WriteLine();
         }
 
-        Console.Write("Enter 1 to cancel a ticket or 2 to change ticket date: ");
+        Console.Write("Enter 1 to cancel ticket or 2 to change ticket date/time: ");
         string answer = Console.ReadLine()?.Trim().ToLower() ?? "";
 
         if (answer != "1" && answer != "2")
@@ -85,7 +85,6 @@ public class TicketUI
                 Console.WriteLine("Change not allowed. Film starts in less than 2 hours or has already passed.");
             }
         }
-        Console.WriteLine("Press any key to go back...");
         Console.ReadKey();
     }
 }

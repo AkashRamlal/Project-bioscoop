@@ -134,10 +134,10 @@ public class TicketService
             MovieShowing selectedShowing =
                 MovieSelector.SelectShowing(selectedMovie.Showings);
 
-            movieService.RunAuditorium(
-                selectedMovie,
-                selectedShowing,
-                acc);
+            if (selectedShowing == null)
+                continue;
+
+            movieService.RunAuditorium(selectedMovie, selectedShowing, acc);
             break;
         }
         return true;
