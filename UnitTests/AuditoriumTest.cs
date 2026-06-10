@@ -28,7 +28,7 @@ public class AuditoriumTests
         List<string> cancelledSeats = ["E7"] ;
 
         // Act
-        service.Cancelticket(auditorium, reservation, cancelledSeats);
+        service.Cancelticket("Auditorium 1", reservation, cancelledSeats);
 
         // Assert
         Assert.IsFalse(reservation.Seats.ContainsKey("E7"));
