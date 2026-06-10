@@ -56,7 +56,9 @@ public static class Menu
                             continue;
 
                         MovieShowing selectedShowing =
-                            MovieSelector.SelectShowing(selectedMovie.Showings);
+                            MovieSelector.SelectShowing(selectedMovie.Showings
+                                    .Where(s => s.StartTime > DateTime.Now)
+                                    .ToList())!;
                         
                         if (selectedShowing == null)
                         {
@@ -155,7 +157,9 @@ public static class Menu
                             continue;
 
                         MovieShowing selectedShowing =
-                            MovieSelector.SelectShowing(selectedMovie.Showings);
+                            MovieSelector.SelectShowing(selectedMovie.Showings
+                                    .Where(s => s.StartTime > DateTime.Now)
+                                    .ToList())!;
                         
                         if (selectedShowing == null)
                         {
