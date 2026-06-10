@@ -88,36 +88,21 @@ public class TicketService
             return false;
         }
         _ticketsAccess.Delete(ticket.Id);
+        MovieShowingsAccess showingsAccess = new MovieShowingsAccess();
         List<Movie> movies = new();
         FilmAccess filmAccess = new FilmAccess();
         AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
         AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
         AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
         MovieService movieService = new MovieService(auditoriumService, auditoriumView);
+        
         List<FilmModel> films = filmAccess.SearchByTitle(ticket.FilmName);
         foreach (var film in films)
-                    {
-                        if (film.Naam != ticket.FilmName)
-                            continue;
-                        movies.Add(new Movie(
-                            film.Naam,
-                            new List<MovieShowing>
-                            {
-                                new MovieShowing
-                                {
-                                    StartTime = new DateTime(2026, 6, 29, 12, 0, 0),
-                                    Auditorium = "Auditorium 1",
-                                    IsDinnerEvent = false
-                                },
-                                new MovieShowing
-                                {
-                                    StartTime = new DateTime(2026, 6, 30, 20, 0, 0),
-                                    Auditorium = "Auditorium 1",
-                                    IsDinnerEvent = true
-                                }
-                            }
-                        ));
-                    }
+        {
+            List<MovieShowing> showings = showingsAccess.GetByFilmId(film.Id);
+
+            movies.Add(new Movie(film.Naam, showings));
+        }
         while (true)
         {
             Movie selectedMovie = MovieSelector.SelectMovie(movies);

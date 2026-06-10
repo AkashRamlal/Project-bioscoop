@@ -39,6 +39,6 @@
 
             if (key == ConsoleKey.Escape)
                 running = false;
-        }
+        }   
     }
 }
