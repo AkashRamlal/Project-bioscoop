@@ -2,18 +2,22 @@ using System.Runtime.CompilerServices;
 
 public static class Menu
 {
+
+        public static FilmAccess filmAccess = new FilmAccess();
+        public static List<FilmModel> films = filmAccess.GetAll();
+
+        public static MovieShowingsAccess showingsAccess = new MovieShowingsAccess();
+
+        public static TicketUI ticketUI = new TicketUI();
+        public static AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
+        public static AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
+        public static AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
+
+        public static MovieService movieService = new MovieService(auditoriumService, auditoriumView);
+
+    // Start for logged in user
     public static void Start(AccountModel acc)
     {
-        FilmAccess filmAccess = new FilmAccess();
-        List<FilmModel> films = filmAccess.GetAll();
-
-        TicketUI ticketUI = new TicketUI();
-        AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
-        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
-        AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
-
-        MovieService movieService = new MovieService(auditoriumService, auditoriumView);
-
         bool inMenu = true;
 
         while (inMenu)
@@ -33,24 +37,9 @@ public static class Menu
 
                     foreach (var film in films)
                     {
-                        movies.Add(new Movie(
-                            film.Naam,
-                            new List<MovieShowing>
-                            {
-                                new MovieShowing
-                                {
-                                    StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
-                                    Auditorium = "Auditorium 1",
-                                    IsDinnerEvent = false
-                                },
-                                new MovieShowing
-                                {
-                                    StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
-                                    Auditorium = "Auditorium 1",
-                                    IsDinnerEvent = true
-                                }
-                            }
-                        ));
+                        List<MovieShowing> showings = showingsAccess.GetByFilmId(film.Id);
+
+                        movies.Add(new Movie(film.Naam, showings));
                     }
 
                     while (true)
@@ -68,6 +57,12 @@ public static class Menu
 
                         MovieShowing selectedShowing =
                             MovieSelector.SelectShowing(selectedMovie.Showings);
+                        
+                        if (selectedShowing == null)
+                        {
+                            Console.WriteLine("Sorry! There are currently no screenings for this movie.");
+                            break;
+                        }
 
                         movieService.RunAuditorium(
                             selectedMovie,
@@ -79,7 +74,7 @@ public static class Menu
 
                     break;
 
-                case "Your tickets":
+                case "View your tickets":
                     ticketUI.ShowTickets(acc.Email);
                     break;
 
@@ -125,14 +120,6 @@ public static class Menu
     // Start for Guest
     public static void Start()
     {
-        FilmAccess filmAccess = new FilmAccess();
-        List<FilmModel> films = filmAccess.GetAll();
-
-        AuditoriumRepository auditoriumRepository = new AuditoriumRepository();
-        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
-        AuditoriumConsoleView auditoriumView = new AuditoriumConsoleView(auditoriumService);
-        MovieService movieService = new MovieService(auditoriumService, auditoriumView);
-
         bool inMenu = true;
 
         while (inMenu)
@@ -152,24 +139,9 @@ public static class Menu
 
                     foreach (var film in films)
                     {
-                        movies.Add(new Movie(
-                            film.Naam,
-                            new List<MovieShowing>
-                            {
-                                new MovieShowing
-                                {
-                                    StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
-                                    Auditorium = "Auditorium 1",
-                                    IsDinnerEvent = false
-                                },
-                                new MovieShowing
-                                {
-                                    StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
-                                    Auditorium = "Auditorium 1",
-                                    IsDinnerEvent = true
-                                }
-                            }
-                        ));
+                        List<MovieShowing> showings = showingsAccess.GetByFilmId(film.Id);
+
+                        movies.Add(new Movie(film.Naam, showings));
                     }
 
                     while (true)
@@ -187,6 +159,13 @@ public static class Menu
 
                         MovieShowing selectedShowing =
                             MovieSelector.SelectShowing(selectedMovie.Showings);
+                        
+                        if (selectedShowing == null)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Sorry! There are currently no screenings for this movie.");
+                            break;
+                        }
 
                         movieService.RunAuditorium(
                             selectedMovie,

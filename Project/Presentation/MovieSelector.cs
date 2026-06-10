@@ -36,8 +36,13 @@ public static class MovieSelector
         return movies[selectedIndex];
     }
 
-    public static MovieShowing SelectShowing(List<MovieShowing> showings)
+    public static MovieShowing? SelectShowing(List<MovieShowing> showings)
     {
+        if (showings == null || showings.Count == 0)
+        {
+            return null;
+        }
+
         int selectedIndex = 0;
         ConsoleKey key;
 
