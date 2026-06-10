@@ -55,8 +55,6 @@ static class ManageEmployee
         {
             Console.WriteLine("Invalid input. Returning to main menu.");
         }
-        Console.WriteLine("Press any key to return to the main menu...");
-        Console.ReadKey(true);
 
         
         

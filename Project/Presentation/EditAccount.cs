@@ -31,14 +31,14 @@ public static class EditAccount
                         Console.Clear();
                         Console.WriteLine("Please enter your first name:");
                         firstName = Console.ReadLine();
-                    } while (String.IsNullOrEmpty(firstName));
+                    } while (String.IsNullOrWhiteSpace(firstName) || !firstName.All(c => char.IsLetter(c) || c == ' '));
 
                     do
                     {
                         Console.Clear();
                         Console.WriteLine("Please enter your last name:");
                         lastName = Console.ReadLine();
-                    } while (String.IsNullOrEmpty(lastName));
+                    } while (String.IsNullOrWhiteSpace(lastName) || !lastName.All(c => char.IsLetter(c) || c == ' '));
 
                     EditAccountLogic.EditName(acc, firstName, lastName);
                     break;
@@ -49,10 +49,10 @@ public static class EditAccount
                     do
                     {
                         Console.Clear();
-                        Console.WriteLine("Please enter your new phone number:");
+                        Console.WriteLine("Please enter your new phone number (numbers only):");
                         phoneNumber = Console.ReadLine();
                     }
-                    while (string.IsNullOrWhiteSpace(phoneNumber));
+                    while (string.IsNullOrWhiteSpace(phoneNumber) || !phoneNumber.All(char.IsDigit));
 
                     EditAccountLogic.EditPhoneNumber(acc, phoneNumber);
 
@@ -88,7 +88,7 @@ public static class EditAccount
                         Console.WriteLine("Please enter your new password:");
                         password = Console.ReadLine();
                     }
-                    while (string.IsNullOrWhiteSpace(password));
+                    while (string.IsNullOrWhiteSpace(password) || password.Any(char.IsWhiteSpace));
 
                     EditAccountLogic.EditPassword(acc, password);
 

@@ -8,6 +8,7 @@ public static class MovieSelector
         do
         {
             Console.Clear();
+            Console.WriteLine("Movies currently playing:\n");
 
             for (int i = 0; i < movies.Count; i++)
             {
@@ -36,20 +37,26 @@ public static class MovieSelector
         return movies[selectedIndex];
     }
 
-    public static MovieShowing SelectShowing(List<MovieShowing> showings)
+    public static MovieShowing? SelectShowing(List<MovieShowing> showings)
     {
+        if (showings == null || showings.Count == 0)
+        {
+            return null;
+        }
+
         int selectedIndex = 0;
         ConsoleKey key;
 
         do
         {
             Console.Clear();
+            Console.WriteLine("Available dates and times:\n");
 
             for (int i = 0; i < showings.Count; i++)
             {
                 string text = showings[i].IsDinnerEvent
-                    ? $"{showings[i].StartTime} - Dinner (+€50)"
-                    : $"{showings[i].StartTime}";
+                    ? $"{showings[i].Auditorium}: {showings[i].StartTime} - Dinner (+€50)"
+                    : $"{showings[i].Auditorium}: {showings[i].StartTime}";
 
                 if (i == selectedIndex)
                 {
@@ -74,5 +81,42 @@ public static class MovieSelector
         } while (key != ConsoleKey.Enter);
 
         return showings[selectedIndex];
+    }
+
+    public static FilmModel SelectFilm(List<FilmModel> films)
+    {
+        int selectedIndex = 0;
+        ConsoleKey key;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Movies currently playing:\n");
+
+            for (int i = 0; i < films.Count; i++)
+            {
+                if (i == selectedIndex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine($"> {films[i].Naam}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"  {films[i].Naam}");
+                }
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.UpArrow)
+                selectedIndex = (selectedIndex - 1 + films.Count) % films.Count;
+
+            if (key == ConsoleKey.DownArrow)
+                selectedIndex = (selectedIndex + 1) % films.Count;
+
+        } while (key != ConsoleKey.Enter);
+
+        return films[selectedIndex];
     }
 }
