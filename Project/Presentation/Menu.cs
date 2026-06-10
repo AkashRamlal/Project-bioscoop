@@ -60,6 +60,7 @@ public static class Menu
                         
                         if (selectedShowing == null)
                         {
+                            Console.Clear();
                             Console.WriteLine("Sorry! There are currently no screenings for this movie.");
                             break;
                         }
@@ -82,12 +83,12 @@ public static class Menu
                     EditAccount.Start(acc);
                     break;
 
-                case "Create film":
-                    CreateFilm.Start();
+                case "Manage films":
+                    ManageFilms.Show();
                     break;
 
-                case "Create a new movie showing":
-                    MovieShowingCreator.CreateShowing(films);
+                case "Manage movie showings":
+                    ManageMovieShowings.Start();
                     break;
 
                 case "Search movies":
@@ -99,12 +100,8 @@ public static class Menu
                     ticketUI.ShowAllTickets();
                     break;
 
-                case "Create employee":
-                    CreateEmployee.Start();
-                    break;
-
                 case "Manage employees":
-                    Console.WriteLine("Placeholder");
+                    ManageEmployee.Display();
                     break;
 
                 case "Quit":
@@ -262,19 +259,17 @@ public static class Menu
         {
             options.Add("Your tickets");
             options.Add("Edit account information");
-            options.Add("Search movies");
         }
 
         if (role == Roles.Employee || role == Roles.Admin)
         {
-            options.Add("Create film");
-            options.Add("Create a new movie showing");
+            options.Add("Manage films");
+            options.Add("Manage movie showings");
             options.Add("Manage tickets");
         }
 
         if (role == Roles.Admin)
         {
-            options.Add("Create employee");
             options.Add("Manage employees");
         }
 
