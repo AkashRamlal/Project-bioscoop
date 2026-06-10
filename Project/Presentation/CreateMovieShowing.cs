@@ -32,9 +32,21 @@ public static class MovieShowingCreator
             break;
         }
 
-        Console.Write("Auditorium: ");
-        string auditoriumInput = Console.ReadLine();
-        string auditorium = "Auditorium " + auditoriumInput;
+        string auditorium;
+
+        while (true)
+        {
+            Console.Write("Auditorium (1-3): ");
+            string? auditoriumInput = Console.ReadLine();
+
+            if (auditoriumInput == "1" || auditoriumInput == "2" || auditoriumInput == "3")
+            {
+                auditorium = $"Auditorium {auditoriumInput}";
+                break;
+            }
+
+            Console.WriteLine("Invalid auditorium. Please enter 1, 2 or 3.");
+        }
 
         bool isDinnerEvent = false;
 
