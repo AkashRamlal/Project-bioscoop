@@ -1,9 +1,8 @@
--- database: ./project.db
-CREATE TABLE IF NOT EXISTS Tickets (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE Tickets_new (
+    id          INTEGER PRIMARY KEY,
     film_name   TEXT NOT NULL,
     hall        TEXT NOT NULL,
-    time        TEXT NOT NULL,
+    date        DATE NOT NULL,
     seats       TEXT NOT NULL,
     total_price REAL NOT NULL,
     email       TEXT NOT NULL

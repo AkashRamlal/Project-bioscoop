@@ -20,15 +20,12 @@ public class MovieService
 
         TicketService ticketService = new TicketService();
 
-        string showKey = $"{selectedMovie.Title}-{selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm")}-{selectedShowing.Auditorium}";
-
-        List<string> reservedSeats =ticketService.ReservedTickets(showKey);
-            
-            
-
+        List<string> reservedSeats = ticketService.ReservedTickets(
+            selectedMovie.Title,
+            selectedShowing.StartTime,
+            selectedShowing.Auditorium);
 
         AuditoriumModel auditorium = _auditoriumService.LoadAuditorium(selectedShowing.Auditorium);
-            
 
         _auditoriumService.SetReservedSeats(auditorium, reservedSeats);
 
@@ -39,9 +36,9 @@ public class MovieService
                 selectedShowing.StartTime.ToString("dddd dd MMMM - HH:mm"));
 
         ApplyDinnerEventPricing(selectedShowing, reservation.Seats);
-        
+
         var paymentDict = new Dictionary<string, Dictionary<string, decimal>>();
-        paymentDict[showKey] = reservation.Seats;
+        paymentDict[selectedShowing.Auditorium] = reservation.Seats;
 
         ProcessPayment(selectedMovie, selectedShowing, paymentDict, account);
 
@@ -97,7 +94,7 @@ public class MovieService
 
         paymentUI.Start(
             movie.Title,
-            showing.StartTime.ToString("dddd dd MMMM - HH:mm"),
+            showing.StartTime,
             selectedSeats,
             account?.Email);
     }

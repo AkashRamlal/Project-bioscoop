@@ -77,8 +77,8 @@ public static class Menu
 
                     break;
 
-                case "View your tickets":
-                    ticketUI.ShowTickets(acc.Email);
+                case "Your tickets":
+                    ticketUI.ShowTickets(acc);
                     break;
 
                 case "Edit account information":
