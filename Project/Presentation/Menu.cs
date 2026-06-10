@@ -56,7 +56,9 @@ public static class Menu
                             continue;
 
                         MovieShowing selectedShowing =
-                            MovieSelector.SelectShowing(selectedMovie.Showings);
+                            MovieSelector.SelectShowing(selectedMovie.Showings
+                                    .Where(s => s.StartTime > DateTime.Now)
+                                    .ToList())!;
                         
                         if (selectedShowing == null)
                         {
@@ -75,8 +77,8 @@ public static class Menu
 
                     break;
 
-                case "View your tickets":
-                    ticketUI.ShowTickets(acc.Email);
+                case "Your tickets":
+                    ticketUI.ShowTickets(acc);
                     break;
 
                 case "Edit account information":
@@ -155,7 +157,9 @@ public static class Menu
                             continue;
 
                         MovieShowing selectedShowing =
-                            MovieSelector.SelectShowing(selectedMovie.Showings);
+                            MovieSelector.SelectShowing(selectedMovie.Showings
+                                    .Where(s => s.StartTime > DateTime.Now)
+                                    .ToList())!;
                         
                         if (selectedShowing == null)
                         {
