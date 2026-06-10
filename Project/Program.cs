@@ -33,7 +33,7 @@
             }
         
 
-            Console.WriteLine("\nPress ESC to quit or any other key to return...");
+            Console.WriteLine("\nPress ESC to quit or any other key to return to menu...");
             var key = Console.ReadKey(true).Key;
 
             if (key == ConsoleKey.Escape)
