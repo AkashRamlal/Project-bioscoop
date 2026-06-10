@@ -27,11 +27,46 @@ public class AuditoriumService
             }
         }
     }
-
+//AuditoriumService auditoriumService = new AuditoriumService(_repository);
+// auditoriumService.CancelTicket(auditoriummodel, reservation, List<string> cancelled tickets);
     public bool CanBookSeat(AuditoriumModel auditorium, int row, int column)
     {
         return auditorium.Seats[row, column] != SeatType.Empty &&
                auditorium.Seats[row, column] != SeatType.Reserved;
+    }
+    public void Cancelticket(string auditoriumNum, Reservation reservation, List<string> cancelledTickets)
+    {
+        decimal price = 0;
+        AuditoriumModel auditorium = _repository.GetAuditorium(auditoriumNum);
+        
+        foreach(string seat in cancelledTickets)
+        {
+            if(!reservation.Seats.ContainsKey(seat))
+                continue;
+
+            price = reservation.Seats[seat];
+            var (row, colum) = SeatToIndexes(seat);
+            if(price == 11.00m)
+            {
+                auditorium.Seats[row, colum] = SeatType.Basic;
+
+            }
+            else if (price == 12.00m)
+            {
+                auditorium.Seats[row, colum] = SeatType.Comfort;
+
+            }
+            else if (price == 14.00m)
+            {
+                auditorium.Seats[row, colum] = SeatType.Premium;
+            }
+
+
+            reservation.Seats.Remove(seat);
+        }
+
+
+        
     }
 
     public void BookSeat(AuditoriumModel auditorium, Reservation reservation, int row, int column)

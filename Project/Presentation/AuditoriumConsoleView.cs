@@ -12,14 +12,12 @@ public class AuditoriumConsoleView
         _service = service;
     }
 
-    public Reservation StartSelection(
-        AuditoriumModel auditorium,
-        string title,
-        string time)
+    public Reservation StartSelection(AuditoriumModel auditorium,string title,string time)
     {
+        string showKey = $"{title}-{time}-{auditorium.Number}";
         Reservation reservation = new Reservation
         {
-            AuditoriumNumber = auditorium.Number
+            AuditoriumNumber = auditorium.Number, Showkey = showKey
         };
 
         bool choosingSeat = true;
@@ -137,7 +135,7 @@ public class AuditoriumConsoleView
 
         Console.WriteLine();
         Console.WriteLine("                  SCREEN          ");
-        Console.WriteLine("   Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");
+        Console.WriteLine("Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");
 
         string shortTime = time.Split(" ")[0];
 

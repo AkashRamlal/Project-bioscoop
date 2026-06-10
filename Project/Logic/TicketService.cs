@@ -66,21 +66,23 @@ public class TicketService
         return filmTime > now && (filmTime - now).TotalHours >= 2;
     }
 
-    public List<string> ReservedTickets(string hall, string time)
+    public List<string> ReservedTickets(string showKey)
     {
+
+        TicketsAccess acces = new TicketsAccess();
         List<Ticket> allTickets = _ticketsAccess.GetTickets();
+
 
         List<string> reservedSeats = new();
 
         foreach (Ticket ticket in allTickets)
         {
-            if (ticket.Hall == hall && ticket.Time == time)
+            if (ticket.Hall == showKey)
             {
-                reservedSeats.AddRange(
-                    ticket.Seats
-                        .Split(", ")
-                        .Select(seat => seat.Split(" ")[0])
-                );
+                reservedSeats.AddRange(ticket.Seats.Split(", ").Select(seat => seat.Split(" ")[0]));
+                    
+                        
+                        
             }
         }
 
