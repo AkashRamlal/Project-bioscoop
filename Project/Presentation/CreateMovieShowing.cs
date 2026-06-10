@@ -41,7 +41,7 @@ public static class MovieShowingCreator
         bool isDinnerEligible =
             (startTime.DayOfWeek == DayOfWeek.Friday ||
             startTime.DayOfWeek == DayOfWeek.Saturday)
-            && startTime.Hour >= 18;
+            && startTime.Hour >= 18 && auditorium == "Auditorium 1";
 
         if (isDinnerEligible)
         {
