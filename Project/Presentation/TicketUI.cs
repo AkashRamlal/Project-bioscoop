@@ -7,11 +7,11 @@ public class TicketUI
         _ticketService = new TicketService();
     }
 
-    public void ShowTickets(string email)
+    public void ShowTickets(AccountModel acc)
     {
-        List<Ticket> tickets = _ticketService.GetTicketsByEmail(email);
+        List<Ticket> tickets = _ticketService.GetTicketsByEmail(acc.Email);
 
-        ShowTicketList(tickets, "YOUR TICKET(S)");
+        ShowTicketList(tickets, "YOUR TICKET(S)", acc);
     }
 
     public void ShowAllTickets()
@@ -21,7 +21,7 @@ public class TicketUI
         ShowTicketList(tickets, "ALL TICKETS");
     }
 
-    private void ShowTicketList(List<Ticket> tickets, string title)
+    private void ShowTicketList(List<Ticket> tickets, string title, AccountModel? acc = null)
     {
         Console.Clear();
         Console.WriteLine($"\n========== {title} ==========");
@@ -40,17 +40,16 @@ public class TicketUI
             Console.WriteLine();
         }
 
-        Console.Write("Do you want to cancel a ticket? (y/n): ");
+        Console.Write("Enter 1 to cancel a ticket or 2 to change ticket date: ");
         string answer = Console.ReadLine()?.Trim().ToLower() ?? "";
 
-        if (answer != "y")
+        if (answer != "1" && answer != "2")
         {
             Console.WriteLine("Press any key to go back...");
             Console.ReadKey();
             return;
         }
-
-        Console.Write("Select ticket number to cancel: ");
+        Console.Write("Select ticket number to " + (answer == "1" ? "cancel" : "change") + ": ");
 
         if (!int.TryParse(Console.ReadLine(), out int choice) ||
             choice < 1 ||
@@ -63,16 +62,30 @@ public class TicketUI
 
         Ticket selected = tickets[choice - 1];
 
-        bool cancelled = _ticketService.CancelTicket(selected);
-
-        if (!cancelled)
+        if (answer == "1")
         {
-            Console.WriteLine("Cancellation not allowed. Film starts in less than 2 hours or has already passed.");
-            Console.ReadKey();
-            return;
+            bool cancelled = _ticketService.CancelTicket(selected);
+            if (!cancelled)
+            {
+                Console.WriteLine("Cancellation not allowed. Film starts in less than 2 hours or has already passed.");
+                Console.ReadKey();
+                return;
+            }
+            Console.WriteLine("Ticket cancelled successfully.");
         }
-
-        Console.WriteLine("\nTicket cancelled successfully.");
+        else if (answer == "2")
+        {
+            bool changed = _ticketService.ChangeTicket(selected, acc);
+            if (changed)
+            {
+                Console.WriteLine("Ticket changed successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Change not allowed. Film starts in less than 2 hours or has already passed.");
+            }
+        }
+        Console.WriteLine("Press any key to go back...");
         Console.ReadKey();
     }
 }

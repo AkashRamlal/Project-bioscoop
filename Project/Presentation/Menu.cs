@@ -39,13 +39,13 @@ public static class Menu
                             {
                                 new MovieShowing
                                 {
-                                    StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                    StartTime = new DateTime(2026, 6, 29, 12, 0, 0),
                                     Auditorium = "Auditorium 1",
                                     IsDinnerEvent = false
                                 },
                                 new MovieShowing
                                 {
-                                    StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                    StartTime = new DateTime(2026, 6, 30, 20, 0, 0),
                                     Auditorium = "Auditorium 1",
                                     IsDinnerEvent = true
                                 }
@@ -80,7 +80,7 @@ public static class Menu
                     break;
 
                 case "Your tickets":
-                    ticketUI.ShowTickets(acc.Email);
+                    ticketUI.ShowTickets(acc);
                     break;
 
                 case "Edit account information":
@@ -158,13 +158,13 @@ public static class Menu
                             {
                                 new MovieShowing
                                 {
-                                    StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
+                                    StartTime = new DateTime(2026, 6, 29, 12, 0, 0),
                                     Auditorium = "Auditorium 1",
                                     IsDinnerEvent = false
                                 },
                                 new MovieShowing
                                 {
-                                    StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
+                                    StartTime = new DateTime(2026, 6, 30, 20, 0, 0),
                                     Auditorium = "Auditorium 1",
                                     IsDinnerEvent = true
                                 }

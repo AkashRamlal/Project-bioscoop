@@ -9,11 +9,13 @@ public class Ticket
     public string Seats { get; set; } = "";
     public decimal TotalPrice { get; set; }
     public string Email { get; set; } = "";
+    public Dictionary<string, decimal> HallData { get; set; } = new Dictionary<string, decimal>();
 
     public Ticket() { } // For Dapper
 
-    public Ticket(string filmName, string hall, DateTime date, string seats, decimal totalPrice, string email)
+    public Ticket(string filmName, string hall, DateTime date, string seats, decimal totalPrice, string email, Dictionary<string, decimal> hallData)
     {
+        HallData = hallData;
         FilmName = filmName;
         Hall = hall;
         Date = date;
