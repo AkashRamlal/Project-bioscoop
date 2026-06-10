@@ -159,13 +159,13 @@ public static class Menu
                                 new MovieShowing
                                 {
                                     StartTime = new DateTime(2026, 5, 29, 12, 0, 0),
-                                    Auditorium = "Auditorium 1",
+                                    Auditorium = "Auditorium 2",
                                     IsDinnerEvent = false
                                 },
                                 new MovieShowing
                                 {
                                     StartTime = new DateTime(2026, 5, 30, 20, 0, 0),
-                                    Auditorium = "Auditorium 1",
+                                    Auditorium = "Auditorium 3",
                                     IsDinnerEvent = true
                                 }
                             }

@@ -27,8 +27,7 @@ public class AuditoriumService
             }
         }
     }
-//AuditoriumService auditoriumService = new AuditoriumService(_repository);
-// auditoriumService.CancelTicket(auditoriummodel, reservation, List<string> cancelled tickets);
+
     public bool CanBookSeat(AuditoriumModel auditorium, int row, int column)
     {
         return auditorium.Seats[row, column] != SeatType.Empty &&
