@@ -53,6 +53,7 @@ static class RegisterUser
 
             AccountsLogic logic = new AccountsLogic();
             logic.RegisterMember(account);
+            Console.WriteLine(logic.RegisterMember(account));
 
             
         
