@@ -35,7 +35,7 @@ public class TicketUI
 
         for (int i = 0; i < tickets.Count; i++)
         {
-            Console.WriteLine($"[{i + 1}]");
+            Console.WriteLine($"Ticket number: [{i + 1}]");
             Console.WriteLine(tickets[i].PrintTicket());
             Console.WriteLine();
         }
