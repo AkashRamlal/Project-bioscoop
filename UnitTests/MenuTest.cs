@@ -11,7 +11,7 @@ public sealed class TestMenu
         List<string> options = Menu.GetOptions(role);
 
         Assert.IsNotNull(options);
-        Assert.AreEqual(options.Count, 3);
+        Assert.AreEqual(options.Count, 4);
         CollectionAssert.Contains(options, "Movie theatre info");
         CollectionAssert.Contains(options, "View movies");
         CollectionAssert.Contains(options, "Quit");
@@ -24,7 +24,7 @@ public sealed class TestMenu
 
         List<string> options = Menu.GetOptions(role);
 
-        Assert.AreEqual(options.Count, 5);
+        Assert.AreEqual(options.Count, 6);
         CollectionAssert.Contains(options, "Your tickets");
         CollectionAssert.Contains(options, "Edit account information");
     }
