@@ -2,7 +2,7 @@ public static class Diet
 {
     public static string? AskForAllergies()
     {
-        Console.WriteLine("Enter allergies (press ENTER to submit entry, leave field empty when finished):");
+        Console.WriteLine("Enter allergies (Press ENTER on an empty line to skip or finish):");
 
         List<string> allergies = new List<string>();
 
@@ -22,12 +22,12 @@ public static class Diet
             }
         }
 
-        return allergies.Count > 0 ? string.Join(";", allergies) : null;
+        return allergies.Count > 0 ? string.Join(", ", allergies) : null;
     }
 
     public static string? AskForDietaryPreferences()
     {
-        Console.WriteLine("Enter dietary preferences (press ENTER to submit entry, leave field empty when finished):");
+        Console.WriteLine("Enter dietary preferences (Press ENTER on an empty line to skip or finish):");
 
         List<string> dietaryPreferences = new List<string>();
 
@@ -47,7 +47,7 @@ public static class Diet
             }
         }
 
-        return dietaryPreferences.Count > 0 ? string.Join(";", dietaryPreferences) : null;
+        return dietaryPreferences.Count > 0 ? string.Join(", ", dietaryPreferences) : null;
     }
 
     public static string? AskForAdditionalComments()

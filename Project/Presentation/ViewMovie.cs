@@ -6,7 +6,7 @@ public static class ViewMovies
         Console.WriteLine($"Movie Title: {movie.Naam}");
         Console.WriteLine($"Genre: {movie.Genre}");
         Console.WriteLine($"Duration: {movie.Tijdsduur}");
-        Console.WriteLine($"Age limit: {movie.Leeftijdsgrens}");
+        Console.WriteLine($"Minimum age: {movie.Leeftijdsgrens}");
         Console.WriteLine($"Actors: {movie.Acteurs}");
         Console.WriteLine($"Director: {movie.Regiseur}");
 
