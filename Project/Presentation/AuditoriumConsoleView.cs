@@ -28,7 +28,7 @@ public class AuditoriumConsoleView
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
-            if (key == ConsoleKey.B) // gebruiker heeft seat gekozen
+            if (key == ConsoleKey.Enter) // gebruiker heeft seat gekozen
             {
                 try
                 {
@@ -38,20 +38,21 @@ public class AuditoriumConsoleView
                         _cursorVertical,
                         _cursorHorizontal
                     );
+                    
+                    //Console.WriteLine("Do you want to book more seats? y/n");
+                    //string answer = Console.ReadLine()?.ToUpper() ?? "";
 
-                    Console.WriteLine("Do you want to book more seats? y/n");
-                    string answer = Console.ReadLine()?.ToUpper() ?? "";
-
-                    if (answer.StartsWith("N"))
-                    {
-                        choosingSeat = false;
-                    }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                     Console.ReadKey();
                 }
+
+            }
+            else if (key == ConsoleKey.Escape)
+            {
+                choosingSeat = false;
             }
             else
             {
@@ -65,6 +66,12 @@ public class AuditoriumConsoleView
     private void Display(AuditoriumModel auditorium, string title, string time)
     {
         Console.Clear();
+        
+
+        string shortTime = time.Split(" ")[0];
+
+        Console.WriteLine($"Movie: {title}");
+        Console.WriteLine($"Time: {shortTime}");
 
         SeatType[,] seats = auditorium.Seats;
 
@@ -115,11 +122,11 @@ public class AuditoriumConsoleView
                             break;
 
                         case SeatType.Reserved:
-                            chosenColor = ConsoleColor.DarkGray; // gereserveert
+                            chosenColor = ConsoleColor.DarkGreen; // gereserveert
                             break;
 
                         default:
-                            chosenColor = ConsoleColor.Gray;
+                            chosenColor = ConsoleColor.Black;
                             break;
                     }
 
@@ -134,13 +141,38 @@ public class AuditoriumConsoleView
         }
 
         Console.WriteLine();
-        Console.WriteLine("                  SCREEN          ");
-        Console.WriteLine("Blue = Basic(€11)  Yellow = Comfort(€12)  Red = Premium(€14) Grey = Reserved");
+        if(auditorium.Number == "Auditorium 3")
+        {
+            Console.WriteLine("                                              SCREEN          ");
+        }
+        else if (auditorium.Number == "Auditorium 1")
+        {
+            Console.WriteLine("                SCREEN          ");
+        }
+        else if (auditorium.Number == "Auditorium 2")
+        {
+            Console.WriteLine("                          SCREEN          ");
+        }
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write("Blue = Basic (€11)   ");
 
-        string shortTime = time.Split(" ")[0];
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.Write("Yellow = Comfort (€12)   ");
 
-        Console.WriteLine($"Movie: {title} Time: {shortTime}");
-        Console.WriteLine("Press B to chose a seat");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("Red = Premium (€14)   ");
+
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.Write("Green = Reserved");
+
+        Console.ResetColor();
+        Console.WriteLine();
+        Console.WriteLine();
+        
+
+        Console.WriteLine("Use arrows to navigate, press Enter to choose the seat.");
+        Console.WriteLine("Press Esc to continue to payment.");
     }
 
     private void MoveCursor(AuditoriumModel auditorium, ConsoleKey key)
