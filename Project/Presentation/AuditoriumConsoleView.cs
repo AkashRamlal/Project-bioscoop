@@ -171,7 +171,7 @@ public class AuditoriumConsoleView
         Console.WriteLine();
         
 
-        Console.WriteLine("Use arrows to navigate, press Enter to choose the seat.");
+        Console.WriteLine("Use arrow keys to navigate, press Enter to select option.");
         Console.WriteLine("Press Esc to continue to payment.");
     }
 
