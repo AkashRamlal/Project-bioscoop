@@ -110,8 +110,8 @@ public class SeatReviewUI
         Console.WriteLine($"€{total:F2}");
         Console.ResetColor();
         Console.WriteLine("──────────────────────────────────────────────────────");
-        Console.WriteLine(" ↑↓ Navigate                      P Proceed to payment");
-        Console.WriteLine("ENTER seat to apply discount or cancel the seat");
+        Console.WriteLine(" Press ↑↓ to navigate       Press P to Proceed payment");
+        Console.WriteLine("Press ENTER on seat to apply discount or cancel the seat");
     }
 
     private static string GetDiscountLabel(string discount) => discount switch
