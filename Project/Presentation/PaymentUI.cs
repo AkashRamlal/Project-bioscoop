@@ -107,7 +107,7 @@ public class PaymentUI
         Console.WriteLine("Choose a payment method:");
         Console.WriteLine("  1. iDEAL");
         Console.WriteLine("  2. PayPal");
-        Console.Write("Your choice: ");
+        Console.Write("Type in 1 or 2: ");
 
         string choice = Console.ReadLine()?.Trim() ?? "";
 

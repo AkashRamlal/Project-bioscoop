@@ -15,7 +15,7 @@ public static class MovieSelector
                 if (i == selectedIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine($"> {movies[i].Title}");
+                    Console.WriteLine($"> {movies[i].Title} Basic seat is 11€");
                     Console.ResetColor();
                 }
                 else
