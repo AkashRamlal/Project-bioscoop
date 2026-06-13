@@ -29,6 +29,13 @@ public static class MovieShowingCreator
                 Console.WriteLine("A movie showing must be scheduled at least 24 hours in advance.");
                 continue;
             }
+
+            if (startTime.Hour < 9 || startTime.Hour > 21)
+            {
+                Console.WriteLine("Movie showings can only be scheduled between 09:00 and 21:00.");
+                continue;
+            }
+            
             break;
         }
 
