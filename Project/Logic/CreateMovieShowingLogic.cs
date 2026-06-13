@@ -29,7 +29,10 @@ public static class CreateMovieShowingLogic
 
         foreach (var showing in allShowings)
         {
-            FilmModel existingFilm = allFilms.First(f => f.Id == showing.FilmId);
+            FilmModel existingFilm = allFilms.FirstOrDefault(f => f.Id == showing.FilmId)!;
+            if (existingFilm == null)
+                return false;
+            
             DateTime existingStartTime = showing.StartTime;
             DateTime existingEndTime = showing.StartTime.AddMinutes(Convert.ToDouble(existingFilm.Tijdsduur));
 
