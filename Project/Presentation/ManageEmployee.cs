@@ -33,7 +33,8 @@ static class ManageEmployee
         Console.WriteLine();
         Console.WriteLine("Options:");
         Console.WriteLine("1. Add Employee");
-        Console.WriteLine("2. Delete Employee");
+        Console.WriteLine("2. Edit Employee");
+        Console.WriteLine("3. Delete Employee");
 
         if (int.TryParse(Console.ReadLine(), out int option))
         {
@@ -43,6 +44,9 @@ static class ManageEmployee
                     CreateEmployee.Start();
                     break;
                 case 2:
+                    EditEmployees.Start();
+                    break;
+                case 3:
                     RemoveEmployee.Start();
                     break;
                 
