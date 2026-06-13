@@ -36,6 +36,12 @@ public class AccountsAccess
         return _connection.Query<AccountModel>(sql).ToList();
     }
 
+    public List<AccountModel> GetAllMembers()
+    {
+        string sql = $"SELECT * FROM {Table} WHERE role = 'Member'";
+        return _connection.Query<AccountModel>(sql).ToList();
+    }
+
 
 
     public void Update(AccountModel account)

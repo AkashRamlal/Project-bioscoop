@@ -105,6 +105,9 @@ public static class Menu
                 case "Manage employees":
                     ManageEmployee.Display();
                     break;
+                case "Manage members":
+                    ManageMembers.Start();
+                    break;
 
                 case "Quit":
                     inMenu = false;
@@ -275,6 +278,7 @@ public static class Menu
         if (role == Roles.Admin)
         {
             options.Add("Manage employees");
+            options.Add("Manage members");
         }
 
         options.Add("Quit");
