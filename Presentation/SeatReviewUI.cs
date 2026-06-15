@@ -89,8 +89,8 @@ public class SeatReviewUI
                 Console.ForegroundColor = ConsoleColor.White;
             else if (i == selected)
             {
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
             }
             else if (seat.Discount != "none")
                 Console.ForegroundColor = ConsoleColor.Green;
