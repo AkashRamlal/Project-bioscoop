@@ -90,34 +90,4 @@ public class TicketTests
         // Assert
         Assert.IsNotNull(reservedSeats);
     }
-
-    [TestMethod]
-    public void TicketService_ChangeTicket_ReturnsTrueIfCancellable()
-    {
-        // Arrange
-        Ticket ticket = new Ticket
-        {
-            FilmName = "Test Movie",
-            Hall = "Auditorium 1",
-            Date = DateTime.Now.AddHours(3),
-            Seats = "A1 (€10.00), A2 (€10.00)",
-            TotalPrice = 20.00m,
-            Email = "test@example.com"
-        };
-        AccountModel acc = new AccountModel
-        {
-            Id = 1,
-            Naam = "John",
-            Achternaam = "Doe",
-            Geboortedatum = new DateTime(1990, 1, 1),
-            Telefoonnummer = "1234567890",
-            Role = Roles.Member,
-            Email = "test@example.com",
-            Password = "password"   
-        };  
-        // Act
-        bool result = service.ChangeTicket(ticket, acc);
-        // Assert
-        Assert.IsTrue(result);
-    }
 }

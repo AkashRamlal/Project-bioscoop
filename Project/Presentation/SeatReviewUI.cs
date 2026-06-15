@@ -205,13 +205,13 @@ public class SeatReviewUI
         {
             case '1':
                 seat.Discount   = "senior";
-                seat.FinalPrice = seat.OriginalPrice * 0.80m;
+                seat.FinalPrice = SeatLogic.ApplySeniorDiscount(seat.OriginalPrice);
                 PrintFeedback($"Senior discount applied! New price: €{seat.FinalPrice:F2}", ConsoleColor.Green);
                 break;
 
             case '2':
                 seat.Discount   = "youth";
-                seat.FinalPrice = seat.OriginalPrice * 0.50m;
+                seat.FinalPrice = SeatLogic.ApplyYouthDiscount(seat.OriginalPrice);
                 PrintFeedback($"Youth discount applied! New price: €{seat.FinalPrice:F2}", ConsoleColor.Green);
                 break;
 
