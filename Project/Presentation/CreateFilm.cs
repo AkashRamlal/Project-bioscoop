@@ -69,7 +69,7 @@ static class CreateFilm
             if (input.Equals("done", StringComparison.OrdinalIgnoreCase))
                 break;
 
-            input = input.Replace(";", "");
+            input = input.Replace(";", "").Replace(",", "");
 
             if (!actors.Contains(input, StringComparer.OrdinalIgnoreCase))
                 actors.Add(input);
@@ -77,6 +77,6 @@ static class CreateFilm
                 Console.WriteLine("Actor already added.");
         }
 
-        return string.Join(";", actors);
+        return string.Join(", ", actors);
     }
 }
