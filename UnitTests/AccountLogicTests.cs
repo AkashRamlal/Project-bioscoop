@@ -76,6 +76,40 @@ public class AccountLogicTests
     }
 
     [TestMethod]
+
+    public  void RegisterMember_withPasswordWithWhitespace_ReturnsError()
+    {
+        var Logic = new AccountsLogic();
+
+        var account = new AccountModel
+        {
+            Naam = "John",
+            Achternaam = "Doe",
+            Email = "john.doe@example.com",
+            Password = " password123 "
+        };
+        string result = Logic.RegisterMember(account);
+        Assert.AreEqual("A password cannot contain whitespace", result);
+    }
+
+    [TestMethod]
+
+    public void RegisterMember_withNoPassword_ReturnsError()
+    {
+        var Logic = new AccountsLogic();
+
+        var account = new AccountModel
+        {
+            Naam = "John",
+            Achternaam = "Doe",
+            Email = "john.doe@example.com",
+            Password = ""
+        };
+        string result = Logic.RegisterMember(account);
+        Assert.AreEqual("A password is required", result);
+    }
+
+    [TestMethod]
     public void RegisterMember_withValidData_ReturnsSuccess()
     {
         var Logic = new AccountsLogic();

@@ -25,7 +25,7 @@ public class AuditoriumTests
         reservation.Seats["E7"] = 12.00m;
         auditorium.Seats[4, 6] = SeatType.Reserved;
 
-        List<string> cancelledSeats = ["E7"] ;
+        List<string> cancelledSeats = new List<string> { "E7" };
 
         // Act
         service.Cancelticket("Auditorium 1", reservation, cancelledSeats);
@@ -42,7 +42,7 @@ public class AuditoriumTests
         AuditoriumService service = CreateService();
         AuditoriumModel auditorium = service.LoadAuditorium("Auditorium 1");
 
-        List<string> seats = ["E7"];
+        List<string> seats = new List<string> { "E7" };
 
         // Act
         service.SetReservedSeats(auditorium, seats);
