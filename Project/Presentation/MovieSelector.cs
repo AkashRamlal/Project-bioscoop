@@ -9,13 +9,15 @@ public static class MovieSelector
         {
             Console.Clear();
             Console.WriteLine("Movies currently playing:\n");
+            Console.WriteLine("Basic seat price: auditorium 1: 11€  auditorium 2: 12€  auditorium 3: 13€ ");
+
 
             for (int i = 0; i < movies.Count; i++)
             {
                 if (i == selectedIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine($"> {movies[i].Title} Basic seat is 11€");
+                    Console.WriteLine($"> {movies[i].Title}");
                     Console.ResetColor();
                 }
                 else

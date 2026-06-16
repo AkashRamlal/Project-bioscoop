@@ -180,7 +180,10 @@ public static class Menu
                     }
 
                     break;
-                
+                case "Search movies":
+                    SearchFilm searchFilm = new SearchFilm();
+                    searchFilm.Search();
+                    break;
 
                 case "Quit":
                     inMenu = false;
