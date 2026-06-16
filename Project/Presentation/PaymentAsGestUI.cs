@@ -37,7 +37,7 @@ public class PaymentAsGestUI
         {
             Console.Write($"  {label}: ");
             string input = Console.ReadLine()?.Trim() ?? "";
-            if (!string.IsNullOrEmpty(input)) return input;
+            if (GuestValidationLogic.IsValidName(input)) return input;
             Console.WriteLine($"{label} cannot be empty.\n");
         }
     }
@@ -48,7 +48,7 @@ public class PaymentAsGestUI
         {
             Console.Write("  Email: ");
             string input = Console.ReadLine()?.Trim() ?? "";
-            if (input.Contains("@") && input.Contains(".") && input.Length > 5) return input;
+            if (GuestValidationLogic.IsValidEmail(input)) return input;
             Console.WriteLine("Invalid email. Example: name@email.com\n");
         }
     }
@@ -59,7 +59,7 @@ public class PaymentAsGestUI
         {
             Console.Write("  Phone number: ");
             string input = Console.ReadLine()?.Trim() ?? "";
-            if (input.All(char.IsDigit) && input.Length >= 8) return input;
+            if (GuestValidationLogic.IsValidPhone(input)) return input;
             Console.WriteLine("Invalid phone. Numbers only, at least 8 digits.\n");
         }
     }
@@ -69,8 +69,8 @@ public class PaymentAsGestUI
         while (true)
         {
             Console.Write("  Age: ");
-            if (int.TryParse(Console.ReadLine(), out int age) && age >= 5 && age <= 120)
-                return age;
+            string input = Console.ReadLine()?.Trim() ?? "";
+            if (GuestValidationLogic.IsValidAge(input)) return int.Parse(input);
             Console.WriteLine("Age must be a number between 5 and 120.\n");
         }
     }

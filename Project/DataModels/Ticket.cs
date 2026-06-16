@@ -23,25 +23,37 @@ public class Ticket
         TotalPrice = totalPrice;
         Email = email;
     }
+    
     public string PrintTicket()
     {
         int width = 60;
+        int innerWidth = width - 4; // space between "* " and " *"
         string border = new string('*', width);
 
-        string resLine   = $"Reservation #: {Id}".PadRight(width - 4);
-        string filmLine  = $"Film: {FilmName}".PadRight(width - 4);
-        string hallLine  = $"Hall: {Hall}".PadRight(width - 4);
-        string dateLine  = $"Date: {Date:yyyy-MM-dd HH:mm}".PadRight(width - 4);
-        string seatsLine = $"Seats: {Seats}".PadRight(width - 4);
-        string priceLine = $"Total: €{TotalPrice:F2}".PadRight(width - 4);
+        // Wrap seats across multiple lines
+        string seatsStr = $"Seats: {Seats}";
+        var seatLines = new List<string>();
+        int seatPrefix = "Seats: ".Length;
+
+        while (seatsStr.Length > innerWidth)
+        {
+            int cut = seatsStr.LastIndexOf(',', innerWidth);
+            if (cut == -1) cut = innerWidth;
+            seatLines.Add(seatsStr[..cut].Trim());
+            seatsStr = new string(' ', seatPrefix) + seatsStr[(cut + 1)..].Trim();
+        }
+        seatLines.Add(seatsStr);
 
         string ticket = border + "\n";
-        ticket += "* " + resLine   + " *\n";
-        ticket += "* " + filmLine  + " *\n";
-        ticket += "* " + hallLine  + " *\n";
-        ticket += "* " + dateLine  + " *\n";
-        ticket += "* " + seatsLine + " *\n";
-        ticket += "* " + priceLine + " *\n";
+        ticket += "* " + $"Reservation #: {Id}".PadRight(innerWidth)        + " *\n";
+        ticket += "* " + $"Film: {FilmName}".PadRight(innerWidth)            + " *\n";
+        ticket += "* " + $"Hall: {Hall}".PadRight(innerWidth)                + " *\n";
+        ticket += "* " + $"Date: {Date:yyyy-MM-dd HH:mm}".PadRight(innerWidth) + " *\n";
+
+        foreach (var line in seatLines)
+            ticket += "* " + line.PadRight(innerWidth) + " *\n";
+
+        ticket += "* " + $"Total: €{TotalPrice:F2}".PadRight(innerWidth)    + " *\n";
         ticket += border;
 
         return ticket;
