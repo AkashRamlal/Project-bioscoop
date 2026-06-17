@@ -57,8 +57,8 @@ public static class MovieSelector
             for (int i = 0; i < showings.Count; i++)
             {
                 string text = showings[i].IsDinnerEvent
-                    ? $"{showings[i].Auditorium}: {showings[i].StartTime} - Dinner (+€50)"
-                    : $"{showings[i].Auditorium}: {showings[i].StartTime}";
+                    ? $"{showings[i].Auditorium}: {showings[i].StartTime.ToString("yyyy-MM-dd HH:mm")} - Dinner (+€50)"
+                    : $"{showings[i].Auditorium}: {showings[i].StartTime.ToString("yyyy-MM-dd HH:mm")}";
 
                 if (i == selectedIndex)
                 {

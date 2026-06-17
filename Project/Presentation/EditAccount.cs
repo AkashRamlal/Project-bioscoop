@@ -26,21 +26,25 @@ public static class EditAccount
                 case "Edit name":
                     string firstName;
                     string lastName;
+
                     do
                     {
                         Console.Clear();
                         Console.WriteLine("Please enter your first name:");
                         firstName = Console.ReadLine();
-                    } while (String.IsNullOrWhiteSpace(firstName) || !firstName.All(c => char.IsLetter(c) || c == ' '));
+                    }
+                    while (!EditAccountLogic.IsValidName(firstName));
 
                     do
                     {
                         Console.Clear();
                         Console.WriteLine("Please enter your last name:");
                         lastName = Console.ReadLine();
-                    } while (String.IsNullOrWhiteSpace(lastName) || !lastName.All(c => char.IsLetter(c) || c == ' '));
+                    }
+                    while (!EditAccountLogic.IsValidName(lastName));
 
                     EditAccountLogic.EditName(acc, firstName, lastName);
+                    Console.WriteLine("Name updated successfully.");
                     break;
 
                 case "Change phone number":
@@ -52,16 +56,14 @@ public static class EditAccount
                         Console.WriteLine("Please enter your new phone number (numbers only):");
                         phoneNumber = Console.ReadLine();
                     }
-                    while (string.IsNullOrWhiteSpace(phoneNumber) || !phoneNumber.All(char.IsDigit));
+                    while (!EditAccountLogic.IsValidPhoneNumber(phoneNumber));
 
                     EditAccountLogic.EditPhoneNumber(acc, phoneNumber);
-
                     Console.WriteLine("Phone number updated successfully.");
                     break;
 
                 case "Change Email":
                     string email;
-                    EmailAddressAttribute emailValidator = new();
 
                     do
                     {
@@ -69,16 +71,12 @@ public static class EditAccount
                         Console.WriteLine("Please enter your new email:");
                         email = Console.ReadLine();
                     }
-                    while (
-                        string.IsNullOrWhiteSpace(email) ||
-                        !emailValidator.IsValid(email)
-                    );
+                    while (!EditAccountLogic.IsValidEmail(email));
 
                     EditAccountLogic.EditEmail(acc, email);
-
                     Console.WriteLine("Email updated successfully.");
                     break;
-                
+
                 case "Change password":
                     string password;
 
@@ -88,10 +86,9 @@ public static class EditAccount
                         Console.WriteLine("Please enter your new password:");
                         password = Console.ReadLine();
                     }
-                    while (string.IsNullOrWhiteSpace(password) || password.Any(char.IsWhiteSpace));
+                    while (!EditAccountLogic.IsValidPassword(password));
 
                     EditAccountLogic.EditPassword(acc, password);
-
                     Console.WriteLine("Password updated successfully.");
                     break;
                 

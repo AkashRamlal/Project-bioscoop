@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 public static class EditAccountLogic
 {
     private static AccountsAccess _access = new();
@@ -57,5 +59,33 @@ public static class EditAccountLogic
         _access.Update(acc);
 
         Console.WriteLine("Password has been changed successfully.");
+    }
+
+    public static bool IsValidName(string name)
+    {
+        return !string.IsNullOrWhiteSpace(name) && name.All(c => char.IsLetter(c) || c == ' ');
+    }
+
+    public static bool IsValidPhoneNumber(string phoneNumber)
+    {
+        return !string.IsNullOrWhiteSpace(phoneNumber) && phoneNumber.All(char.IsDigit);
+    }
+
+    public static bool IsValidEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            return false;
+
+        EmailAddressAttribute validator = new();
+
+        if (email.Any(char.IsWhiteSpace))
+            return false;
+
+        return validator.IsValid(email);
+    }
+
+    public static bool IsValidPassword(string password)
+    {
+        return !string.IsNullOrWhiteSpace(password) && !password.Any(char.IsWhiteSpace);
     }
 }
