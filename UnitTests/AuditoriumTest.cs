@@ -9,12 +9,12 @@ public class AuditoriumTests
         return new AuditoriumService(repository);
     }
 
-    [TestMethod]
+
+    [TestMethod]    
     public void CancelTicketRemoveFromDict()
     {
         // Arrange
         AuditoriumService service = CreateService();
-        AuditoriumModel auditorium = service.LoadAuditorium("Auditorium 1");
 
         Reservation reservation = new Reservation
         {
@@ -23,17 +23,21 @@ public class AuditoriumTests
         };
 
         reservation.Seats["E7"] = 12.00m;
-        auditorium.Seats[4, 6] = SeatType.Reserved;
+        //auditorium.Seats[4, 6] = SeatType.Reserved;
 
         List<string> cancelledSeats = new List<string> { "E7" };
 
         // Act
         service.Cancelticket("Auditorium 1", reservation, cancelledSeats);
 
+        AuditoriumModel updatedAuditorium = service.LoadAuditorium("Auditorium 1");
+
         // Assert
         Assert.IsFalse(reservation.Seats.ContainsKey("E7"));
-        Assert.AreEqual(SeatType.Comfort, auditorium.Seats[4, 6]);
+        Assert.AreEqual(SeatType.Comfort, updatedAuditorium.Seats[4, 6]);
     }
+
+
 
     [TestMethod]
     public void TestSetReservedSeats()
