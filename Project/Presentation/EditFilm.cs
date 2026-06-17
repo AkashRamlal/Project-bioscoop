@@ -128,7 +128,7 @@ public static class EditFilm
             if (input.Equals("done", StringComparison.OrdinalIgnoreCase))
                 break;
 
-            input = input.Replace(";", "");
+            input = input.Replace(";", "").Replace(",", "");
 
             if (!actors.Contains(input, StringComparer.OrdinalIgnoreCase))
                 actors.Add(input);
@@ -136,6 +136,6 @@ public static class EditFilm
                 Console.WriteLine("Actor already added.");
         }
 
-        return string.Join(";", actors);
+        return string.Join(", ", actors);
     }
 }

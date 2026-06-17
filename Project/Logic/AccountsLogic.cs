@@ -47,19 +47,122 @@ public class AccountsLogic
         return "Employee registered successfully";
     }
 
-    private string ValidateAccount(AccountModel account)
+    
+    public string ValidateAccount(AccountModel account)
     {
-        if (string.IsNullOrWhiteSpace(account.Naam))
+        string firstNameValidation = ValidateFirstName(account.Naam);
+        if (firstNameValidation != "Success")
+            return firstNameValidation;
+
+        string lastNameValidation = ValidateLastName(account.Achternaam);
+        if (lastNameValidation != "Success")
+            return lastNameValidation;
+
+        string emailValidation = ValidateEmail(account.Email);
+        if (emailValidation != "Success")
+            return emailValidation;
+
+        string passwordValidation = ValidatePassword(account);
+        if (passwordValidation != "Success")
+            return passwordValidation;
+
+        return "Success";
+    }
+    public string ValidateFirstName(string firstName)
+    {
+        string specialChars = @"!@#$%^&*()_+{}|:<>?`~\[];',./""-=";
+        if (string.IsNullOrWhiteSpace(firstName))
             return "A first name is required";
 
-        if (string.IsNullOrWhiteSpace(account.Achternaam))
+        if (firstName.Any(char.IsDigit))
+            return "A first name cannot contain numbers";
+        
+        if (firstName.Any(c => specialChars.Contains(c)))
+            return "A first name cannot contain special characters";
+
+        if (firstName.Length < 2)
+            return "A first name should be at least 2 characters long";
+
+        return "Success";
+    }
+
+    public string ValidateLastName(string lastName)
+    {
+
+        string specialChars = @"!@#$%^&*()_+{}|:<>?`~\[];',./""-=";
+        if (string.IsNullOrWhiteSpace(lastName))
             return "A last name is required";
 
-        if (string.IsNullOrWhiteSpace(account.Email))
+        if (lastName.Any(char.IsDigit))
+            return "A last name cannot contain numbers";
+
+        if (lastName.Any(c => specialChars.Contains(c)))
+            return "A last name cannot contain special characters";
+
+        if (lastName.Length < 2)
+            return "A last name should be at least 2 characters long";
+
+        return "Success";
+    }
+
+    public string ValidateGeboortedatum(DateTime dateOfBirth)
+    {
+        if (dateOfBirth == default)
+            return "A date of birth is required";
+
+        if (dateOfBirth > DateTime.Now)
+            return "Date of birth cannot be in the future";
+
+        int age = DateTime.Now.Year - dateOfBirth.Year;
+        if (dateOfBirth > DateTime.Now.AddYears(-age)) age--;
+
+        if (age < 0)
+            return "Invalid date of birth";
+
+        return "Success";
+    }
+
+    public string ValidateTelefoonnummer(string telefoonnummer)
+    {
+        if (string.IsNullOrWhiteSpace(telefoonnummer))
+            return "A phone number is required";
+
+        if (!telefoonnummer.All(char.IsDigit))
+            return "A phone number can only contain numbers";
+
+        if (telefoonnummer.Length < 10 || telefoonnummer.Length > 15)
+            return "A phone number should be between 10 and 15 digits long";
+
+        return "Success";
+    }
+
+    public string ValidateEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
             return "An email is required";
 
-        if (string.IsNullOrWhiteSpace(account.Password) || account.Password.Length < 6)
+        if (!email.Contains("@") || !email.Contains("."))
+            return "An email should contain an @ and a .";
+
+        return "Success";
+    }
+
+    public string ValidatePassword(AccountModel account)
+    {
+
+        
+        
+
+        if (string.IsNullOrWhiteSpace(account.Password))
+            return "A password is required";
+
+        if (account.Password.Length < 6)
             return "A password should be at least 6 characters long";
+        
+        if (account.Password.Any(char.IsWhiteSpace))
+            return "A password cannot contain whitespace";
+
+        
 
         return "Success";
     }

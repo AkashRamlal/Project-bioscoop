@@ -28,7 +28,7 @@
             {
                 Menu.Start();
             }
-            else if (choice == "register")
+            else if (choice == "Create an Account")
             {
                 RegisterUser.Start();
             }

@@ -1,4 +1,4 @@
-CREATE TABLE Tickets_new (
+CREATE TABLE Tickets (
     id          INTEGER PRIMARY KEY,
     film_name   TEXT NOT NULL,
     hall        TEXT NOT NULL,
