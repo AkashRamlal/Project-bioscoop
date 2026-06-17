@@ -36,7 +36,7 @@ public static class CreateMovieShowingLogic
             DateTime existingStartTime = showing.StartTime;
             DateTime existingEndTime = showing.StartTime.AddMinutes(Convert.ToDouble(existingFilm.Tijdsduur));
 
-            if ((newStartTime < existingEndTime && newEndTime > existingStartTime) && newShowing.Auditorium == showing.Auditorium)
+            if (newStartTime < existingEndTime && newEndTime > existingStartTime && newShowing.Auditorium == showing.Auditorium)
             {
                 return true;
             }

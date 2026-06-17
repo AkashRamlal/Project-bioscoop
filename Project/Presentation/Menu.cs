@@ -178,7 +178,6 @@ public static class Menu
 
                     break;
                 
-
                 case "Quit":
                     inMenu = false;
                     continue;
@@ -189,7 +188,7 @@ public static class Menu
         }
     }
 
-    public static string ShowMenu(AccountModel acc)
+    private static string ShowMenu(AccountModel acc)
     {
         List<string> menuOptions = GetOptions(acc.Role);
 
@@ -220,7 +219,7 @@ public static class Menu
         return menuOptions[selectedIndex];
     }
 
-    public static string ShowMenu()
+    private static string ShowMenu()
     {
         List<string> menuOptions = GetOptions(null);
 

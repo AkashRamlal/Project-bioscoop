@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 public static class EditAccount
 {
-    public static List<String> Options = [
+    private static List<String> Options = [
         "Edit name",
         "Change phone number",
         "Change Email",
@@ -128,7 +128,7 @@ public static class EditAccount
         }
     }
 
-    public static string ShowMenu(string name)
+    private static string ShowMenu(string name)
     {
         int selectedIndex = 0;
         ConsoleKey key;
