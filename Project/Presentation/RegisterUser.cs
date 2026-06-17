@@ -139,7 +139,6 @@ static class RegisterUser
             
             Console.WriteLine(logic.RegisterMember(account));
 
-            logic.RegisterMember(account);
             
 
             
