@@ -77,6 +77,10 @@ public static class EditAccountLogic
             return false;
 
         EmailAddressAttribute validator = new();
+
+        if (email.Any(char.IsWhiteSpace))
+            return false;
+
         return validator.IsValid(email);
     }
 

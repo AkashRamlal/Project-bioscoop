@@ -36,7 +36,7 @@ public class EditAccountTests
     [DataRow("test@test.com", true)]
     [DataRow("cheese@cheese.nl", true)]
     [DataRow(" ", false)]
-    [DataRow("invalid-email@", false)]
+    [DataRow("invalid     email@cheese.nl", false)]
     [DataRow("@cheese.com", false)]
     public void IsValidEmail_ReturnsExpectedResult(string email, bool expected)
     {
