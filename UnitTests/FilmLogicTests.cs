@@ -157,4 +157,71 @@ public class FilmLogicTests
             );
         });
     }
+
+
+    [TestMethod]
+    public void DeleteFilm_WithInvalidId_ShouldThrowException()
+    {
+        FilmLogic logic = new FilmLogic();
+
+        Assert.ThrowsException<ArgumentException>(() =>
+        {
+            logic.DeleteFilm(0);
+        });
+    }
+
+
+    [TestMethod]
+    public void DeleteFilm_WithNegativeId_ShouldThrowException()
+    {
+        FilmLogic logic = new FilmLogic();
+
+        Assert.ThrowsException<ArgumentException>(() =>
+        {
+            logic.DeleteFilm(-1);
+        });
+    }
+
+
+    [TestMethod]
+    public void DeleteFilm_WithNonExistingId_ShouldThrowException()
+    {
+        FilmLogic logic = new FilmLogic();
+
+        Assert.ThrowsException<Exception>(() =>
+        {
+            logic.DeleteFilm(999999);
+        });
+    }
+
+
+    [TestMethod]
+    public void DeleteFilm_WithExistingFilm_ShouldDeleteFilm()
+    {
+        FilmLogic logic = new FilmLogic();
+
+        FilmModel film = logic.CreateFilm(
+            "Delete Test Movie",
+            "Action",
+            120,
+            16,
+            "Test Actor",
+            "Test Director"
+        );
+
+        logic.AddFilm(film);
+
+        List<FilmModel> films = logic.GetAllFilms();
+
+        FilmModel addedFilm = films
+            .First(f => f.Naam == "Delete Test Movie");
+
+
+        logic.DeleteFilm(addedFilm.Id);
+
+
+        FilmModel? deletedFilm = logic.GetFilmById(addedFilm.Id);
+
+        Assert.IsNull(deletedFilm);
+    }
 }
