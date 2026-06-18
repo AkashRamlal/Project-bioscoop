@@ -1,5 +1,3 @@
-// LAYER: Logic (Model)
-
 public class Ticket
 {
     public int Id { get; set; } = 0;
@@ -11,7 +9,7 @@ public class Ticket
     public string Email { get; set; } = "";
     public Dictionary<string, decimal> HallData { get; set; } = new Dictionary<string, decimal>();
 
-    public Ticket() { } // For Dapper
+    public Ticket() { }
 
     public Ticket(string filmName, string hall, DateTime date, string seats, decimal totalPrice, string email, Dictionary<string, decimal> hallData)
     {
@@ -27,10 +25,9 @@ public class Ticket
     public string PrintTicket()
     {
         int width = 60;
-        int innerWidth = width - 4; // space between "* " and " *"
+        int innerWidth = width - 4;
         string border = new string('*', width);
 
-        // Wrap seats across multiple lines
         string seatsStr = $"Seats: {Seats}";
         var seatLines = new List<string>();
         int seatPrefix = "Seats: ".Length;
