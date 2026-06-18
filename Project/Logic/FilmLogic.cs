@@ -10,7 +10,13 @@ public class FilmLogic
         string acteurs,
         string? regiseur)
     {
-        ValidateFilmInput(naam, genre, tijdsduur, leeftijdsgrens, acteurs, regiseur);
+        ValidateFilmInput(
+            naam,
+            genre,
+            tijdsduur,
+            leeftijdsgrens,
+            acteurs,
+            regiseur);
 
         return new FilmModel
         {
@@ -66,14 +72,16 @@ public class FilmLogic
 
     private void ValidateFilm(FilmModel film)
     {
+        if (!int.TryParse(film.Tijdsduur, out int tijdsduur))
+            throw new ArgumentException("Duration must be a valid number.");
+
         ValidateFilmInput(
             film.Naam,
             film.Genre,
-            int.Parse(film.Tijdsduur!),
+            tijdsduur,
             film.Leeftijdsgrens ?? 0,
-            film.Acteurs ?? "",
-            film.Regiseur
-        );
+            film.Acteurs,
+            film.Regiseur);
     }
 
     private void ValidateFilmInput(

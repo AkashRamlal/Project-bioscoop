@@ -11,46 +11,87 @@ static class CreateFilm
         Console.WriteLine();
         Console.WriteLine();
 
-        Console.Write("Film name: ");
-        string? naam = Console.ReadLine()?.Trim();
+        string? naam;
+        do
+        {
+            Console.Write("Film name: ");
+            naam = Console.ReadLine()?.Trim();
 
-        Console.Write("Genre: ");
-        string? genre = Console.ReadLine()?.Trim();
+            if (string.IsNullOrWhiteSpace(naam))
+                Console.WriteLine("Film name is required.");
+        }
+        while (string.IsNullOrWhiteSpace(naam));
 
-        Console.Write("Duration (minutes): ");
+        string? genre;
+        do
+        {
+            Console.Write("Genre: ");
+            genre = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrWhiteSpace(genre))
+                Console.WriteLine("Genre is required.");
+        }
+        while (string.IsNullOrWhiteSpace(genre));
+
         int tijdsduur;
-        while (!int.TryParse(Console.ReadLine(), out tijdsduur))
+        do
         {
-            Console.Write("Invalid input. Enter duration: ");
-        }
+            Console.Write("Duration (minutes): ");
 
-        Console.Write("Age restriction: ");
+            if (int.TryParse(Console.ReadLine(), out tijdsduur) && tijdsduur > 0)
+                break;
+
+            Console.WriteLine("Duration must be greater than 0.");
+        }
+        while (true);
+
         int leeftijdsgrens;
-        while (!int.TryParse(Console.ReadLine(), out leeftijdsgrens))
+        do
         {
-            Console.Write("Invalid input. Enter age: ");
-        }
+            Console.Write("Age restriction: ");
 
-        Console.Write("Director: ");
-        string? regiseur = Console.ReadLine()?.Trim();
+            if (int.TryParse(Console.ReadLine(), out leeftijdsgrens) && leeftijdsgrens >= 0)
+                break;
+
+            Console.WriteLine("Age restriction cannot be negative.");
+        }
+        while (true);
+
+        string? regiseur;
+        do
+        {
+            Console.Write("Director: ");
+            regiseur = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrWhiteSpace(regiseur))
+                Console.WriteLine("Director is required.");
+        }
+        while (string.IsNullOrWhiteSpace(regiseur));
 
         string acteurs = GetActorsAsString();
 
-        // 👇 explicit types instead of var
         FilmLogic filmLogic = new FilmLogic();
 
-        FilmModel film = filmLogic.CreateFilm(
-            naam,
-            genre,
-            tijdsduur,
-            leeftijdsgrens,
-            acteurs,
-            regiseur
-        );
+        try
+        {
+            FilmModel film = filmLogic.CreateFilm(
+                naam,
+                genre,
+                tijdsduur,
+                leeftijdsgrens,
+                acteurs,
+                regiseur);
 
-        filmLogic.AddFilm(film);
+            filmLogic.AddFilm(film);
 
-        Console.WriteLine("\n Film saved!");
+            Console.WriteLine();
+            Console.WriteLine("Film saved!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Error: {ex.Message}");
+        }
     }
 
     private static string GetActorsAsString()
@@ -67,7 +108,15 @@ static class CreateFilm
                 continue;
 
             if (input.Equals("done", StringComparison.OrdinalIgnoreCase))
+            {
+                if (actors.Count == 0)
+                {
+                    Console.WriteLine("You must add at least one actor.");
+                    continue;
+                }
+
                 break;
+            }
 
             input = input.Replace(";", "").Replace(",", "");
 
