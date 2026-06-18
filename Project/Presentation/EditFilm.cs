@@ -52,6 +52,17 @@ public static class EditFilm
             return;
         }
 
+        FilmModel originalFilm = new FilmModel
+        {
+            Id = selectedFilm.Id,
+            Naam = selectedFilm.Naam,
+            Genre = selectedFilm.Genre,
+            Tijdsduur = selectedFilm.Tijdsduur,
+            Leeftijdsgrens = selectedFilm.Leeftijdsgrens,
+            Acteurs = selectedFilm.Acteurs,
+            Regiseur = selectedFilm.Regiseur
+        };
+
         Console.WriteLine();
 
         UpdateField($"Naam ({selectedFilm.Naam}): ",
@@ -97,6 +108,18 @@ public static class EditFilm
         UpdateField($"Regiseur ({selectedFilm.Regiseur}): ",
             value => selectedFilm.Regiseur = value);
 
+        if (originalFilm.Naam == selectedFilm.Naam &&
+            originalFilm.Genre == selectedFilm.Genre &&
+            originalFilm.Tijdsduur == selectedFilm.Tijdsduur &&
+            originalFilm.Leeftijdsgrens == selectedFilm.Leeftijdsgrens &&
+            originalFilm.Acteurs == selectedFilm.Acteurs &&
+            originalFilm.Regiseur == selectedFilm.Regiseur)
+        {
+            Console.WriteLine();
+            Console.WriteLine("No changes were made.");
+            return;
+        }
+
         try
         {
             filmLogic.UpdateFilm(selectedFilm);
@@ -118,18 +141,12 @@ public static class EditFilm
 
     private static void UpdateField(string prompt, Action<string> setter)
     {
-        while (true)
-        {
-            Console.Write(prompt);
+        Console.Write(prompt);
 
-            string? input = Console.ReadLine();
+        string? input = Console.ReadLine();
 
-            if (string.IsNullOrWhiteSpace(input))
-                return;
-
+        if (!string.IsNullOrWhiteSpace(input))
             setter(input.Trim());
-            return;
-        }
     }
 
     private static void UpdateIntField(
