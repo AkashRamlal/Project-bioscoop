@@ -255,5 +255,57 @@ public class AccountLogicTests
 
         Assert.AreEqual("Account registered successfully", result);
     }
+
+    [TestMethod]
+    public void ValidateTelefoonnummer_EmptyPhoneNumber_ReturnsRequiredMessage()
+    {
+        var Logic = new AccountsLogic();
+
+        string result = Logic.ValidateTelefoonnummer("");
+
+        Assert.AreEqual("A phone number is required", result);
+    }
+
+    [TestMethod]
+    public void ValidateTelefoonnummer_WithLetters_ReturnsNumbersOnlyMessage()
+    {
+        var Logic = new AccountsLogic();
+
+        string result = Logic.ValidateTelefoonnummer("06123abc45");
+
+        Assert.AreEqual("A phone number can only contain numbers", result);
+    }
+
+    [TestMethod]
+    public void ValidateTelefoonnummer_WithSpecialCharacters_ReturnsNumbersOnlyMessage()
+    {
+        var Logic = new AccountsLogic();
+
+        string result = Logic.ValidateTelefoonnummer("06-12345678");
+
+        Assert.AreEqual("A phone number can only contain numbers", result);
+    }
+
+    [TestMethod]
+    public void ValidateTelefoonnummer_TooShort_ReturnsLengthMessage()
+    {
+        var Logic = new AccountsLogic();
+
+        string result = Logic.ValidateTelefoonnummer("123456789");
+
+        Assert.AreEqual("A phone number should be between 10 and 15 digits long", result);
+    }
+
+    
+
+    [TestMethod]
+    public void ValidateTelefoonnummer_ValidPhoneNumber_ReturnsSuccess()
+    {
+        var Logic = new AccountsLogic();
+
+        string result = Logic.ValidateTelefoonnummer("0612345678");
+
+        Assert.AreEqual("Success", result);
+    }
 }
 
