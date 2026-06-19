@@ -63,9 +63,6 @@ public class AuditoriumService
 
             reservation.Seats.Remove(seat);
         }
-
-
-        
     }
 
     public void BookSeat(AuditoriumModel auditorium, Reservation reservation, int row, int column)

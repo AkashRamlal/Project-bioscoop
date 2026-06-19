@@ -38,10 +38,6 @@ public class AuditoriumConsoleView
                         _cursorVertical,
                         _cursorHorizontal
                     );
-                    
-                    //Console.WriteLine("Do you want to book more seats? y/n");
-                    //string answer = Console.ReadLine()?.ToUpper() ?? "";
-
                 }
                 catch (Exception ex)
                 {

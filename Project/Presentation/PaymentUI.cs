@@ -1,10 +1,3 @@
-// LAYER: Presentation
-// Called after seat selection. Example:
-//   var hallData = new Dictionary<string, Dictionary<string, decimal>> {
-//       { "Hall 1", new Dictionary<string, decimal> { { "A3", 15.00m }, { "B5", 10.00m } } }
-//   };
-//   PaymentUI.Start(filmName, time, hallData);
-
 public class PaymentUI
 {
     private readonly bool _isMember;

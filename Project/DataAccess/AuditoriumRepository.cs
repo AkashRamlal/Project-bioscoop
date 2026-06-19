@@ -56,10 +56,6 @@ public class AuditoriumRepository
                 layout[9, 8] = SeatType.Basic; layout[10, 3] = SeatType.Basic; layout[10, 4] = SeatType.Basic; layout[10, 7] = SeatType.Basic; layout[10, 8] = SeatType.Basic; 
 
 
-
-
-            
-
                 // rode deel
                 for (int r = 5; r < 9; r++)
                 {
@@ -207,12 +203,8 @@ public class AuditoriumRepository
                 layout[13, 11] = SeatType.Comfort; layout[13, 12 ] = SeatType.Comfort;
                 layout[13, 17] = SeatType.Comfort; layout[13, 18 ] = SeatType.Comfort;
                 return layout;
-
-
-                
             }
             
-
             throw new Exception("Onbekend auditorium nummer!");
         }}
     

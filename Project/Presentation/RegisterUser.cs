@@ -3,109 +3,99 @@ using System.Globalization;
 
 static class RegisterUser
 {
-        public static void Start()
+    public static void Start()
+    {
+        Console.WriteLine();
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine("║                                      ║");
+        Console.WriteLine("║          REGISTER USER               ║");
+        Console.WriteLine("║                                      ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+
+        // create acount here
+        AccountModel account = new AccountModel();
+        AccountsLogic logic = new AccountsLogic();
+        
+        while (true)
         {
-            Console.WriteLine();
-            Console.WriteLine("╔══════════════════════════════════════╗");
-            Console.WriteLine("║                                      ║");
-            Console.WriteLine("║          REGISTER USER               ║");
-            Console.WriteLine("║                                      ║");
-            Console.WriteLine("╚══════════════════════════════════════╝");
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            
+            Console.WriteLine("Please enter your first name:");
+            string? firstName = Console.ReadLine();
 
-            // geboortedat
+            account.Naam = firstName ?? "";
 
-            // password mag niet leeg zijn
-            
-            
+            string result = logic.ValidateFirstName(account.Naam);
 
-            
-            
+            if (result == "Success")
+                break;
 
-            // create acount here
-            AccountModel account = new AccountModel();
-            AccountsLogic logic = new AccountsLogic();
-            
-            while (true)
+            Console.WriteLine(result);
+        }
+
+        while (true)
+        {
+            Console.WriteLine("Please enter your last name:");
+            string? lastName = Console.ReadLine();
+
+            account.Achternaam = lastName ?? "";
+
+            string result = logic.ValidateLastName(account.Achternaam);
+
+            if (result == "Success")
+                break;
+
+            Console.WriteLine(result);
+        }
+        
+
+        while (true)
+        {
+            Console.WriteLine("Please enter your date of birth (DD-MM-YYYY):");
+            string? geboortedatumInput = Console.ReadLine();
+
+            bool validDate = DateTime.TryParseExact(
+                geboortedatumInput,
+                "dd-MM-yyyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out DateTime geboortedatum
+            );
+
+            if (!validDate)
             {
-                Console.WriteLine("Please enter your first name:");
-                string? firstName = Console.ReadLine();
-
-                account.Naam = firstName ?? "";
-
-                string result = logic.ValidateFirstName(account.Naam);
-
-                if (result == "Success")
-                    break;
-
-                Console.WriteLine(result);
+                Console.WriteLine("Invalid date format. Use DD-MM-YYYY.");
+                continue;
             }
 
-            while (true)
-            {
-                Console.WriteLine("Please enter your last name:");
-                string? lastName = Console.ReadLine();
+            account.Geboortedatum = geboortedatum;
 
-                account.Achternaam = lastName ?? "";
+            string result = logic.ValidateGeboortedatum(account.Geboortedatum);
 
-                string result = logic.ValidateLastName(account.Achternaam);
+            if (result == "Success")
+                break;
 
-                if (result == "Success")
-                    break;
+            Console.WriteLine(result);
+        }
+        
+        
+        while (true)
+        {
+            Console.WriteLine("Please enter your phone number:");
+            string? telefoonnummer = Console.ReadLine();
 
-                Console.WriteLine(result);
-            }
-            
+            account.Telefoonnummer = telefoonnummer ?? "";
 
-            while (true)
-            {
-                Console.WriteLine("Please enter your date of birth (DD-MM-YYYY):");
-                string? geboortedatumInput = Console.ReadLine();
+            string result = logic.ValidateTelefoonnummer(account.Telefoonnummer);
 
-                bool validDate = DateTime.TryParseExact(
-                    geboortedatumInput,
-                    "dd-MM-yyyy",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out DateTime geboortedatum
-                );
+            if (result == "Success")
+                break;
 
-                if (!validDate)
-                {
-                    Console.WriteLine("Invalid date format. Use DD-MM-YYYY.");
-                    continue;
-                }
+            Console.WriteLine(result);
+        }
 
-                account.Geboortedatum = geboortedatum;
-
-                string result = logic.ValidateGeboortedatum(account.Geboortedatum);
-
-                if (result == "Success")
-                    break;
-
-                Console.WriteLine(result);
-            }
-            
-            
-            while (true)
-            {
-                Console.WriteLine("Please enter your phone number:");
-                string? telefoonnummer = Console.ReadLine();
-
-                account.Telefoonnummer = telefoonnummer ?? "";
-
-                string result = logic.ValidateTelefoonnummer(account.Telefoonnummer);
-
-                if (result == "Success")
-                    break;
-
-                Console.WriteLine(result);
-            }
-
-            while (true)
+        while (true)
         {
             Console.WriteLine("please enter your email address:");
             string? emailInput = Console.ReadLine();
@@ -117,32 +107,20 @@ static class RegisterUser
             Console.WriteLine("Invalid email address. Please try again.");
         }
 
-            
+        while (true)
+        {
+            Console.WriteLine("Please enter your password:");
+            string? password = Console.ReadLine();
 
-            
+            account.Password = password ?? "";
 
-            while (true)
-            {
-                Console.WriteLine("Please enter your password:");
-                string? password = Console.ReadLine();
+            string result = logic.ValidatePassword(account);
 
-                account.Password = password ?? "";
+            if (result == "Success")
+                break;
 
-                string result = logic.ValidatePassword(account);
-
-                if (result == "Success")
-                    break;
-
-                Console.WriteLine(result);
-            }
-
-            
-            Console.WriteLine(logic.RegisterMember(account));
-
-            
-
-            
-        
-            
+            Console.WriteLine(result);
         }
+        Console.WriteLine(logic.RegisterMember(account));   
+    }
 }

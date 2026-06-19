@@ -18,7 +18,5 @@ public static class RemoveEmployee
         {
             Console.WriteLine("Invalid selection. No employee deleted.");
         }
-        
     }
-       
 }

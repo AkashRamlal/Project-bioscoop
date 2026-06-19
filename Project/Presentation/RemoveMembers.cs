@@ -18,7 +18,5 @@ public static class RemoveMember
         {
             Console.WriteLine("Invalid selection. No member deleted.");
         }
-        
-    }
-       
+    }     
 }

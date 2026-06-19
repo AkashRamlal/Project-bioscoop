@@ -59,13 +59,5 @@ static class ManageEmployee
         {
             Console.WriteLine("Invalid input. Returning to main menu.");
         }
-
-        
-        
-        
-
-
-
-       
     }
 }
