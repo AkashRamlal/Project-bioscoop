@@ -58,6 +58,14 @@ public class AccountsLogic
         if (lastNameValidation != "Success")
             return lastNameValidation;
 
+        string birthDateValidation = ValidateGeboortedatum(account.Geboortedatum);
+        if (birthDateValidation != "Success")
+            return birthDateValidation;
+
+        string phoneValidation = ValidateTelefoonnummer(account.Telefoonnummer);
+        if (phoneValidation != "Success")
+            return phoneValidation;
+
         string emailValidation = ValidateEmail(account.Email);
         if (emailValidation != "Success")
             return emailValidation;

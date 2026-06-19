@@ -1,19 +1,5 @@
-// LAYER: Presentation
-// Shows all selected seats, lets user navigate with arrow keys,
-// select a seat to cancel it or apply a discount (65+ = 20%, under 18 = 50%)
-
 public class SeatReviewUI
 {
-    private class SeatEntry
-    {
-        public string Hall { get; set; } = "";
-        public string SeatNumber { get; set; } = "";
-        public decimal OriginalPrice { get; set; }
-        public decimal FinalPrice { get; set; }
-        public string Discount { get; set; } = "none"; // "none" | "senior" | "youth"
-        public bool Cancelled { get; set; } = false;
-    }
-
     public static Dictionary<string, Dictionary<string, decimal>> Show(
         Dictionary<string, Dictionary<string, decimal>> hallData)
     {

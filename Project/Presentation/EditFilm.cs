@@ -34,13 +34,34 @@ public static class EditFilm
             return;
         }
 
-        FilmModel? selectedFilm = filmLogic.GetFilmById(filmId);
+        FilmModel? selectedFilm;
 
-        if (selectedFilm == null)
+        try
         {
-            Console.WriteLine("Film not found.");
+            selectedFilm = filmLogic.GetFilmById(filmId);
+
+            if (selectedFilm == null)
+            {
+                Console.WriteLine("Film not found.");
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
             return;
         }
+
+        FilmModel originalFilm = new FilmModel
+        {
+            Id = selectedFilm.Id,
+            Naam = selectedFilm.Naam,
+            Genre = selectedFilm.Genre,
+            Tijdsduur = selectedFilm.Tijdsduur,
+            Leeftijdsgrens = selectedFilm.Leeftijdsgrens,
+            Acteurs = selectedFilm.Acteurs,
+            Regiseur = selectedFilm.Regiseur
+        };
 
         Console.WriteLine();
 
@@ -50,11 +71,28 @@ public static class EditFilm
         UpdateField($"Genre ({selectedFilm.Genre}): ",
             value => selectedFilm.Genre = value);
 
-        UpdateField($"Tijdsduur ({selectedFilm.Tijdsduur}): ",
-            value => selectedFilm.Tijdsduur = value);
+        while (true)
+        {
+            Console.Write($"Tijdsduur ({selectedFilm.Tijdsduur}): ");
 
-        UpdateIntField($"Leeftijdsgrens ({selectedFilm.Leeftijdsgrens}): ",
-            value => selectedFilm.Leeftijdsgrens = value);
+            string? input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+                break;
+
+            if (int.TryParse(input, out int duration) && duration > 0)
+            {
+                selectedFilm.Tijdsduur = duration.ToString();
+                break;
+            }
+
+            Console.WriteLine("Duration must be greater than 0.");
+        }
+
+        UpdateIntField(
+            $"Leeftijdsgrens ({selectedFilm.Leeftijdsgrens}): ",
+            value => selectedFilm.Leeftijdsgrens = value,
+            0);
 
         Console.WriteLine($"Acteurs (current: {selectedFilm.Acteurs})");
         Console.Write("Do you want to edit actors? (y/n): ");
@@ -70,6 +108,18 @@ public static class EditFilm
         UpdateField($"Regiseur ({selectedFilm.Regiseur}): ",
             value => selectedFilm.Regiseur = value);
 
+        if (originalFilm.Naam == selectedFilm.Naam &&
+            originalFilm.Genre == selectedFilm.Genre &&
+            originalFilm.Tijdsduur == selectedFilm.Tijdsduur &&
+            originalFilm.Leeftijdsgrens == selectedFilm.Leeftijdsgrens &&
+            originalFilm.Acteurs == selectedFilm.Acteurs &&
+            originalFilm.Regiseur == selectedFilm.Regiseur)
+        {
+            Console.WriteLine();
+            Console.WriteLine("No changes were made.");
+            return;
+        }
+
         try
         {
             filmLogic.UpdateFilm(selectedFilm);
@@ -77,8 +127,14 @@ public static class EditFilm
             Console.WriteLine();
             Console.WriteLine($"Film '{selectedFilm.Naam}' has been updated.");
         }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Validation error: {ex.Message}");
+        }
         catch (Exception ex)
         {
+            Console.WriteLine();
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
@@ -93,22 +149,27 @@ public static class EditFilm
             setter(input.Trim());
     }
 
-    private static void UpdateIntField(string prompt, Action<int> setter)
+    private static void UpdateIntField(
+        string prompt,
+        Action<int> setter,
+        int minValue)
     {
-        Console.Write(prompt);
-
-        string? input = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(input))
-            return;
-
-        if (int.TryParse(input, out int value))
+        while (true)
         {
-            setter(value);
-        }
-        else
-        {
-            Console.WriteLine("Invalid number, keeping old value.");
+            Console.Write(prompt);
+
+            string? input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+                return;
+
+            if (int.TryParse(input, out int value) && value >= minValue)
+            {
+                setter(value);
+                return;
+            }
+
+            Console.WriteLine($"Value must be {minValue} or higher.");
         }
     }
 
@@ -126,7 +187,15 @@ public static class EditFilm
                 continue;
 
             if (input.Equals("done", StringComparison.OrdinalIgnoreCase))
+            {
+                if (actors.Count == 0)
+                {
+                    Console.WriteLine("You must add at least one actor.");
+                    continue;
+                }
+
                 break;
+            }
 
             input = input.Replace(";", "").Replace(",", "");
 

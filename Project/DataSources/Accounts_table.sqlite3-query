@@ -1,0 +1,13 @@
+CREATE TABLE "Accounts" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    naam TEXT,
+    achternaam TEXT ,
+    geboortedatum Date,
+    telefoonnummer TEXT,
+    role TEXT,
+    email TEXT,
+    password TEXT,
+    `allergie` TEXT,
+    `dieet` TEXT,
+    `opmerkingen` TEXT
+        );

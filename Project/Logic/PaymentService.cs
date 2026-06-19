@@ -15,8 +15,6 @@ public class PaymentService
 
     public bool ProcessPayPal(string email)
     {
-        return !string.IsNullOrWhiteSpace(email)
-            && email.Contains("@")
-            && email.Contains(".");
+        return GuestValidationLogic.IsValidEmail(email);
     }
 }
