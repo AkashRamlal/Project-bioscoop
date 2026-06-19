@@ -96,6 +96,7 @@ public static class MovieShowingCreator
 
         else
         {
+            Console.WriteLine();
             Console.WriteLine("Could not create movie showing due to overlapping time and date with an already existing showing.");
         }
     }

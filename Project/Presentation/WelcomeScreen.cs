@@ -42,7 +42,7 @@ public static class WelcomeScreen
         Console.Clear();
 
         Console.WriteLine("=====================================");
-        Console.WriteLine("     Welcome to Theatre Rotterdam");
+        Console.WriteLine("     Welcome to Rotterdam Cinema");
         Console.WriteLine("=====================================\n");
 
         Console.WriteLine("Some films currently playing:");

@@ -36,8 +36,8 @@ public class EditAccountTests
     [DataRow("test@test.com", true)]
     [DataRow("cheese@cheese.nl", true)]
     [DataRow(" ", false)]
-    [DataRow("invalid     email@cheese.nl", false)]
-    [DataRow("@cheese.com", false)]
+    [DataRow("invalid     email@test.nl", false)]
+    [DataRow("@test.com", false)]
     public void IsValidEmail_ReturnsExpectedResult(string email, bool expected)
     {
         bool result = EditAccountLogic.IsValidEmail(email);

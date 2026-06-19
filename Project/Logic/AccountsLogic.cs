@@ -149,10 +149,6 @@ public class AccountsLogic
 
     public string ValidatePassword(AccountModel account)
     {
-
-        
-        
-
         if (string.IsNullOrWhiteSpace(account.Password))
             return "A password is required";
 
@@ -161,8 +157,6 @@ public class AccountsLogic
         
         if (account.Password.Any(char.IsWhiteSpace))
             return "A password cannot contain whitespace";
-
-        
 
         return "Success";
     }
