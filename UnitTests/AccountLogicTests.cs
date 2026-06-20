@@ -14,7 +14,9 @@ public class AccountLogicTests
             Naam = "",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -32,7 +34,9 @@ public class AccountLogicTests
             Naam = "John123",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -50,7 +54,9 @@ public class AccountLogicTests
             Naam = "John!",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -68,7 +74,9 @@ public class AccountLogicTests
             Naam = "J",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -86,7 +94,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -104,7 +114,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe123",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -122,7 +134,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe!",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -140,7 +154,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "D",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -158,7 +174,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe",
             Email = "",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -176,7 +194,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe",
             Email = "johndoe",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -194,7 +214,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = "123"
+            Password = "123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -212,7 +234,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = " password123 "
+            Password = " password123 ",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -230,7 +254,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = ""
+            Password = "",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -248,7 +274,9 @@ public class AccountLogicTests
             Naam = "John",
             Achternaam = "Doe",
             Email = "john.doe@example.com",
-            Password = "password123"
+            Password = "password123",
+            Geboortedatum = new DateTime(2000, 02, 02),
+            Telefoonnummer = "0987654321"
         };
 
         string result = Logic.RegisterMember(account);
@@ -297,7 +325,6 @@ public class AccountLogicTests
     }
 
     
-
     [TestMethod]
     public void ValidateTelefoonnummer_ValidPhoneNumber_ReturnsSuccess()
     {
