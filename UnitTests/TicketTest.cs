@@ -67,7 +67,7 @@ public class TicketTests
         {
             FilmName = "Test Movie",
             Hall = "Auditorium 1",
-            Date = DateTime.Now.AddHours(1), // Less than 2 hours away
+            Date = DateTime.Now.AddHours(1),
             Seats = "A1 (€10.00), A2 (€10.00)",
             TotalPrice = 20.00m,
             Email = "test@example.com"
